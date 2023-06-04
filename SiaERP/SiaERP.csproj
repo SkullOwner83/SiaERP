@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\ButtonClose.png" />
+    <None Remove="Images\ButtonCustomers.png" />
+    <None Remove="Images\ButtonMaximize.png" />
+    <None Remove="Images\ButtonMinimize.png" />
+    <None Remove="Images\ButtonRestore.png" />
+    <None Remove="Images\ButtonServices.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\ButtonCustomers.png" />
+    <Resource Include="Images\ButtonRestore.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controls\" />
+    <Folder Include="Images\Buttons\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\ButtonClose.png" />
+    <Resource Include="Images\ButtonMaximize.png" />
+    <Resource Include="Images\ButtonMinimize.png" />
+    <Resource Include="Images\ButtonServices.png" />
+  </ItemGroup>
+
+</Project>
