@@ -4,11 +4,12 @@
              xmlns:local="clr-namespace:SiaERP"
              StartupUri="/Views/Main.xaml">
 	
+	<!-- Bind styles to make them for all -->
     <Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/Styles/UIColors.xaml"/>
-				<ResourceDictionary Source="/Styles/ButtonStyles.xaml"/>
+				<ResourceDictionary Source="/Resources/Styles/UIColors.xaml"/>
+				<ResourceDictionary Source="/Resources/Styles/ButtonStyles.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>

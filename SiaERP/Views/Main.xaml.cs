@@ -19,8 +19,8 @@ namespace SiaERP.Views
 {
 	public partial class Main : Window
 	{
-		private GridLength MenuMinSize = new GridLength(64);
-		private GridLength MenuMaxSize = new GridLength(256);
+		private GridLength MenuMinSize = new GridLength(48);
+		private GridLength MenuMaxSize = new GridLength(192);
 
 		//Constructor Method
 		public Main()
@@ -65,10 +65,18 @@ namespace SiaERP.Views
 
 				case "BtnExpandPanel":
 					if (PnlMenu.Width == MenuMinSize)
+					{
+						PnlMenuHeader.Height = new GridLength(126);
 						PnlMenu.Width = MenuMaxSize;
+					}
 					else
+					{
+						PnlMenuHeader.Height = new GridLength(48);
 						PnlMenu.Width = MenuMinSize;
+					}
 				break;
+
+				case "BtnLogOut": Application.Current.Shutdown(); break;
 			}
 		}
 

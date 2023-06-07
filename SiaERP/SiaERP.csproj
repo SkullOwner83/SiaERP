@@ -8,17 +8,33 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\ButtonClose.png" />
-    <None Remove="Images\ButtonCustomers.png" />
-    <None Remove="Images\ButtonMaximize.png" />
-    <None Remove="Images\ButtonMinimize.png" />
-    <None Remove="Images\ButtonRestore.png" />
-    <None Remove="Images\ButtonServices.png" />
+    <None Remove="Resources\Images\ButtonClose.png" />
+    <None Remove="Resources\Images\ButtonCredit.png" />
+    <None Remove="Resources\Images\ButtonCustomers.png" />
+    <None Remove="Resources\Images\ButtonInvoices.png" />
+    <None Remove="Resources\Images\ButtonLogOut.png" />
+    <None Remove="Resources\Images\ButtonMaximize.png" />
+    <None Remove="Resources\Images\ButtonMinimize.png" />
+    <None Remove="Resources\Images\ButtonNotes.png" />
+    <None Remove="Resources\Images\ButtonProducts.png" />
+    <None Remove="Resources\Images\ButtonQuote.png" />
+    <None Remove="Resources\Images\ButtonRestore.png" />
+    <None Remove="Resources\Images\ButtonSales.png" />
+    <None Remove="Resources\Images\ButtonServices.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\ButtonCustomers.png" />
-    <Resource Include="Images\ButtonRestore.png" />
+    <Resource Include="Resources\Images\ButtonCredit.png" />
+    <Resource Include="Resources\Images\ButtonCustomers.png" />
+    <Resource Include="Resources\Images\ButtonInvoices.png" />
+    <Resource Include="Resources\Images\ButtonNotes.png" />
+    <Resource Include="Resources\Images\ButtonProducts.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\ButtonLogOut.png" />
+    <Resource Include="Resources\Images\ButtonQuote.png" />
+    <Resource Include="Resources\Images\ButtonRestore.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,15 +42,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controls\" />
-    <Folder Include="Images\Buttons\" />
+    <Resource Include="Resources\Images\ButtonClose.png" />
+    <Resource Include="Resources\Images\ButtonMaximize.png" />
+    <Resource Include="Resources\Images\ButtonMinimize.png" />
+    <Resource Include="Resources\Images\ButtonSales.png" />
+    <Resource Include="Resources\Images\ButtonServices.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\ButtonClose.png" />
-    <Resource Include="Images\ButtonMaximize.png" />
-    <Resource Include="Images\ButtonMinimize.png" />
-    <Resource Include="Images\ButtonServices.png" />
+    <Folder Include="Resources\Controls\" />
   </ItemGroup>
 
 </Project>

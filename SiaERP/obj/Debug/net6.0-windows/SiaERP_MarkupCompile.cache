@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\App.xaml
-3-1913529864
+91492856600
 
-4562527278
+121163978916
 194-2004305220
-Styles\ButtonStyles.xaml;Styles\UIColors.xaml;Views\Main.xaml;
+Resources\Styles\ButtonStyles.xaml;Resources\Styles\UIColors.xaml;Views\CustomersView.xaml;Views\InvoiceView.xaml;Views\Main.xaml;Views\ProductsView.xaml;Views\QuotesView.xaml;Views\SalesView.xaml;Views\ServicesView.xaml;
 
-False
+True
 

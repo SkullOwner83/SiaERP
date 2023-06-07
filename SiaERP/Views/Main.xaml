@@ -17,15 +17,81 @@
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition x:Name="PnlMenu"
-								  Width="64"/>
+								  Width="48"/>
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
 			
 			<!-- Lateral menu container -->
 			<Border Background="{StaticResource C_BkgPrimary}">
-				<StackPanel Orientation="Vertical">
-					
-				</StackPanel>
+				<Grid HorizontalAlignment="Left">
+					<Grid.RowDefinitions>
+						<RowDefinition x:Name="PnlMenuHeader" Height="48"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="48"/>
+					</Grid.RowDefinitions>
+
+					<Button x:Name="BtnExpandPanel" Grid.Row="0"
+							Style="{StaticResource StyleButtonMenu}"
+							Click="MtdButtonClicked">
+					</Button>
+
+					<StackPanel Orientation="Vertical" Grid.Row="1">
+						<Button x:Name="BtnCustomers"
+								Style="{StaticResource StyleButtonMenu}"
+								Click="MtdButtonClicked">
+							<Image Source="/Resources/Images/ButtonCustomers.png"/>
+						</Button>
+
+						<Button x:Name="BtnServices"
+								Style="{StaticResource StyleButtonMenu}"
+								Click="MtdButtonClicked">
+							<Image Source="/Resources/Images/ButtonServices.png"/>
+						</Button>
+
+						<Button x:Name="BtnSales"
+								Style="{StaticResource StyleButtonMenu}"
+								Click="MtdButtonClicked">
+							<Image Source="/Resources/Images/ButtonSales.png"/>
+						</Button>
+
+						<Button x:Name="BtnProducts"
+								Style="{StaticResource StyleButtonMenu}"
+								Click="MtdButtonClicked">
+							<Image Source="/Resources/Images/ButtonProducts.png"/>
+						</Button>
+
+						<Button x:Name="BtnQuote"
+								Style="{StaticResource StyleButtonMenu}"
+								Click="MtdButtonClicked">
+							<Image Source="/Resources/Images/ButtonQuote.png"/>
+						</Button>
+
+						<Button x:Name="BtnCredit"
+								Style="{StaticResource StyleButtonMenu}"
+								Click="MtdButtonClicked">
+							<Image Source="/Resources/Images/ButtonCredit.png"/>
+						</Button>
+
+						<Button x:Name="BtnInvoices"
+								Style="{StaticResource StyleButtonMenu}"
+								Click="MtdButtonClicked">
+							<Image Source="/Resources/Images/ButtonInvoices.png"/>
+						</Button>
+
+						<Button x:Name="BtnNotes"
+								Style="{StaticResource StyleButtonMenu}"
+								Click="MtdButtonClicked">
+							<Image Source="/Resources/Images/ButtonNotes.png"/>
+						</Button>
+					</StackPanel>
+
+					<Button x:Name="BtnLogOut" Grid.Row="2"
+								Style="{StaticResource StyleButtonMenu}"
+								Padding="12"
+								Click="MtdButtonClicked">
+						<Image Source="/Resources/Images/ButtonLogOut.png"/>
+					</Button>
+				</Grid>
 			</Border>
 
 			<!-- Work area grid container -->
@@ -36,11 +102,10 @@
 				</Grid.RowDefinitions>
 
 				<!-- Header window container -->
-				<StackPanel x:Name="PnlHeader"
+				<StackPanel x:Name="PnlHeader" Grid.Row="0"
 							Orientation="Horizontal"
 							FlowDirection="RightToLeft"
 							Background="Gray"
-							Grid.Row="0"
 							MouseDown="MtdDragWindow">
 
 					<Button x:Name="BtnWindowClose"
@@ -48,7 +113,7 @@
 							BorderThickness="0"
 							Width="32"
 							Click="MtdButtonClicked">
-						<Image Source="/Images/ButtonClose.png"
+						<Image Source="/Resources/Images/ButtonClose.png"
 							   Width="16"/>
 					</Button>
 
@@ -57,7 +122,7 @@
 							BorderThickness="0"
 							Width="32"
 							Click="MtdButtonClicked">
-						<Image Source="/Images/ButtonMaximize.png"
+						<Image Source="/Resources/Images/ButtonMaximize.png"
 							   Width="16"/>
 					</Button>
 
@@ -66,10 +131,15 @@
 							BorderThickness="0"
 							Width="32"
 							Click="MtdButtonClicked">
-						<Image Source="/Images/ButtonMinimize.png"
+						<Image Source="/Resources/Images/ButtonMinimize.png"
 							   Width="16"/>
 					</Button>
 				</StackPanel>
+
+				<!-- Work area -->
+				<ContentControl Grid.Row="1">
+					
+				</ContentControl>
 			</Grid>
 		</Grid>
 	</Border>
