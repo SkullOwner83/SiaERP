@@ -34,3 +34,11 @@ D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\ServicesView.baml
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\ButtonStyles.baml
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\UIColors.baml
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\bin\Debug\net6.0-windows\System.Data.SqlClient.dll
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\bin\Debug\net6.0-windows\runtimes\win-arm64\native\sni.dll
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\bin\Debug\net6.0-windows\runtimes\win-x64\native\sni.dll
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\bin\Debug\net6.0-windows\runtimes\win-x86\native\sni.dll
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\bin\Debug\net6.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\bin\Debug\net6.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\SiaERP.csproj.CopyComplete

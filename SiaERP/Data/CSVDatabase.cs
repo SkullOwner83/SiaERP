@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SiaERP.ViewModels
+namespace SiaERP.Data
 {
-    public class MainViewModel
+    class CSVDatabase
     {
-
     }
 }

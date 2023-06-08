@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:View="clr-namespace:SiaERP.Views"
 		mc:Ignorable="d"
 		
         Title="Sia ERP" 
@@ -10,7 +11,8 @@
 		Background="Transparent"
 		AllowsTransparency="True" 
 		WindowStartupLocation="CenterScreen"
-		WindowStyle="None">
+		WindowStyle="None"
+		ResizeMode="CanResizeWithGrip">
 
 	<!-- Program body grid -->
 	<Border Background="#F0F0F0">
@@ -29,7 +31,7 @@
 						<RowDefinition Height="*"/>
 						<RowDefinition Height="48"/>
 					</Grid.RowDefinitions>
-
+					
 					<Button x:Name="BtnExpandPanel" Grid.Row="0"
 							Style="{StaticResource StyleButtonMenu}"
 							Click="MtdButtonClicked">
@@ -138,7 +140,7 @@
 
 				<!-- Work area -->
 				<ContentControl Grid.Row="1">
-					
+					<View:ServicesView/>
 				</ContentControl>
 			</Grid>
 		</Grid>

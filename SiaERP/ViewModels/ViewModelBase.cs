@@ -1,30 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace SiaERP.ViewModels
 {
-	//Property change notification interface
-    public abstract class ViewModelBase : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-		public event PropertyChangingEventHandler PropertyChanging;
-		public event PropertyChangedEventHandler PropertyChanged;
+	internal class ViewModelBase : INotifyPropertyChanged
+	{
+		public event PropertyChangedEventHandler? PropertyChanged;
 
-		protected void OnPropertyChanging([CallerMemberName] string PropertyName = "")
+		//Notify to user when one property is changed
+		protected virtual void OnPropertyChanged(string PropertyName)
 		{
-			PropertyChanging(this, new PropertyChangingEventArgs(PropertyName));
+			//Call property changed event of this class to inherited class
+			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
 		}
-
-		protected void OnPropertyChanged([CallerMemberName] string PropertyName = "")
-		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
-			}
-		}
-    }
+	}
 }
