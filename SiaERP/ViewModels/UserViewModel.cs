@@ -6,8 +6,8 @@ using SiaERP.Models;
 
 namespace SiaERP.ViewModels
 {
-    internal class UserViewModel : ViewModelBase
-    {
+	internal class UserViewModel : ViewModelBase
+	{
 		private readonly SQLDatabase Database;
 		private ObservableCollection<User> listUsers;
 		private User currentUser;
@@ -58,7 +58,6 @@ namespace SiaERP.ViewModels
 		//Add new user in database and refresh list users with new register
 		private void AddExecute(Object user)
 		{
-			CurrentUser.Id = Convert.ToInt32(Guid.NewGuid());
 			Database.Add(CurrentUser);
 			ListUsers = Database.Get();
 		}

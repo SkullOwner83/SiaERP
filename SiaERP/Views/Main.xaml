@@ -11,8 +11,7 @@
 		Background="Transparent"
 		AllowsTransparency="True" 
 		WindowStartupLocation="CenterScreen"
-		WindowStyle="None"
-		ResizeMode="CanResizeWithGrip">
+		WindowStyle="None">
 
 	<!-- Program body grid -->
 	<Border Background="#F0F0F0">
@@ -140,7 +139,7 @@
 
 				<!-- Work area -->
 				<ContentControl Grid.Row="1">
-					<View:ServicesView/>
+					
 				</ContentControl>
 			</Grid>
 		</Grid>

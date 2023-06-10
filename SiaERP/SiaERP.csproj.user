@@ -3,22 +3,10 @@
   <PropertyGroup />
   <ItemGroup />
   <ItemGroup>
-    <Compile Update="Views\InvoiceView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\Main.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\CustomersView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\ProductsView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\QuotesView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SalesView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\ServicesView.xaml.cs">
@@ -26,9 +14,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\InvoiceView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Views\Main.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -39,15 +24,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\CustomersView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\ProductsView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\QuotesView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\SalesView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ServicesView.xaml">
