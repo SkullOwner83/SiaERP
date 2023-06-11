@@ -8,14 +8,15 @@ namespace SiaERP.ViewModels
 {
 	internal class UserViewModel : ViewModelBase
 	{
-		private readonly SQLDatabase Database;
+		private readonly SQLUserQuery Database;
 		private ObservableCollection<User> listUsers;
 		private User currentUser;
 
-		//Starting necesary instances to store the data
+		//Constructor method
 		public UserViewModel()
 		{
-			Database = new SQLDatabase();
+			//Starting necesary instances to store the data
+			Database = new SQLUserQuery();
 			currentUser = new User();
 			listUsers = Database.Get();
 		}

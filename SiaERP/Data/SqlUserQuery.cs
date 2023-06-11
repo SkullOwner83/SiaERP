@@ -4,33 +4,27 @@ using SiaERP.Models;
 
 namespace SiaERP.Data
 {
-    internal class SQLDatabase
+	internal class SQLUserQuery
 	{
-		private string Server = "localhost";
-		private string Database = "SiaDatabase";
-		private string User = "SkullOwner";
-		private string Password = "Skull Owner83";
-		public readonly string Connection;
+		//Define variables
+		private SqlDatabaseConnection Connection;
+		private ObservableCollection<User> ListUsers;
 
-
-		public SQLDatabase()
+		//Constructor method
+		public SQLUserQuery()
 		{
-			//connection = @"Server=localhost; Database=SiaDatabase; Trusted_Connection=true;";
-			Connection = $"Server={Server}; Database={Database}; User Id={User}; Password={Password};";
+			Connection = new SqlDatabaseConnection();
+			ListUsers = new ObservableCollection<User>();
 		}
 
 		//Extract objects from database of users type
 		internal ObservableCollection<User> Get()
 		{
-			//Create object list from save registers and create sql query
-			ObservableCollection<User> ListUsers = new ObservableCollection<User>();
-			string Query = "SELECT * FROM Users";
+			string Query = "SELECT * FROM Users ";
 
-			//Create new conection with sql
-			using(MySqlConnection CurrentConnection = new MySqlConnection(Connection))
+			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
 			{
-				CurrentConnection.Open();
-				MySqlCommand Command = new MySqlCommand(Query, CurrentConnection);
+				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
 				MySqlDataReader Reader = Command.ExecuteReader();
 
 				while(Reader.Read())
@@ -48,7 +42,7 @@ namespace SiaERP.Data
 				}
 
 				Reader.Close();
-				CurrentConnection.Close();
+				ConnectionOpended.Close();
 			}
 
 			return ListUsers;
@@ -59,10 +53,10 @@ namespace SiaERP.Data
 		{
 			string Query = "INSERT INTO Users VALUES(@id, @name, @userName, @password, @accountType, @numberPhone);";
 
-			using(MySqlConnection CurrentConnection = new MySqlConnection(Connection))
+			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
 			{
-				CurrentConnection.Open();
-				MySqlCommand Command = new MySqlCommand(Query, CurrentConnection);
+				ConnectionOpended.Open();
+				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
 				Command.Parameters.AddWithValue("@id", Model.Id);
 				Command.Parameters.AddWithValue("@name", Model.Name);
 				Command.Parameters.AddWithValue("@userName", Model.UserName);
@@ -70,7 +64,7 @@ namespace SiaERP.Data
 				Command.Parameters.AddWithValue("@accountType", Model.AccountType);
 				Command.Parameters.AddWithValue("@numberPhone", Model.NumberPhone);
 				Command.ExecuteNonQuery();
-				CurrentConnection.Close();
+				ConnectionOpended.Close();
 			}
 		}
 
@@ -79,13 +73,13 @@ namespace SiaERP.Data
 		{
 			string Query = "DELETE FROM Users WHERE idUser = @id";
 
-			using(MySqlConnection CurrentConnection = new MySqlConnection(Connection))
+			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
 			{
-				CurrentConnection.Open();
-				MySqlCommand Command = new MySqlCommand(Query, CurrentConnection);
+				ConnectionOpended.Open();
+				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
 				Command.Parameters.AddWithValue("@id", Model.Id);
 				Command.ExecuteNonQuery();
-				CurrentConnection.Close();
+				ConnectionOpended.Close();
 			}
 		}
 
@@ -94,10 +88,10 @@ namespace SiaERP.Data
 		{
 			string Query = "UPDATE Users SET Name=@name, UserName=@userName, Password=@password, AccountType=@accountType, NumberPhone=@numberPhone";
 
-			using(MySqlConnection CurrentConnection = new MySqlConnection(Connection))
+			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
 			{
-				CurrentConnection.Open();
-				MySqlCommand Command = new MySqlCommand(Query, CurrentConnection);
+				ConnectionOpended.Open();
+				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
 				Command.Parameters.AddWithValue("@id", Model.Id);
 				Command.Parameters.AddWithValue("@name", Model.Name);
 				Command.Parameters.AddWithValue("@userName", Model.UserName);
@@ -105,7 +99,7 @@ namespace SiaERP.Data
 				Command.Parameters.AddWithValue("@accountType", Model.AccountType);
 				Command.Parameters.AddWithValue("@numberPhone", Model.NumberPhone);
 				Command.ExecuteNonQuery();
-				CurrentConnection.Close();
+				ConnectionOpended.Close();
 			}
 		}
 	}
