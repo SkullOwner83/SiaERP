@@ -52,7 +52,7 @@ namespace SiaERP.ViewModels
 		{
 			get
 			{
-				return new RelayCommand(AddExecute, AddCanExecute);
+				return new ViewModelCommand(AddExecute, AddCanExecute);
 			}
 		}
 

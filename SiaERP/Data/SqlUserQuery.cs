@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Data;
+using System.Net;
 using MySql.Data.MySqlClient;
 using SiaERP.Models;
 
@@ -75,7 +77,6 @@ namespace SiaERP.Data
 
 			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
 			{
-				ConnectionOpended.Open();
 				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
 				Command.Parameters.AddWithValue("@id", Model.Id);
 				Command.ExecuteNonQuery();
@@ -90,7 +91,6 @@ namespace SiaERP.Data
 
 			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
 			{
-				ConnectionOpended.Open();
 				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
 				Command.Parameters.AddWithValue("@id", Model.Id);
 				Command.Parameters.AddWithValue("@name", Model.Name);
@@ -101,6 +101,24 @@ namespace SiaERP.Data
 				Command.ExecuteNonQuery();
 				ConnectionOpended.Close();
 			}
+		}
+
+		//Authenticate user credentials
+		internal bool AuthenticateUser(NetworkCredential Credential)
+		{
+			bool ValidUser;
+			string Query = "SELECT * FROM Users WHERE UserName=@UserName and Password=@Password";
+
+			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
+			{
+				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
+				Command.Parameters.Add("@UserName", MySqlDbType.VarChar).Value=Credential.UserName;
+				Command.Parameters.Add("@Password", MySqlDbType.VarChar).Value=Credential.Password;
+				ValidUser=Command.ExecuteScalar()==null?false:true;
+				ConnectionOpended.Close();
+			}
+
+			return ValidUser;
 		}
 	}
 }

@@ -3,7 +3,10 @@
   <PropertyGroup />
   <ItemGroup />
   <ItemGroup>
-    <Compile Update="Views\Main.xaml.cs">
+    <Compile Update="Views\LogInView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\MainView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\CustomersView.xaml.cs">
@@ -14,7 +17,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\Main.xaml">
+    <Page Update="Views\LogInView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MainView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\Styles\ButtonStyles.xaml">

@@ -2,11 +2,11 @@
 
 namespace SiaERP.ViewModels
 {
-	internal class ViewModelBase : INotifyPropertyChanged
+	internal abstract class ViewModelBase : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		//Notify to user when one property is changed
+		//Generate event when one property is changed for
 		protected virtual void OnPropertyChanged(string PropertyName)
 		{
 			//Call property changed event of this class to inherited class
