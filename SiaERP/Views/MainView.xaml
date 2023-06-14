@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:View="clr-namespace:SiaERP.Views"
+		xmlns:ViewModel="clr-namespace:SiaERP.ViewModels"
 		mc:Ignorable="d"
 		
         Title="Sia ERP" 
@@ -12,6 +13,10 @@
 		AllowsTransparency="True" 
 		WindowStartupLocation="CenterScreen"
 		WindowStyle="None">
+
+	<Window.DataContext>
+		<ViewModel:MainViewModel/>
+	</Window.DataContext>
 
 	<!-- Program body grid -->
 	<Border Background="#F0F0F0">

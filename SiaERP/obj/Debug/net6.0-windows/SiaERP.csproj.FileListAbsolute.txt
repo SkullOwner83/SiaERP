@@ -45,3 +45,4 @@ D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\LogInView.g.cs
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\LogInView.baml
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\TextboxStyles.baml

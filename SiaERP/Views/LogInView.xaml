@@ -32,11 +32,12 @@
 
 			<StackPanel Orientation="Horizontal">
 				<Button x:Name="BtnLogIn"
-					Command="{Binding LogInCommand}"
+					Command="{Binding CmdLogIn}"
 					Content="Entrar" 
 					Width="64"
 					Margin="0 0 16 0"/>
 				<Button x:Name="BtnCancel"
+					Command="{Binding CmdCancel}"
 					Content="Cancelar"
 					Width="64"/>
 			</StackPanel>

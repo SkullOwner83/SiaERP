@@ -17,6 +17,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Resources\Styles\TextboxStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\LogInView.xaml">
       <SubType>Designer</SubType>
     </Page>

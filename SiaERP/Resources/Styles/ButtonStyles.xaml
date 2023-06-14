@@ -35,11 +35,10 @@
 				<Setter Property="Background" Value="{StaticResource C_BkgPrimaryOver}"/>
 				<Setter Property="Padding" Value="4"/>
 			</Trigger>
-			
+
 			<Trigger Property="IsPressed" Value="True">
 				<Setter Property="Padding" Value="8"/>
 			</Trigger>
 		</Style.Triggers>
 	</Style>
-	
 </ResourceDictionary>

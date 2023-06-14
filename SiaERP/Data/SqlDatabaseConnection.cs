@@ -8,7 +8,7 @@ namespace SiaERP.Data
 	{
 		//Define Variables
 		private string Server = "localhost";
-		private string Database = "SiaDatabase";
+		private string Database = "SiaDatabases";
 		private string User = "SkullOwner";
 		private string Password = "Skull Owner83";
 		private readonly string ConnectionString;
@@ -22,7 +22,7 @@ namespace SiaERP.Data
 		}
 
 		//Check if can get connection with MySQL and return this connection
-		public MySqlConnection GetConnection()
+		public MySqlConnection? GetConnection()
 		{
 			try
 			{
@@ -30,13 +30,14 @@ namespace SiaERP.Data
 				{
 					Connection.Open();
 				}
+
+				return Connection;
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.ToString());
+				//MessageBox.Show(e.ToString());
+				return null;
 			}
-
-			return Connection;
 		}
 	}
 }

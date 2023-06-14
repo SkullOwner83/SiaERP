@@ -1,5 +1,4 @@
-﻿using SiaERP.Models;
-using SiaERP.Views;
+﻿using SiaERP.Data;
 
 namespace SiaERP.ViewModels
 {
@@ -7,7 +6,7 @@ namespace SiaERP.ViewModels
 	{
 		public MainViewModel()
 		{
-			
+
 		}
 	}
 }

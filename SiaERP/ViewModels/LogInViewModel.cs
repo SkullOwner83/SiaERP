@@ -6,17 +6,23 @@ using System.Windows.Input;
 using SiaERP.Views;
 using SiaERP.Data;
 using System.Net;
+using System.Media;
+using MySql.Data.MySqlClient;
 
 namespace SiaERP.ViewModels
 {
 	internal class LogInViewModel : ViewModelBase
 	{
 		//Define private variables
-		private string _UserName;
-		private string _Password;
+		private string _UserName = "";
+		private string _Password = "";
+		private string DatabaseLocation;
 		private SQLUserQuery Querys;
+		private CsvUserQuery CsvQuerys;
+		private bool ValidedUser;
 
 		//Define public properties
+		#region
 		public string UserName
 		{ 
 			get => _UserName; 
@@ -36,16 +42,24 @@ namespace SiaERP.ViewModels
 				OnPropertyChanged(nameof(Password));
 			}
 		}
+		#endregion
 
 		//Define commands
-		public ICommand LogInCommand { get; }
+		public ICommand CmdLogIn { get; }
+		public ICommand CmdCancel { get; }
 
 		//Contructor method 
 		public LogInViewModel()
 		{
 			//Instantiate commands
 			Querys = new SQLUserQuery();
-			LogInCommand = new ViewModelCommand(LogInExecuteCommand, LogInCanExecuteCommand);
+			CsvQuerys = new CsvUserQuery();
+			CmdLogIn = new ViewModelCommand(LogInExecuteCommand, LogInCanExecuteCommand);
+			CmdCancel = new ViewModelCommand(CancelExecuteCommand);
+
+			//Check if can establish connection with database
+			SqlDatabaseConnection Connection = new SqlDatabaseConnection();
+			DatabaseLocation = Connection.GetConnection() != null ? "MySql" : "Local";
 		}
 
 		private bool LogInCanExecuteCommand(object obj)
@@ -59,9 +73,19 @@ namespace SiaERP.ViewModels
 
 		private void LogInExecuteCommand(object obj)
 		{
-			bool ValidUser = Querys.AuthenticateUser(new NetworkCredential(UserName, Password));
+			//Validate credentials in database location for login 
+			if (DatabaseLocation == "MySql")
+			{
+				ValidedUser = Querys.AuthenticateUser(new NetworkCredential(UserName, Password));
+			}
+			else
+			{
 
-			if (ValidUser == true)
+				ValidedUser = CsvQuerys.AuthenticateUser(new NetworkCredential(UserName, Password));
+			}
+
+			//Open the main window if user is validated
+			if (ValidedUser == true)
 			{
 				var CurrentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 				var NewWindow = new Main();
@@ -76,6 +100,12 @@ namespace SiaERP.ViewModels
 			{
 				MessageBox.Show("Error! Nombre de usuario o contraseña invalidos.");
 			}
+		}
+
+		private void CancelExecuteCommand(object obj)
+		{
+			SystemSounds.Exclamation.Play();
+			Application.Current.Shutdown();
 		}
 	}
 }
