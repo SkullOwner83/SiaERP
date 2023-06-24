@@ -14,11 +14,11 @@
 		WindowStartupLocation="CenterScreen"
 		WindowStyle="None">
 
-	<Window.DataContext>
-		<ViewModel:MainViewModel/>
-	</Window.DataContext>
+    <Window.DataContext>
+        <ViewModel:MainViewModel/>
+    </Window.DataContext>
 
-	<!-- Program body grid -->
+    <!-- Program body grid -->
 	<Border Background="#F0F0F0">
 		<Grid>
 			<Grid.ColumnDefinitions>
@@ -37,56 +37,48 @@
 					</Grid.RowDefinitions>
 					
 					<Button x:Name="BtnExpandPanel" Grid.Row="0"
-							Style="{StaticResource StyleButtonMenu}"
-							Click="MtdButtonClicked">
+							Style="{StaticResource StyleButtonMenu}">
 					</Button>
 
 					<StackPanel Orientation="Vertical" Grid.Row="1">
 						<Button x:Name="BtnCustomers"
 								Style="{StaticResource StyleButtonMenu}"
-								Click="MtdButtonClicked">
+								Command="{Binding CmdShowCustomersView}">
 							<Image Source="/Resources/Images/ButtonCustomers.png"/>
 						</Button>
 
 						<Button x:Name="BtnServices"
-								Style="{StaticResource StyleButtonMenu}"
-								Click="MtdButtonClicked">
+								Style="{StaticResource StyleButtonMenu}">
 							<Image Source="/Resources/Images/ButtonServices.png"/>
 						</Button>
 
 						<Button x:Name="BtnSales"
-								Style="{StaticResource StyleButtonMenu}"
-								Click="MtdButtonClicked">
+								Style="{StaticResource StyleButtonMenu}">
 							<Image Source="/Resources/Images/ButtonSales.png"/>
 						</Button>
 
 						<Button x:Name="BtnProducts"
-								Style="{StaticResource StyleButtonMenu}"
-								Click="MtdButtonClicked">
+								Style="{StaticResource StyleButtonMenu}">
 							<Image Source="/Resources/Images/ButtonProducts.png"/>
 						</Button>
 
 						<Button x:Name="BtnQuote"
-								Style="{StaticResource StyleButtonMenu}"
-								Click="MtdButtonClicked">
+								Style="{StaticResource StyleButtonMenu}">
 							<Image Source="/Resources/Images/ButtonQuote.png"/>
 						</Button>
 
 						<Button x:Name="BtnCredit"
-								Style="{StaticResource StyleButtonMenu}"
-								Click="MtdButtonClicked">
+								Style="{StaticResource StyleButtonMenu}">
 							<Image Source="/Resources/Images/ButtonCredit.png"/>
 						</Button>
 
 						<Button x:Name="BtnInvoices"
-								Style="{StaticResource StyleButtonMenu}"
-								Click="MtdButtonClicked">
+								Style="{StaticResource StyleButtonMenu}">
 							<Image Source="/Resources/Images/ButtonInvoices.png"/>
 						</Button>
 
 						<Button x:Name="BtnNotes"
-								Style="{StaticResource StyleButtonMenu}"
-								Click="MtdButtonClicked">
+								Style="{StaticResource StyleButtonMenu}">
 							<Image Source="/Resources/Images/ButtonNotes.png"/>
 						</Button>
 					</StackPanel>
@@ -143,7 +135,8 @@
 				</StackPanel>
 
 				<!-- Work area -->
-				<ContentControl Grid.Row="1">
+				<ContentControl Grid.Row="1"
+                                Content="{Binding CurrentView}">
 					
 				</ContentControl>
 			</Grid>

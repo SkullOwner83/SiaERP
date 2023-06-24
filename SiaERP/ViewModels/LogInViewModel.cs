@@ -8,16 +8,17 @@ using SiaERP.Data;
 using System.Net;
 using System.Media;
 using MySql.Data.MySqlClient;
+using SiaERP.Resources.Utilities;
 
 namespace SiaERP.ViewModels
 {
-	internal class LogInViewModel : ViewModelBase
+    internal class LogInViewModel : ViewModelBase
 	{
 		//Define private variables
 		private string _UserName = "";
 		private string _Password = "";
 		private string DatabaseLocation;
-		private SQLUserQuery Querys;
+		private SqlUserQuery Querys;
 		private CsvUserQuery CsvQuerys;
 		private bool ValidedUser;
 
@@ -47,15 +48,17 @@ namespace SiaERP.ViewModels
 		//Define commands
 		public ICommand CmdLogIn { get; }
 		public ICommand CmdCancel { get; }
+		public ICommand CmdEnterKey { get; }
 
 		//Contructor method 
 		public LogInViewModel()
 		{
 			//Instantiate commands
-			Querys = new SQLUserQuery();
+			Querys = new SqlUserQuery();
 			CsvQuerys = new CsvUserQuery();
 			CmdLogIn = new ViewModelCommand(LogInExecuteCommand, LogInCanExecuteCommand);
 			CmdCancel = new ViewModelCommand(CancelExecuteCommand);
+			CmdEnterKey = new ViewModelCommand(EnterKeyExecuteCommand);
 
 			//Check if can establish connection with database
 			SqlDatabaseConnection Connection = new SqlDatabaseConnection();
@@ -71,17 +74,18 @@ namespace SiaERP.ViewModels
 				return true;
 		}
 
+		//Validate credentials in database for login 
 		private void LogInExecuteCommand(object obj)
 		{
-			//Validate credentials in database location for login 
+			//Check location of database for query	
 			if (DatabaseLocation == "MySql")
 			{
-				ValidedUser = Querys.AuthenticateUser(new NetworkCredential(UserName, Password));
+				ValidedUser = Querys.AuthenticateUser(new NetworkCredential(UserName.Trim(), Password));
 			}
 			else
 			{
 
-				ValidedUser = CsvQuerys.AuthenticateUser(new NetworkCredential(UserName, Password));
+				ValidedUser = CsvQuerys.AuthenticateUser(new NetworkCredential(UserName.Trim(), Password));
 			}
 
 			//Open the main window if user is validated
@@ -102,10 +106,26 @@ namespace SiaERP.ViewModels
 			}
 		}
 
+		//Cancel and application exit
 		private void CancelExecuteCommand(object obj)
 		{
 			SystemSounds.Exclamation.Play();
 			Application.Current.Shutdown();
+		}
+
+		private void EnterKeyExecuteCommand(object obj)
+		{
+			TraversalRequest request = new TraversalRequest(FocusNavigationDirection.Next);
+			UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+
+			if (elementWithFocus != null)
+			{
+				elementWithFocus.MoveFocus(request);
+			}
+			else
+			{
+				MessageBox.Show("Hola");
+			}
 		}
 	}
 }

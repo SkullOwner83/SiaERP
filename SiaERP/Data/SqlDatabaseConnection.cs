@@ -8,8 +8,8 @@ namespace SiaERP.Data
 	{
 		//Define Variables
 		private string Server = "localhost";
-		private string Database = "SiaDatabases";
-		private string User = "SkullOwner";
+		private string Database = "SiaDatabase";
+		private string User = "root";
 		private string Password = "Skull Owner83";
 		private readonly string ConnectionString;
 		private MySqlConnection Connection;

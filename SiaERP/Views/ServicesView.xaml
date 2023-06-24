@@ -6,5 +6,33 @@
              xmlns:local="clr-namespace:SiaERP.Views"
 			 xmlns:ViewModel="clr-namespace:SiaERP.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="640" d:DesignWidth="640">
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Border Background="GhostWhite">
+        <DataGrid x:Name="DGdServices"
+                  Style="{DynamicResource DataGridStyles}"
+                  Background="GhostWhite"
+                  Foreground="Black"
+                  CanUserAddRows="False"
+                  CanUserResizeColumns="True"
+                  CanUserResizeRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header=""
+                                    Width="24">
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Header="Folio"
+                                    Width="100">
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Nombre"
+                                    Width="300">
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Fecha"
+                                    Width="300">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Border>
 </UserControl>

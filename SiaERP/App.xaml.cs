@@ -17,8 +17,9 @@ namespace SiaERP
 		//Overwrite start up method for open window in a personalized way
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			var StartUpWindow = new LogInView();
-			StartUpWindow.Show();
+            //var StartUpWindow = new LogInView();
+            var StartUpWindow = new Main();
+            StartUpWindow.Show();
 			base.OnStartup(e);
 		}
 	}

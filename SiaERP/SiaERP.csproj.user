@@ -3,13 +3,13 @@
   <PropertyGroup />
   <ItemGroup />
   <ItemGroup>
+    <Compile Update="Views\CustomersView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\LogInView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\MainView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\CustomersView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\ServicesView.xaml.cs">
@@ -17,7 +17,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Resources\Styles\DataGridStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Resources\Styles\TextboxStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Utilities\DataTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\CustomersView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\LogInView.xaml">
@@ -30,9 +39,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\Styles\UIColors.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\CustomersView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ServicesView.xaml">

@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ViewModel="clr-namespace:SiaERP.ViewModels"
+                    xmlns:View="clr-namespace:SiaERP.Views">
+    
+    <DataTemplate DataType="{x:Type ViewModel:CustomerViewModel}">
+        <View:CustomersView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModel:ServiceViewModel}">
+        <View:ServicesView/>
+    </DataTemplate>
+</ResourceDictionary>

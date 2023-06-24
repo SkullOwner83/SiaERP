@@ -3,12 +3,13 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using SiaERP.Data;
 using SiaERP.Models;
+using SiaERP.Resources.Utilities;
 
 namespace SiaERP.ViewModels
 {
-	internal class UserViewModel : ViewModelBase
+    internal class UserViewModel : ViewModelBase
 	{
-		private readonly SQLUserQuery Database;
+		private readonly SqlUserQuery Database;
 		private ObservableCollection<User> listUsers;
 		private User currentUser;
 
@@ -16,7 +17,7 @@ namespace SiaERP.ViewModels
 		public UserViewModel()
 		{
 			//Starting necesary instances to store the data
-			Database = new SQLUserQuery();
+			Database = new SqlUserQuery();
 			currentUser = new User();
 			listUsers = Database.Get();
 		}

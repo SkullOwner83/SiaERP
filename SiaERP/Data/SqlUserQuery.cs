@@ -6,14 +6,14 @@ using SiaERP.Models;
 
 namespace SiaERP.Data
 {
-	internal class SQLUserQuery
+	internal class SqlUserQuery
 	{
 		//Define variables
 		private SqlDatabaseConnection Connection;
 		private ObservableCollection<User> ListUsers;
 
 		//Constructor method
-		public SQLUserQuery()
+		public SqlUserQuery()
 		{
 			Connection = new SqlDatabaseConnection();
 			ListUsers = new ObservableCollection<User>();

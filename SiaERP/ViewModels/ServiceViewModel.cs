@@ -1,6 +1,8 @@
-﻿namespace SiaERP.ViewModels
+﻿using SiaERP.Resources.Utilities;
+
+namespace SiaERP.ViewModels
 {
-	internal class ServiceViewModel : ViewModelBase
+    internal class ServiceViewModel : ViewModelBase
 	{
 
 	}

@@ -4,7 +4,7 @@
     {
 		//Customer fields
         private int id;
-        private int type;
+        private string type;
         private string name;
         private string rfc;
         private string phonenumber;
@@ -14,7 +14,7 @@
         private string state;
         private string country;
         private string postalcode;
-        private string taxtregime;
+        private string taxregime;
 		private string registerdate;
 
 		//Customer Properties
@@ -24,7 +24,7 @@
 			set { id = value; }
 		}
 
-		public int Type
+		public string Type
 		{
 			get { return type; }
 			set { type = value; }
@@ -84,10 +84,10 @@
 			set { postalcode = value; }
 		}
 
-		public string TaxtRegime
+		public string TaxRegime
 		{
-			get { return taxtregime; }
-			set { taxtregime = value; }
+			get { return taxregime; }
+			set { taxregime = value; }
 		}
 
 		public string RegisterDate

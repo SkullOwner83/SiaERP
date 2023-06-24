@@ -97,6 +97,7 @@ namespace SiaERP.Data
 						if (UserReader.UserName == Credential.UserName && UserReader.Password == Credential.Password)
 						{
 							ValidUser = true;
+							break;
 						}
 					}
 				}

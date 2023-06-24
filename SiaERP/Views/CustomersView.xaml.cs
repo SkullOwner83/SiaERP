@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SiaERP.Views
 {
     /// <summary>
-    /// Lógica de interacción para ModuleCustomers.xaml
+    /// Lógica de interacción para CustomersView.xaml
     /// </summary>
-    public partial class ModuleCustomers : UserControl
+    public partial class CustomersView : UserControl
     {
-        public ModuleCustomers()
+        public CustomersView()
         {
             InitializeComponent();
         }
