@@ -19,11 +19,11 @@
     </Window.DataContext>
 
     <!-- Program body grid -->
-	<Border Background="#F0F0F0">
+	<Border Background="{StaticResource C_BkgSecondary}">
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition x:Name="PnlMenu"
-								  Width="48"/>
+								  Width="{Binding LateralMenuSize}"/>
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
 			
@@ -37,7 +37,8 @@
 					</Grid.RowDefinitions>
 					
 					<Button x:Name="BtnExpandPanel" Grid.Row="0"
-							Style="{StaticResource StyleButtonMenu}">
+							Style="{StaticResource StyleButtonMenu}"
+                            Command="{Binding CmdExpanLateralMenu}">
 					</Button>
 
 					<StackPanel Orientation="Vertical" Grid.Row="1">
@@ -135,10 +136,10 @@
 				</StackPanel>
 
 				<!-- Work area -->
-				<ContentControl Grid.Row="1"
-                                Content="{Binding CurrentView}">
-					
-				</ContentControl>
+                <ContentControl Grid.Row="1"
+                                Content="{Binding CurrentView}"
+                                Margin="24">
+                </ContentControl>
 			</Grid>
 		</Grid>
 	</Border>

@@ -6,49 +6,126 @@
              xmlns:local="clr-namespace:SiaERP.Views"
              xmlns:ViewModel="clr-namespace:SiaERP.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="640" d:DesignWidth="640">
+             d:DesignHeight="640" d:DesignWidth="840">
 
     <Control.DataContext>
         <ViewModel:CustomerViewModel/>
     </Control.DataContext>
 
     <Border Background="GhostWhite">
-        <DataGrid x:Name="DGdCustomers"
-                  ItemsSource="{Binding ListCustomers}"
-                  Style="{DynamicResource DataGridStyles}"
-                  Background="GhostWhite"
-                  Foreground="Black"
-                  FontSize="14"
-                  
-                  AlternatingRowBackground="{StaticResource C_BkgSecondary}"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  HeadersVisibility="Column"
-                  GridLinesVisibility="None"
-                  SelectionUnit="FullRow"
-                  IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Width="24"
-                                    CanUserReorder="False"
-                                    CanUserResize="False">
-                </DataGridTextColumn>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-                <DataGridTextColumn Header="Cliente"
-                                    Width="80"
-                                    Binding="{Binding Id}"/>
+            <StackPanel Grid.Row="0" Grid.Column="0"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                <TextBlock Text="Periodo: "  Style="{StaticResource StyleLabel}"/>
+                <ComboBox Width="200"/>
+            </StackPanel>
 
-                <DataGridTextColumn Header="Nombre"
-                                    Binding="{Binding Name}"
-                                    Width="300"/>
+            <StackPanel Grid.Row="0" Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                <TextBlock Text="Buscar: " Style="{StaticResource StyleLabel}"/>
+                <TextBox Width="200"/>
+            </StackPanel>
 
-                <DataGridTextColumn Header="Telefono"
-                                    Binding="{Binding PhoneNumber}"
-                                    Width="120"/>
+            <!-- Customers data grid -->
+            <DataGrid x:Name="DGCustomers"
+                      Grid.Row="1" Grid.ColumnSpan="2"
+                      ItemsSource="{Binding ListCustomers}"
+                      Style="{StaticResource StyleDataGrid}"
+                      ColumnHeaderStyle="{StaticResource StyleDGColumnHeader}"
+                      CellStyle="{StaticResource StyleCell}"
+                      SelectedItem="{Binding SelectedCustomer}">
 
-                <DataGridTextColumn Header="Fecha de registro"
-                                    Binding="{Binding RegisterDate}"
-                                    Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                <DataGrid.Columns>
+                    <!-- Customer type column -->
+                    <DataGridTemplateColumn CanUserReorder="False"
+                                            CanUserResize="False"
+                                            CanUserSort="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <!--<Image Source="/Resources/Images/ButtonCustomers.png"-->
+                                       <!--Width="24" Height="24"-->
+                                       <!--Stretch="Uniform"/>-->
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- Customer number column -->
+                    <DataGridTextColumn Header="Cliente"
+                                        Width="80"
+                                        Binding="{Binding Id}"/>
+
+                    <!-- Customer name column -->
+                    <DataGridTextColumn Header="Nombre"
+                                        Binding="{Binding Name}"
+                                        Width="300"/>
+
+                    <!-- Customer number phone column -->
+                    <DataGridTextColumn Header="Telefono"
+                                        Binding="{Binding PhoneNumber}"
+                                        Width="150"/>
+
+                    <!-- Customer register date column -->
+                    <DataGridTextColumn Header="Fecha de registro"
+                                        Binding="{Binding RegisterDate, StringFormat=\{0:dd/MM/yyyy\}}"
+                                        Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top">
+                <Button Width="100" Height="32" 
+                        Content="Nuevo"
+                        Margin="10"/>
+
+                <Button Width="100" Height="32" 
+                        Content="Modificar"
+                        Margin="10"
+                        Command="{Binding CmdModify}"/>
+
+                <Button Width="100" Height="32" 
+                        Content="Eliminar"
+                        Margin="10"
+                        Command="{Binding CmdDelete}"
+                        />
+
+                <Button Width="100" Height="32" 
+                        Content="Imprimir"
+                        Margin="10"/>
+                <TextBlock Text="{Binding SelectedCustomer.Name}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Grid.Row="1"
+                        Margin="24 0">
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton Content="Individuo" Margin="0 0 50 0"
+                                 IsChecked="True"/>
+                    <RadioButton Content="Empresa"/>
+                </StackPanel>
+
+                <TextBlock Text="Nombre:"/>
+                <TextBox/>
+                
+                <TextBlock Text="Numero de telefono:"/>
+                <TextBox/>
+
+                <TextBlock Text="Correo electronico:"/>
+                <TextBox/>
+            </StackPanel>
+        </Grid>
     </Border>
 </UserControl>

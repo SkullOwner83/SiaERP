@@ -10,9 +10,6 @@ namespace SiaERP.Views
 {
 	public partial class Main : Window
 	{
-		private GridLength MenuMinSize = new GridLength(48);
-		private GridLength MenuMaxSize = new GridLength(192);
-
 		//Constructor Method
 		public Main()
 		{
@@ -20,7 +17,7 @@ namespace SiaERP.Views
 			DataContext = new MainViewModel();
 			MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
 		}
-
+		
 		//Import windows drag native library
 		[DllImport("user32.dll")]
 		public static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
@@ -53,20 +50,6 @@ namespace SiaERP.Views
 				case "BtnWindowMinimize": WindowState = WindowState.Minimized; break;
 				case "BtnWindowMaximize": MtdWindowMaximize(); break;
 				case "BtnWindowClose": Application.Current.Shutdown(); break;
-
-				case "BtnExpandPanel":
-					if (PnlMenu.Width == MenuMinSize)
-					{
-						PnlMenuHeader.Height = new GridLength(126);
-						PnlMenu.Width = MenuMaxSize;
-					}
-					else
-					{
-						PnlMenuHeader.Height = new GridLength(48);
-						PnlMenu.Width = MenuMinSize;
-					}
-				break;
-
 				case "BtnLogOut": Application.Current.Shutdown(); break;
 			}
 		}

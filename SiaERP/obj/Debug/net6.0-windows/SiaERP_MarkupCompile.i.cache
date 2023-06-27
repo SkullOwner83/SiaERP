@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\App.xaml
-9293413524
+10379866836
 
 241638877435
 2011447417199
-Resources\Styles\ButtonStyles.xaml;Resources\Styles\DataGridStyles.xaml;Resources\Styles\TextboxStyles.xaml;Resources\Styles\UIColors.xaml;Resources\Utilities\DataTemplate.xaml;Views\CustomersView.xaml;Views\LogInView.xaml;Views\MainView.xaml;Views\ServicesView.xaml;
+Resources\Styles\ButtonStyles.xaml;Resources\Styles\DataGridStyles.xaml;Resources\Styles\LabelStyles.xaml;Resources\Styles\TextboxStyles.xaml;Resources\Styles\UIColors.xaml;Resources\Utilities\DataTemplate.xaml;Views\CustomersView.xaml;Views\LogInView.xaml;Views\MainView.xaml;Views\ServicesView.xaml;
 
 True
 

@@ -1,4 +1,6 @@
-﻿namespace SiaERP.Models
+﻿using System;
+
+namespace SiaERP.Models
 {
     public class User
     {
@@ -9,6 +11,7 @@
 		private string password;
 		private string accountType;
 		private string numberPhone;
+		private DateTime lastlogin;
 
 		#region Encapsulate properties
 		public int Id 
@@ -76,6 +79,12 @@
 				}
 			}
 		}
-		#endregion
-	}
+
+        public DateTime LastLogin 
+		{ 
+			get => lastlogin; 
+			set => lastlogin = value; 
+		}
+        #endregion
+    }
 }

@@ -56,16 +56,16 @@ namespace SiaERP.ViewModels
 			//Instantiate commands
 			Querys = new SqlUserQuery();
 			CsvQuerys = new CsvUserQuery();
-			CmdLogIn = new ViewModelCommand(LogInExecuteCommand, LogInCanExecuteCommand);
-			CmdCancel = new ViewModelCommand(CancelExecuteCommand);
-			CmdEnterKey = new ViewModelCommand(EnterKeyExecuteCommand);
+			CmdLogIn = new ViewModelCommand(LogInExecute, LogInCanExecute);
+			CmdCancel = new ViewModelCommand(CancelExecute);
+			CmdEnterKey = new ViewModelCommand(EnterKeyExecute);
 
 			//Check if can establish connection with database
 			SqlDatabaseConnection Connection = new SqlDatabaseConnection();
 			DatabaseLocation = Connection.GetConnection() != null ? "MySql" : "Local";
 		}
 
-		private bool LogInCanExecuteCommand(object obj)
+		private bool LogInCanExecute(object obj)
 		{
 			if (string.IsNullOrEmpty(UserName) || UserName.Length < 3 ||
 				Password == null || Password.Length < 3)
@@ -75,7 +75,7 @@ namespace SiaERP.ViewModels
 		}
 
 		//Validate credentials in database for login 
-		private void LogInExecuteCommand(object obj)
+		private void LogInExecute(object obj)
 		{
 			//Check location of database for query	
 			if (DatabaseLocation == "MySql")
@@ -107,13 +107,13 @@ namespace SiaERP.ViewModels
 		}
 
 		//Cancel and application exit
-		private void CancelExecuteCommand(object obj)
+		private void CancelExecute(object obj)
 		{
 			SystemSounds.Exclamation.Play();
 			Application.Current.Shutdown();
 		}
 
-		private void EnterKeyExecuteCommand(object obj)
+		private void EnterKeyExecute(object obj)
 		{
 			TraversalRequest request = new TraversalRequest(FocusNavigationDirection.Next);
 			UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;

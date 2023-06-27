@@ -20,6 +20,9 @@
     <Page Update="Resources\Styles\DataGridStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Resources\Styles\LabelStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Resources\Styles\TextboxStyles.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -1,13 +1,7 @@
 ﻿using Models;
 using MySql.Data.MySqlClient;
-using SiaERP.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
 namespace SiaERP.Data
 {
@@ -40,7 +34,7 @@ namespace SiaERP.Data
                     ListCustomers.Add(new Customer()
                     {
                         Id = (int)Reader["idCustomer"],
-                        Type = (string)Reader["Type"],
+                        Type = (int)Reader["Type"],
                         Name = (string)Reader["Name"],
                         RFC = Reader["RFC"] is DBNull ? null : (string)Reader["RFC"],
                         PhoneNumber = Reader["PhoneNumber"] is DBNull ? null : (string)Reader["PhoneNumber"],
@@ -50,7 +44,8 @@ namespace SiaERP.Data
                         State = Reader["State"] is DBNull ? null : (string)Reader["State"],
                         Country = Reader["Country"] is DBNull ? null : (string)Reader["Country"],
                         PostalCode = Reader["PostalCode"] is DBNull ? null : (string)Reader["PostalCode"],
-                        TaxRegime = Reader["TaxRegime"] is DBNull ? null : (string)Reader["TaxRegime"]
+                        TaxRegime = Reader["TaxRegime"] is DBNull ? null : (string)Reader["TaxRegime"],
+                        RegisterDate = (DateTime)Reader["RegisterDate"]
                     });
                 }
 
@@ -71,6 +66,7 @@ namespace SiaERP.Data
                 ConnectionOpended.Open();
                 MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
                 Command.Parameters.AddWithValue("@id", Model.Id);
+                Command.Parameters.AddWithValue("@type", Model.Type);
                 Command.Parameters.AddWithValue("@rfc", Model.Name);
                 Command.Parameters.AddWithValue("@phonenumber", Model.PhoneNumber);
                 Command.Parameters.AddWithValue("@email", Model.Email);
@@ -80,7 +76,7 @@ namespace SiaERP.Data
                 Command.Parameters.AddWithValue("@country", Model.Country);
                 Command.Parameters.AddWithValue("@postalcode", Model.PostalCode);
                 Command.Parameters.AddWithValue("@taxregime", Model.TaxRegime);
-                //Command.Parameters.AddWithValue("@registerdate", Model.RegisterDate);
+                Command.Parameters.AddWithValue("@registerdate", Model.RegisterDate);
                 Command.ExecuteNonQuery();
                 ConnectionOpended.Close();
             }
@@ -109,6 +105,7 @@ namespace SiaERP.Data
             {
                 MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
                 Command.Parameters.AddWithValue("@id", Model.Id);
+                Command.Parameters.AddWithValue("@type", Model.Type);
                 Command.Parameters.AddWithValue("@rfc", Model.Name);
                 Command.Parameters.AddWithValue("@phonenumber", Model.PhoneNumber);
                 Command.Parameters.AddWithValue("@email", Model.Email);

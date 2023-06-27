@@ -1,10 +1,12 @@
-﻿namespace Models
+﻿using System;
+
+namespace Models
 {
     public class Customer
     {
 		//Customer fields
         private int id;
-        private string type;
+        private int type;
         private string name;
         private string rfc;
         private string phonenumber;
@@ -15,7 +17,7 @@
         private string country;
         private string postalcode;
         private string taxregime;
-		private string registerdate;
+		private DateTime registerdate;
 
 		//Customer Properties
 		public int Id
@@ -24,7 +26,7 @@
 			set { id = value; }
 		}
 
-		public string Type
+		public int Type
 		{
 			get { return type; }
 			set { type = value; }
@@ -90,7 +92,7 @@
 			set { taxregime = value; }
 		}
 
-		public string RegisterDate
+		public DateTime RegisterDate
 		{
 			get { return registerdate; }
 			set { registerdate = value; }
