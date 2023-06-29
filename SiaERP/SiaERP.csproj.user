@@ -17,6 +17,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Resources\Styles\ControlBaseStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Resources\Styles\DataGridStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -41,7 +44,7 @@
     <Page Update="Resources\Styles\ButtonStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\Styles\UIColors.xaml">
+    <Page Update="Resources\Styles\InterfaceProperties.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ServicesView.xaml">

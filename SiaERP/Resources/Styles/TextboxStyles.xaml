@@ -1,25 +1,52 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	
-    <!-- Textbox set properties -->
-	<Style x:Key="StyleTextBoxLogIn" TargetType="{x:Type TextBox}">
+    <!-- Textbox styles -->
+	<Style x:Key="StyleTextBox" TargetType="{x:Type TextBox}">
+        <!-- Control appearance properties -->
 		<Setter Property="Background" Value="White"/>
-		<Setter Property="Foreground" Value="Black"/>
-		<Setter Property="FontFamily" Value="Arial"/>
-		<Setter Property="FontSize" Value="14"/>
+        <Setter Property="BorderThickness" Value="{StaticResource BdrSize}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ClrBorder}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
 
-		<!-- Draw the textbox and their components -->
-		<Setter Property="Template">
-			<Setter.Value>
+        <!-- Font properties -->
+        <Setter Property="Foreground" Value="{StaticResource ClrFnt_Prymary}"/>
+		<Setter Property="FontFamily" Value="Arial"/>
+		<Setter Property="FontSize" Value="{StaticResource FntSize}"/>
+        <Setter Property="Padding" Value="4"/>
+
+        <!-- Control behavior properties -->
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+        <Setter Property="AllowDrop" Value="true"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+
+        <!-- Draw textbox and their components -->
+        <Setter Property="Template">
+            <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
-					<Border Background="{TemplateBinding Background}"
-							BorderThickness="1"
-							BorderBrush="Black"
-							CornerRadius="4">
-						<ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
-					</Border>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+                    <Border Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            CornerRadius="4">
+                        <ScrollViewer x:Name="PART_ContentHost" 
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                      HorizontalScrollBarVisibility="Hidden" 
+                                      VerticalScrollBarVisibility="Hidden"
+                                      Focusable="false"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="BorderBrush" Value="{StaticResource ClrBkg_PrimaryOver}"/>
+            </Trigger>
+            
+            <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource ClrBorderOver}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

@@ -21,6 +21,7 @@
     <None Remove="Resources\Images\ButtonRestore.png" />
     <None Remove="Resources\Images\ButtonSales.png" />
     <None Remove="Resources\Images\ButtonServices.png" />
+    <None Remove="Resources\Images\CustomerType.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +48,7 @@
     <Resource Include="Resources\Images\ButtonMinimize.png" />
     <Resource Include="Resources\Images\ButtonSales.png" />
     <Resource Include="Resources\Images\ButtonServices.png" />
+    <Resource Include="Resources\Images\CustomerType.png" />
   </ItemGroup>
 
   <ItemGroup>

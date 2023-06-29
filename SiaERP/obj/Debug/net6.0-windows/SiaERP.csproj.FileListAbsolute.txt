@@ -5,7 +5,6 @@ D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\bin\Debug\net6.0-windows\SiaERP
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\bin\Debug\net6.0-windows\SiaERP.pdb
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\SiaERP.csproj.AssemblyReference.cache
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\ButtonStyles.baml
-D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\UIColors.baml
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\CustomersView.g.cs
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\ServicesView.g.cs
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\App.g.cs
@@ -97,3 +96,9 @@ C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\ref\SiaERP.dll
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\DataGridStyles.baml
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Utilities\DataTemplate.baml
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\LabelStyles.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\DataGridStyles.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\LabelStyles.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Utilities\DataTemplate.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\ControlBaseStyles.baml
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\ControlBaseStyles.baml
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\InterfaceProperties.baml

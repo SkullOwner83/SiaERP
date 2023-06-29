@@ -19,7 +19,7 @@
     </Window.DataContext>
 
     <!-- Program body grid -->
-	<Border Background="{StaticResource C_BkgSecondary}">
+	<Border Background="{StaticResource ClrBkg_Secondary}">
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition x:Name="PnlMenu"
@@ -28,10 +28,10 @@
 			</Grid.ColumnDefinitions>
 			
 			<!-- Lateral menu container -->
-			<Border Background="{StaticResource C_BkgPrimary}">
+			<Border Background="{StaticResource ClrBkg_Primary}">
 				<Grid HorizontalAlignment="Left">
 					<Grid.RowDefinitions>
-						<RowDefinition x:Name="PnlMenuHeader" Height="48"/>
+						<RowDefinition x:Name="PnlMenuHeader" Height="{Binding LateralMenuSize}"/>
 						<RowDefinition Height="*"/>
 						<RowDefinition Height="48"/>
 					</Grid.RowDefinitions>

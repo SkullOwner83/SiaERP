@@ -21,14 +21,15 @@
             </Grid.ColumnDefinitions>
             
             <Grid.RowDefinitions>
-                <RowDefinition Height="32"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Grid.Column="0"
                         Orientation="Horizontal"
-                        VerticalAlignment="Center">
+                        VerticalAlignment="Center"
+                        Margin="0 12">
                 <TextBlock Text="Periodo: "  Style="{StaticResource StyleLabel}"/>
                 <ComboBox Width="200"/>
             </StackPanel>
@@ -37,7 +38,8 @@
                         Orientation="Horizontal"
                         VerticalAlignment="Center">
                 <TextBlock Text="Buscar: " Style="{StaticResource StyleLabel}"/>
-                <TextBox Width="200"/>
+                <TextBox Width="200"
+                         Style="{StaticResource StyleTextBox}"/>
             </StackPanel>
 
             <!-- Customers data grid -->
@@ -45,20 +47,18 @@
                       Grid.Row="1" Grid.ColumnSpan="2"
                       ItemsSource="{Binding ListCustomers}"
                       Style="{StaticResource StyleDataGrid}"
-                      ColumnHeaderStyle="{StaticResource StyleDGColumnHeader}"
-                      CellStyle="{StaticResource StyleCell}"
                       SelectedItem="{Binding SelectedCustomer}">
 
                 <DataGrid.Columns>
                     <!-- Customer type column -->
                     <DataGridTemplateColumn CanUserReorder="False"
                                             CanUserResize="False"
-                                            CanUserSort="False">
+                                            CanUserSort="False"
+                                            Width="26">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <!--<Image Source="/Resources/Images/ButtonCustomers.png"-->
-                                       <!--Width="24" Height="24"-->
-                                       <!--Stretch="Uniform"/>-->
+                                <Image Source="/Resources/Images/CustomerType.png"
+                                       Stretch="Uniform"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -79,7 +79,7 @@
                                         Width="150"/>
 
                     <!-- Customer register date column -->
-                    <DataGridTextColumn Header="Fecha de registro"
+                    <DataGridTextColumn Header="Fecha"
                                         Binding="{Binding RegisterDate, StringFormat=\{0:dd/MM/yyyy\}}"
                                         Width="*"/>
                 </DataGrid.Columns>
@@ -90,22 +90,27 @@
                         VerticalAlignment="Top">
                 <Button Width="100" Height="32" 
                         Content="Nuevo"
-                        Margin="10"/>
+                        Margin="0 10 10 10"
+                        Style="{StaticResource StyleButtonMenu}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Modificar"
-                        Margin="10"
+                        Margin="0 10 10 10"
+                        Style="{StaticResource StyleButtonMenu}"
                         Command="{Binding CmdModify}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Eliminar"
-                        Margin="10"
+                        Margin="0 10 10 10"
+                        Style="{StaticResource StyleButtonMenu}"
                         Command="{Binding CmdDelete}"
                         />
 
                 <Button Width="100" Height="32" 
                         Content="Imprimir"
-                        Margin="10"/>
+                        Margin="0 10 10 10"
+                        Style="{StaticResource StyleButtonMenu}"
+                        Command="{Binding CmdPrint}"/>
                 <TextBlock Text="{Binding SelectedCustomer.Name}"/>
             </StackPanel>
 
@@ -118,13 +123,16 @@
                 </StackPanel>
 
                 <TextBlock Text="Nombre:"/>
-                <TextBox/>
+                <TextBox IsReadOnly="False"
+                         Style="{StaticResource StyleTextBox}"/>
                 
                 <TextBlock Text="Numero de telefono:"/>
-                <TextBox/>
+                <TextBox IsReadOnly="False"
+                         Style="{StaticResource StyleTextBox}"/>
 
                 <TextBlock Text="Correo electronico:"/>
-                <TextBox/>
+                <TextBox IsReadOnly="False"
+                         Style="{StaticResource StyleTextBox}"/>
             </StackPanel>
         </Grid>
     </Border>
