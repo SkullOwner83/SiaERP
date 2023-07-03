@@ -25,16 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\ButtonNotes.png" />
+    <Resource Include="Resources\Images\ButtonQuote.png" />
     <Resource Include="Resources\Images\ButtonCredit.png" />
     <Resource Include="Resources\Images\ButtonCustomers.png" />
     <Resource Include="Resources\Images\ButtonInvoices.png" />
-    <Resource Include="Resources\Images\ButtonNotes.png" />
-    <Resource Include="Resources\Images\ButtonProducts.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Resources\Images\ButtonLogOut.png" />
-    <Resource Include="Resources\Images\ButtonQuote.png" />
+    <Resource Include="Resources\Images\ButtonProducts.png" />
     <Resource Include="Resources\Images\ButtonRestore.png" />
   </ItemGroup>
 
@@ -60,6 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="MySql.Data" Version="8.0.33" />
   </ItemGroup>
 

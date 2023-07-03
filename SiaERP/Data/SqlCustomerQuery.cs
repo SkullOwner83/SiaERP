@@ -19,9 +19,14 @@ namespace SiaERP.Data
         }
 
         //Extract objects from database of users type
-        internal ObservableCollection<Customer> Get()
+        internal ObservableCollection<Customer> Read(string Filter = "")
         {
             string Query = "SELECT * FROM Customers ";
+
+            if (Filter != string.Empty && Filter != null)
+            {
+                Query += $"WHERE idCustomer LIKE '%{Filter}%' OR Name LIKE '%{Filter}%' OR PhoneNumber LIKE '%{Filter}%' OR DATE_FORMAT(RegisterDate, '%d/%m/%Y') LIKE '%{Filter}%'";
+            }
 
             using (MySqlConnection ConnectionOpended = Connection.GetConnection())
             {
@@ -57,17 +62,49 @@ namespace SiaERP.Data
         }
 
         //Add register in table of data base
-        internal void Add(Customer Model)
+        internal void Create(Customer Model)
         {
-            string Query = "INSERT INTO Customers VALUES(@id, @type, @name, @rfc, @phonenumber, @email, @adress, @city, @state, @country, @postalcode, @taxregime;";
+            string Query = "INSERT INTO Customers VALUES(@id, @type, @name, @rfc, @phonenumber, @email, @adress, @city, @state, @country, @postalcode, @taxregime, @registerdate);";
 
             using (MySqlConnection ConnectionOpended = Connection.GetConnection())
             {
-                ConnectionOpended.Open();
+                //Checar porque la conexion no se cierra para evitar usar el if
+                if (ConnectionOpended.State != System.Data.ConnectionState.Open)
+                {
+                    ConnectionOpended.Open();
+                }
+
                 MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
                 Command.Parameters.AddWithValue("@id", Model.Id);
                 Command.Parameters.AddWithValue("@type", Model.Type);
-                Command.Parameters.AddWithValue("@rfc", Model.Name);
+                Command.Parameters.AddWithValue("@name", Model.Name);
+                Command.Parameters.AddWithValue("@rfc", Model.RFC);
+                Command.Parameters.AddWithValue("@phonenumber", Model.PhoneNumber);
+                Command.Parameters.AddWithValue("@email", Model.Email);
+                Command.Parameters.AddWithValue("@adress", Model.Adress);
+                Command.Parameters.AddWithValue("@city", Model.City);
+                Command.Parameters.AddWithValue("@state", Model.State);
+                Command.Parameters.AddWithValue("@country", Model.Country);
+                Command.Parameters.AddWithValue("@postalcode", Model.PostalCode);
+                Command.Parameters.AddWithValue("@taxregime", Model.TaxRegime);
+                Command.Parameters.AddWithValue("@registerdate", Model.RegisterDate);
+                Command.ExecuteNonQuery();
+                ConnectionOpended.Close();
+            }
+        }
+
+        //Modify register in table of data base
+        internal void Update(Customer Model)
+        {
+            string Query = "UPDATE Customers SET Type=@type, Name=@name, RFC=@rfc, PhoneNumber=@phonenumber, Email=@email, Adress=@adress, City=@city, State=@state, Country=@country, PostalCode=@postalcode, TaxRegime=@taxregime, RegisterDate=@registerdate WHERE idCustomer = @id";
+
+            using (MySqlConnection ConnectionOpended = Connection.GetConnection())
+            {
+                MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
+                Command.Parameters.AddWithValue("@id", Model.Id);
+                Command.Parameters.AddWithValue("@type", Model.Type);
+                Command.Parameters.AddWithValue("@name", Model.Name);
+                Command.Parameters.AddWithValue("@rfc", Model.RFC);
                 Command.Parameters.AddWithValue("@phonenumber", Model.PhoneNumber);
                 Command.Parameters.AddWithValue("@email", Model.Email);
                 Command.Parameters.AddWithValue("@adress", Model.Adress);
@@ -91,31 +128,6 @@ namespace SiaERP.Data
             {
                 MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
                 Command.Parameters.AddWithValue("@id", Model.Id);
-                Command.ExecuteNonQuery();
-                ConnectionOpended.Close();
-            }
-        }
-
-        //Modify register in table of data base
-        internal void Modify(Customer Model)
-        {
-            string Query = "UPDATE Customers SET Type=@type, Name=@name, RFC=@rfc, PhoneNumber=@phonenumber, Email=@email, Adress=@adress, City=@city, State=@state, Country=@country, PostalCode=@postalcode, TaxRegime=@taxregime;";
-
-            using (MySqlConnection ConnectionOpended = Connection.GetConnection())
-            {
-                MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
-                Command.Parameters.AddWithValue("@id", Model.Id);
-                Command.Parameters.AddWithValue("@type", Model.Type);
-                Command.Parameters.AddWithValue("@rfc", Model.Name);
-                Command.Parameters.AddWithValue("@phonenumber", Model.PhoneNumber);
-                Command.Parameters.AddWithValue("@email", Model.Email);
-                Command.Parameters.AddWithValue("@adress", Model.Adress);
-                Command.Parameters.AddWithValue("@city", Model.City);
-                Command.Parameters.AddWithValue("@state", Model.State);
-                Command.Parameters.AddWithValue("@country", Model.Country);
-                Command.Parameters.AddWithValue("@postalcode", Model.PostalCode);
-                Command.Parameters.AddWithValue("@taxregime", Model.TaxRegime);
-                //Command.Parameters.AddWithValue("@registerdate", Model.RegisterDate);
                 Command.ExecuteNonQuery();
                 ConnectionOpended.Close();
             }

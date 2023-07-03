@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Reflection;
+using SiaERP.Resources.Utilities;
+using System.Runtime.Serialization;
+using System.Windows.Media.TextFormatting;
 
 namespace Models
 {
-    public class Customer
+    public class Customer : IDisposable
     {
 		//Customer fields
         private int id;
@@ -97,5 +101,10 @@ namespace Models
 			get { return registerdate; }
 			set { registerdate = value; }
 		}
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

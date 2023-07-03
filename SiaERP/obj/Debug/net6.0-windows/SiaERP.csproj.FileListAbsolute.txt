@@ -68,7 +68,6 @@ C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\bin\Debug\net6.0-windows\runtimes\browse
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\SiaERP.csproj.AssemblyReference.cache
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\ButtonStyles.baml
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\TextboxStyles.baml
-C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\UIColors.baml
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\CustomersView.g.cs
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\LogInView.g.cs
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\MainView.g.cs
@@ -102,3 +101,5 @@ C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Utili
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\ControlBaseStyles.baml
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\ControlBaseStyles.baml
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\InterfaceProperties.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\InterfaceProperties.baml
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll

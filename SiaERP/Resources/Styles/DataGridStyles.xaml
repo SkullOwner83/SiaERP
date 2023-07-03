@@ -85,7 +85,7 @@
             <Trigger Property="ItemsControl.AlternationIndex" Value="1">
                 <Setter Property="Background" Value="{StaticResource ClrBkg_Secondary}"/>
             </Trigger>
-            
+
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource ClrSecondary}"/>
             </Trigger>
@@ -97,7 +97,7 @@
         <!-- Control appearance properties -->
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Margin" Value="{StaticResource ControlTextMargin}"/>
+        <Setter Property="Padding" Value="{StaticResource ControlTextMargin}"/>
 
         <!-- Font properties -->
         <Setter Property="Foreground" Value="{StaticResource ClrFnt_Prymary}"/>
@@ -111,7 +111,8 @@
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
                     <Grid>
                         <Border Background="{TemplateBinding Background}"
-                                CornerRadius="5">
+                                CornerRadius="5"
+                                Padding="{TemplateBinding Padding}">
                             <ContentPresenter/>
                         </Border>
                     </Grid>

@@ -28,7 +28,7 @@
 			</Grid.ColumnDefinitions>
 			
 			<!-- Lateral menu container -->
-			<Border Background="{StaticResource ClrBkg_Primary}">
+			<Border Background="{StaticResource ClrBkg_Primary}" Cursor="Hand">
 				<Grid HorizontalAlignment="Left">
 					<Grid.RowDefinitions>
 						<RowDefinition x:Name="PnlMenuHeader" Height="{Binding LateralMenuSize}"/>
@@ -74,7 +74,7 @@
 						</Button>
 
 						<Button x:Name="BtnInvoices"
-								Style="{StaticResource StyleButtonMenu}">
+								Style="{StaticResource StyleButtonMenu}" Cursor="Hand">
 							<Image Source="/Resources/Images/ButtonInvoices.png"/>
 						</Button>
 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "TUgI+uKBAaT6W2IS+UPh1mnCdKmCt9hQF8qZtyn/7yNyp612ETNI+UDCB9hn/0v4cKyEhBCupIht9Kc0d+OCKA==",
+  "dgSpecHash": "VnhviZf3iP3fzBe4WSyGfWQ0rDjglvFMWu2KviuqBB5pW71NidTMt/6iHWFWNHIvLJFM+mA2dD6mvRZ4tgoxyQ==",
   "success": true,
   "projectFilePath": "D:\\Desktop\\Proyectos\\Visual Studio\\SiaERP\\SiaERP\\SiaERP.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,7 @@
     "C:\\Users\\Javier\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Javier\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\Javier\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\Javier\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
     "C:\\Users\\Javier\\.nuget\\packages\\mysql.data\\8.0.33\\mysql.data.8.0.33.nupkg.sha512",
     "C:\\Users\\Javier\\.nuget\\packages\\portable.bouncycastle\\1.9.0\\portable.bouncycastle.1.9.0.nupkg.sha512",
     "C:\\Users\\Javier\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
