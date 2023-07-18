@@ -19,7 +19,7 @@
     </Window.DataContext>
 
     <!-- Program body grid -->
-	<Border Background="{StaticResource ClrBkg_Secondary}">
+	<Border Background="{StaticResource ClrDimSurface}">
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition x:Name="PnlMenu"
@@ -28,7 +28,7 @@
 			</Grid.ColumnDefinitions>
 			
 			<!-- Lateral menu container -->
-			<Border Background="{StaticResource ClrBkg_Primary}" Cursor="Hand">
+			<Border Background="{StaticResource ClrPrimary}" Cursor="Hand">
 				<Grid HorizontalAlignment="Left">
 					<Grid.RowDefinitions>
 						<RowDefinition x:Name="PnlMenuHeader" Height="{Binding LateralMenuSize}"/>
@@ -37,55 +37,55 @@
 					</Grid.RowDefinitions>
 					
 					<Button x:Name="BtnExpandPanel" Grid.Row="0"
-							Style="{StaticResource StyleButtonMenu}"
+							Style="{StaticResource MenuButtonStyle}"
                             Command="{Binding CmdExpanLateralMenu}">
 					</Button>
 
 					<StackPanel Orientation="Vertical" Grid.Row="1">
 						<Button x:Name="BtnCustomers"
-								Style="{StaticResource StyleButtonMenu}"
+								Style="{StaticResource MenuButtonStyle}"
 								Command="{Binding CmdShowCustomersView}">
 							<Image Source="/Resources/Images/ButtonCustomers.png"/>
 						</Button>
 
 						<Button x:Name="BtnServices"
-								Style="{StaticResource StyleButtonMenu}">
+								Style="{StaticResource MenuButtonStyle}">
 							<Image Source="/Resources/Images/ButtonServices.png"/>
 						</Button>
 
 						<Button x:Name="BtnSales"
-								Style="{StaticResource StyleButtonMenu}">
+								Style="{StaticResource MenuButtonStyle}">
 							<Image Source="/Resources/Images/ButtonSales.png"/>
 						</Button>
 
 						<Button x:Name="BtnProducts"
-								Style="{StaticResource StyleButtonMenu}">
+								Style="{StaticResource MenuButtonStyle}">
 							<Image Source="/Resources/Images/ButtonProducts.png"/>
 						</Button>
 
 						<Button x:Name="BtnQuote"
-								Style="{StaticResource StyleButtonMenu}">
+								Style="{StaticResource MenuButtonStyle}">
 							<Image Source="/Resources/Images/ButtonQuote.png"/>
 						</Button>
 
 						<Button x:Name="BtnCredit"
-								Style="{StaticResource StyleButtonMenu}">
+								Style="{StaticResource MenuButtonStyle}">
 							<Image Source="/Resources/Images/ButtonCredit.png"/>
 						</Button>
 
 						<Button x:Name="BtnInvoices"
-								Style="{StaticResource StyleButtonMenu}" Cursor="Hand">
+								Style="{StaticResource MenuButtonStyle}" Cursor="Hand">
 							<Image Source="/Resources/Images/ButtonInvoices.png"/>
 						</Button>
 
 						<Button x:Name="BtnNotes"
-								Style="{StaticResource StyleButtonMenu}">
+								Style="{StaticResource MenuButtonStyle}">
 							<Image Source="/Resources/Images/ButtonNotes.png"/>
 						</Button>
 					</StackPanel>
 
 					<Button x:Name="BtnLogOut" Grid.Row="2"
-								Style="{StaticResource StyleButtonMenu}"
+								Style="{StaticResource MenuButtonStyle}"
 								Padding="12"
 								Click="MtdButtonClicked">
 						<Image Source="/Resources/Images/ButtonLogOut.png"/>

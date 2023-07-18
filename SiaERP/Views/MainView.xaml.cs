@@ -66,5 +66,5 @@ namespace SiaERP.Views
 				WindowState = WindowState.Maximized;
 			}
 		}
-	}
+    }
 }

@@ -8,7 +8,7 @@
              xmlns:Utilities="clr-namespace:SiaERP.Resources.Utilities"
              xmlns:ViewModel="clr-namespace:SiaERP.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="640" d:DesignWidth="840">
+             d:DesignWidth="840" d:DesignHeight="640">
 
     <!-- Binding view model -->
     <Control.DataContext>
@@ -18,8 +18,12 @@
     <UserControl.Resources>
         <Utilities:BooleanInverse x:Key="BooleanInverse"/>
         <Utilities:IntToBoolean x:Key="IntToBoolean"/>
+        <Utilities:WidthToHeight x:Key="WidthToHeight"/>
+        <Utilities:PhoneNumberForamt x:Key="PhoneNumberForamt"/>
     </UserControl.Resources>             
     
+    <!-- Draw user control -->
+    <!-- Draw user control -->
     <Border Background="GhostWhite">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -27,48 +31,73 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
+            <!-- Filter data combobox -->
             <StackPanel Grid.Row="0" Grid.Column="0"
                         Orientation="Horizontal"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Margin="0 12">
-                <TextBlock Text="Periodo: "  Style="{StaticResource StyleLabel}"/>
-                <ComboBox Width="200"/>
+                        VerticalAlignment="Top"
+                        Margin="0 0 0 12">
+                <TextBlock Text="Periodo:" 
+                           Style="{StaticResource BoldLabelStyle}"
+                           Margin="0 0 8 0"/>
+                <ComboBox Width="200"
+                          Style="{StaticResource ComboBoxStyle}"
+                          
+                          SelectedIndex="0"
+                          IsEditable="False"
+                          IsEnabled="True">
+
+                    <ComboBoxItem Content="2021"/>
+                    <ComboBoxItem Content="2022"/>
+                    <ComboBoxItem Content="2023"/>
+                </ComboBox>
             </StackPanel>
 
-            <StackPanel Grid.Row="0" Grid.Column="1"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center">
-                
-                <TextBlock Text="Buscar: " Style="{StaticResource StyleLabel}"/>
-                <TextBox Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200"
+            <!-- Filter data textbox -->
+            <Grid Grid.Row="0" Grid.Column="1"
+                        Margin="0 0 16 16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Buscar:" Grid.Column="0"
+                           Style="{StaticResource BoldLabelStyle}"
+                           Margin="0 0 8 0"/>
+                <TextBox Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"
                          IsReadOnly="{Binding EnableEdition}"
-                         Style="{StaticResource StyleTextBox}">
+                         Style="{StaticResource TextBoxStyle}">
                     <Behaviors:Interaction.Triggers>
                         <Behaviors:EventTrigger EventName="TextChanged">
                             <Behaviors:InvokeCommandAction Command="{Binding CmdFilter}"/>
                         </Behaviors:EventTrigger>
                     </Behaviors:Interaction.Triggers>
                 </TextBox>
-            </StackPanel>
+            </Grid>
 
             <!-- Customers data grid -->
-            <DataGrid x:Name="DGCustomers"
-                      Grid.Row="1" Grid.ColumnSpan="2"
+            <DataGrid Grid.Row="1" Grid.ColumnSpan="2"
                       ItemsSource="{Binding ListCustomers}"
-                      Style="{StaticResource StyleDataGrid}"
-                      SelectedItem="{Binding SelectedCustomer}">
+                      Style="{StaticResource DataGridStyle}"
+                      SelectedItem="{Binding SelectedCustomer}"
+                      Margin="0 0 16 0">
 
+                <!-- Double click on item trigger -->
+                <Behaviors:Interaction.Triggers>
+                    <Behaviors:EventTrigger EventName="MouseDoubleClick">
+                        <Behaviors:InvokeCommandAction Command="{Binding CmdModify}"/>
+                    </Behaviors:EventTrigger>
+                </Behaviors:Interaction.Triggers>
+
+                <!-- Column headers definition -->
                 <DataGrid.Columns>
-                    <!-- Customer type column -->
                     <DataGridTemplateColumn CanUserReorder="False"
                                             CanUserResize="False"
                                             CanUserSort="False"
@@ -81,108 +110,204 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <!-- Customer number column -->
                     <DataGridTextColumn Header="Cliente"
                                         Width="80"
                                         Binding="{Binding Id}"/>
 
-                    <!-- Customer name column -->
                     <DataGridTextColumn Header="Nombre"
                                         Binding="{Binding Name}"
                                         Width="300"/>
 
-                    <!-- Customer number phone column -->
                     <DataGridTextColumn Header="Telefono"
                                         Binding="{Binding PhoneNumber}"
                                         Width="150"/>
 
-                    <!-- Customer register date column -->
                     <DataGridTextColumn Header="Fecha"
                                         Binding="{Binding RegisterDate, StringFormat=\{0:dd/MM/yyyy\}}"
                                         Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
 
+            <TabControl Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
+                        Style="{StaticResource TabControlStyle}">
+                <!-- Customer general data form -->
+                <TabItem Header="Datos generales"
+                         IsSelected="True">
+                    <Grid Grid.Column="2" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Customer register data -->
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <RadioButton Content="Individuo"
+                                         IsChecked="{Binding AuxiliarCustomer.Type, Converter={StaticResource IntToBoolean}, ConverterParameter=1, Mode=TwoWay}"
+                                         IsEnabled="{Binding EnableEdition}"
+                                         Style="{StaticResource RadioButtonStyle}"/>
+
+                            <RadioButton Content="Empresa"
+                                         IsChecked="{Binding AuxiliarCustomer.Type, Converter={StaticResource IntToBoolean}, ConverterParameter=2, Mode=TwoWay}"
+                                         IsEnabled="{Binding EnableEdition}"
+                                         Style="{StaticResource RadioButtonStyle}"
+                                         Margin="0 0 0 8"/>
+
+                            <TextBlock Text="Número de cliente:"
+                                       Style="{StaticResource FormLabelStyle}"/>
+                            <TextBox Text="{Binding AuxiliarCustomer.Id, Mode=TwoWay}"
+                                     IsReadOnly="True"
+                                     Style="{StaticResource TextBoxStyle}"
+                                     Margin="0 0 0 8"/>
+
+                            <TextBlock Text="Fecha de registro:"
+                                       Style="{StaticResource FormLabelStyle}"/>
+                            <TextBox Text="{Binding AuxiliarCustomer.RegisterDate, StringFormat=\{0:dd/MM/yyyy\}, Mode=TwoWay}" 
+                                     IsReadOnly="True"
+                                     Style="{StaticResource TextBoxStyle}"/>
+                        </StackPanel>
+
+                        <!-- Load customer image -->
+                        <Button Grid.Row="0" Grid.Column="1"
+                                Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource WidthToHeight}}"
+                                Style="{StaticResource LoadImageButtonStyle}"
+                                Command="{Binding CmdLoadImage}"
+                                Margin="24 0 0 0">
+                            <Button.Background>
+                                <ImageBrush ImageSource="{Binding AuxiliarCustomer.Image}"
+                                       Stretch="UniformToFill"
+                                       AlignmentX="Center" AlignmentY="Center"/>
+                            </Button.Background>
+                        </Button>
+
+                        <!-- Customer general data -->
+                        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
+                                    Margin="0 8 0 0">
+                            <TextBlock Text="Nombre:"
+                                       Style="{StaticResource FormLabelStyle}"/>
+                            <TextBox Text="{Binding AuxiliarCustomer.Name, Mode=TwoWay}" 
+                                     IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                     Style="{StaticResource TextBoxStyle}"
+                                     Margin="0 0 0 8"/>
+
+                            <TextBlock Text="Numero de telefono:"
+                                       Style="{StaticResource FormLabelStyle}"/>
+                            <TextBox Text="{Binding AuxiliarCustomer.PhoneNumber, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PhoneNumberForamt}, Mode=TwoWay}" 
+                                     IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                     Style="{StaticResource TextBoxStyle}"
+                                     Margin="0 0 0 8"/>
+
+                            <TextBlock Text="Correo electronico:"
+                                       Style="{StaticResource FormLabelStyle}"/>
+                            <TextBox Text="{Binding AuxiliarCustomer.Email, Mode=TwoWay}"
+                                     IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                     Style="{StaticResource TextBoxStyle}"
+                                     Margin="0 0 0 8"/>
+
+                            <CheckBox Content="Cliente de confianza"
+                                      IsChecked="{Binding AuxiliarCustomer.Trusted}"
+                                      IsEnabled="{Binding EnableEdition}"
+                                      Style="{StaticResource CheckBoxStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+
+                <!-- Customer tax data form -->
+                <TabItem Header="Datos fiscales">
+                    <StackPanel>
+                        <TextBlock Text="RFC:"
+                                   Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding AuxiliarCustomer.RFC, Mode=TwoWay}" 
+                                 IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                 Style="{StaticResource TextBoxStyle}"
+                                 Margin="0 0 0 8"/>
+
+                        <TextBlock Text="Dirección:"
+                                   Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding AuxiliarCustomer.Adress, Mode=TwoWay}" 
+                                 IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                 Style="{StaticResource TextBoxStyle}"
+                                 Margin="0 0 0 8"/>
+
+                        <TextBlock Text="Ciudad:"
+                                   Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding AuxiliarCustomer.City, Mode=TwoWay}" 
+                                 IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                 Style="{StaticResource TextBoxStyle}"
+                                 Margin="0 0 0 8"/>
+
+                        <TextBlock Text="Estado:"
+                                   Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding AuxiliarCustomer.State, Mode=TwoWay}" 
+                                 IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                 Style="{StaticResource TextBoxStyle}"
+                                 Margin="0 0 0 8"/>
+
+                        <TextBlock Text="Codigo postal:"
+                                   Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding AuxiliarCustomer.PostalCode, Mode=TwoWay}" 
+                                 IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                 Style="{StaticResource TextBoxStyle}"
+                                 Margin="0 0 0 8"/>
+
+                        <TextBlock Text="Regimen fiscal:"
+                                   Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding AuxiliarCustomer.TaxRegime, Mode=TwoWay}" 
+                                 IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                 Style="{StaticResource TextBoxStyle}"/>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+
             <!-- Panel of CRUD Buttons -->
             <StackPanel Grid.Row="2" Grid.ColumnSpan="2"
                         Orientation="Horizontal">
-                
+
                 <Button Width="100" Height="32" 
                         Content="Nuevo"
-                        Margin="0 10 10 10"
-                        Style="{StaticResource StyleButtonMenu}"
+                        Margin="0 16 16 0"
+                        Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdNew}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Modificar"
-                        Margin="0 10 10 10"
-                        Style="{StaticResource StyleButtonMenu}"
+                        Margin="0 16 16 0"
+                        Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdModify}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Eliminar"
-                        Margin="0 10 10 10"
-                        Style="{StaticResource StyleButtonMenu}"
-                        Command="{Binding CmdDelete}"
-                        />
+                        Margin="0 16 16 0"
+                        Style="{StaticResource ButtonStyle}"
+                        Command="{Binding CmdDelete}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Imprimir"
-                        Margin="0 10 10 10"
-                        Style="{StaticResource StyleButtonMenu}"
+                        Margin="0 16 16 0"
+                        Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdPrint}"/>
-                <TextBlock Text="{Binding AuxiliarCustomer.Name}"/>
             </StackPanel>
 
-
-            <!-- Customer data form -->
-            <StackPanel Grid.Column="2" Grid.Row="1"
-                        Margin="24 0">
-                <StackPanel Orientation="Horizontal">
-                    <RadioButton Content="Individuo" Margin="0 0 50 0"
-                                 IsChecked="{Binding AuxiliarCustomer.Type, Converter={StaticResource IntToBoolean}, ConverterParameter=1, Mode=TwoWay}"
-                                 IsEnabled="{Binding EnableEdition}"/>
-                    <RadioButton Content="Empresa"
-                                 IsChecked="{Binding AuxiliarCustomer.Type, Converter={StaticResource IntToBoolean}, ConverterParameter=2, Mode=TwoWay}"
-                                 IsEnabled="{Binding EnableEdition}"/>
-                </StackPanel>
-
-                <TextBlock Text="Fecha de registro:"/>
-                <TextBox Text="{Binding AuxiliarCustomer.RegisterDate, StringFormat=\{0:dd/MM/yyyy\}, Mode=TwoWay}" 
-                         IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
-                         Style="{StaticResource StyleTextBox}"/>
-
-                <TextBlock Text="Nombre:"/>
-                <TextBox Text="{Binding AuxiliarCustomer.Name, Mode=TwoWay}" 
-                         IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
-                         Style="{StaticResource StyleTextBox}"/>
-
-                <TextBlock Text="Numero de telefono:"/>
-                <TextBox Text="{Binding AuxiliarCustomer.PhoneNumber, Mode=TwoWay}" 
-                         IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
-                         Style="{StaticResource StyleTextBox}"/>
-
-                <TextBlock Text="Correo electronico:"/>
-                <TextBox Text="{Binding AuxiliarCustomer.Email, Mode=TwoWay}" 
-                         IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
-                         Style="{StaticResource StyleTextBox}"/>
-            </StackPanel>
-
+            <!-- Execute CRUD buttons -->
             <StackPanel Grid.Row="2" Grid.Column="3"
                         HorizontalAlignment="Center"
-                        Orientation="Horizontal"
-                        FlowDirection="RightToLeft">
-                <Button Width="100" Height="32" 
-                        Content="Cancelar"
-                        Margin="0 10 10 10"
-                        Style="{StaticResource StyleButtonMenu}"
-                        Command="{Binding CmdCancel}"/>
+                        Orientation="Horizontal">
 
                 <Button Width="100" Height="32" 
                         Content="Aceptar"
-                        Margin="0 10 10 10"
-                        Style="{StaticResource StyleButtonMenu}"
+                        Margin="0 16 16 0"
+                        Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdAcept}"/>
+
+                <Button Width="100" Height="32" 
+                        Content="Cancelar"
+                        Margin="0 16 0 0"
+                        Style="{StaticResource ButtonStyle}"
+                        Command="{Binding CmdCancel}"/>
             </StackPanel>
         </Grid>
     </Border>

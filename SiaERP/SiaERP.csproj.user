@@ -17,13 +17,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Resources\Styles\ControlBaseStyles.xaml">
+    <Page Update="Resources\Styles\CheckboxStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Styles\ComboBoxStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\Styles\DataGridStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\Styles\LabelStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Styles\RadioButtonStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Styles\TabControlStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\Styles\TextboxStyles.xaml">
@@ -44,7 +53,7 @@
     <Page Update="Resources\Styles\ButtonStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\Styles\InterfaceProperties.xaml">
+    <Page Update="Resources\Utilities\InterfaceProperties.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\ServicesView.xaml">

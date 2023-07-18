@@ -4,25 +4,31 @@ using SiaERP.Data;
 using System.Windows.Input;
 using System.Windows;
 using Models;
-
-using System.Runtime.Serialization;
 using System.Reflection;
+
+
+using MySql.Data.MySqlClient;
 using System;
+using Microsoft.Win32;
+using System.IO;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace SiaERP.ViewModels
 {
     internal class CustomerViewModel : ViewModelBase
 	{
-        //Define private variables
+        //Define property class
         private SqlCustomerQuery Query;
         private ObservableCollection<Customer> listcustomers;
-        private Customer selectedcustomer;
-        private Customer auxiliarcustomer;
+        private Customer? selectedcustomer;
+        private Customer? auxiliarcustomer;
         private bool _EnableEdition = false;
         private string Action = "None";
         private string _Filter;
+        private ImageSource _CustomerImage;
 
-        //Define public properties
+        #region Property encapsulation
         public ObservableCollection<Customer> ListCustomers 
         { 
             get => listcustomers;
@@ -44,7 +50,7 @@ namespace SiaERP.ViewModels
             }
         }
 
-		public Customer AuxiliarCustomer 
+		public Customer? AuxiliarCustomer 
         { 
             get => auxiliarcustomer;
             set
@@ -73,6 +79,17 @@ namespace SiaERP.ViewModels
                 OnPropertyChanged(nameof(Filter));
             }
         }
+        
+        public ImageSource CustomerImage
+        {
+            get => _CustomerImage;
+            set
+            {
+                _CustomerImage = value;
+                OnPropertyChanged(nameof(CustomerImage));
+            }
+        }
+        #endregion
 
         //Define commands
         public ICommand CmdNew { get; }
@@ -82,6 +99,8 @@ namespace SiaERP.ViewModels
         public ICommand CmdAcept { get; }
         public ICommand CmdCancel { get; }
         public ICommand CmdFilter { get; }
+        public ICommand CmdLoadImage { get; }
+        public ICommand CmdCollapseColumn { get; }
 
         //Constructor method
         public CustomerViewModel()
@@ -94,11 +113,28 @@ namespace SiaERP.ViewModels
             CmdAcept = new ViewModelCommand(AceptActionExecute, ActionCanExecute);
             CmdCancel = new ViewModelCommand(CancelActionExecute, ActionCanExecute);
             CmdFilter = new ViewModelCommand(FilterExecute);
+            CmdLoadImage = new ViewModelCommand(LoadImageExecute, ActionCanExecute);
+            CmdCollapseColumn = new ViewModelCommand(CollapseColumnExecute);
 
             ListCustomers = new ObservableCollection<Customer>();
             ListCustomers = Query.Read();
+        }
 
-            AuxiliarCustomer = new Customer();
+        private void CollapseColumnExecute(object obj)
+        {
+            
+        }
+
+        private void LoadImageExecute(object obj)
+        {
+            OpenFileDialog LoadFile = new OpenFileDialog();
+            LoadFile.Filter = "Image Files (*.jpg; *.png; *.bmp)|*.jpg; *.png; *.bmp";
+
+            if (LoadFile.ShowDialog() == true)
+            {
+                AuxiliarCustomer.Image = new BitmapImage(new Uri(LoadFile.FileName));
+                OnPropertyChanged(nameof(AuxiliarCustomer));
+            }
         }
 
         private void FilterExecute(object obj)
@@ -113,7 +149,12 @@ namespace SiaERP.ViewModels
 		{
             if (EnableEdition == false)
             {
-                CloneObject(SelectedCustomer, AuxiliarCustomer);
+                if (AuxiliarCustomer == null)
+                {
+                    AuxiliarCustomer = new Customer();
+                }
+
+                AuxiliarCustomer = CloneObject(SelectedCustomer);
             }
 		}
 
@@ -124,12 +165,13 @@ namespace SiaERP.ViewModels
             Filter = string.Empty;
             Action = "Create";
 
-            using (Customer NewCustomer = new Customer() { Type = 1, RegisterDate = DateTime.Now})
-            {
-                CloneObject(NewCustomer, AuxiliarCustomer);
-            }
+            //Clear the auxiliar customer, get last id in database and call property to update view
+            AuxiliarCustomer = CloneObject(null);
+            AuxiliarCustomer.Id = Query.LastId() + 1;
+            OnPropertyChanged(nameof(AuxiliarCustomer));
         }
 
+        //Update data of customer in database
         private void UpdateCustomerExecute(object obj)
         {
             EnableEdition = true;
@@ -146,7 +188,7 @@ namespace SiaERP.ViewModels
             {
                 Query.Delete(SelectedCustomer);
                 ListCustomers.Remove(SelectedCustomer);
-                AuxiliarCustomer = SelectedCustomer;
+                AuxiliarCustomer = null;
             }
         }
 
@@ -169,6 +211,7 @@ namespace SiaERP.ViewModels
         private void CancelActionExecute(object obj)
         {
             EnableEdition = false;
+            AuxiliarCustomer = null;
             Action = "None";
         }
 
@@ -196,23 +239,29 @@ namespace SiaERP.ViewModels
                 return false;
         }
 
-        public void CloneObject(Customer Source, Customer Destination)
+        //Clone properties from one instance to another instance
+        public Customer CloneObject(Customer? Source)
         {
-            //Get all properties of object and set the values to the clone
-            PropertyInfo[] Properties = typeof(Customer).GetProperties();
-
-            foreach (PropertyInfo Property in Properties)
+            //Create new instances of source and destination, if the parameter is null
+            using (Customer ObjectSource = Source ?? new Customer())
             {
-                if (Property.CanWrite)
+                using (Customer ObejctDestination = new Customer())
                 {
-                    object? Value = Property.GetValue(Source);
-                    Property.SetValue(Destination, Value);
+                    //Get all properties of object and set the values to the clone
+                    PropertyInfo[] Properties = typeof(Customer).GetProperties();
+
+                    foreach (PropertyInfo Property in Properties)
+                    {
+                        if (Property.CanWrite)
+                        {
+                            object? Value = Property.GetValue(ObjectSource);
+                            Property.SetValue(ObejctDestination, Value);
+                        }
+                    }
+
+                    return ObejctDestination;
                 }
             }
-
-            //OnPropertyChanged(nameof(AuxiliarCustomer));
-            //Asignarse su propio valor para llamar al setter, ya que Property.SetValue no lo hace
-            AuxiliarCustomer = AuxiliarCustomer;
         }
     }
 }

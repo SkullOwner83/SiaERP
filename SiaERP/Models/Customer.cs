@@ -3,6 +3,8 @@ using System.Reflection;
 using SiaERP.Resources.Utilities;
 using System.Runtime.Serialization;
 using System.Windows.Media.TextFormatting;
+using System.ComponentModel;
+using System.Windows.Media.Imaging;
 
 namespace Models
 {
@@ -22,12 +24,15 @@ namespace Models
         private string postalcode;
         private string taxregime;
 		private DateTime registerdate;
+		private bool trusted;
+		private BitmapImage image;
 
-		//Customer Properties
-		public int Id
+
+        //Customer Properties
+        public int Id
 		{
 			get { return id; }
-			set { id = value; }
+			set { id = value;}
 		}
 
 		public int Type
@@ -100,6 +105,25 @@ namespace Models
 		{
 			get { return registerdate; }
 			set { registerdate = value; }
+		}
+
+        public bool Trusted 
+		{ 
+			get => trusted; 
+			set => trusted = value; 
+		}
+
+        public BitmapImage Image
+		{ 
+			get => image; 
+			set => image = value; 
+		}
+
+        //Constructor method
+        public Customer()
+		{
+            Type = 1;
+			RegisterDate = DateTime.Now;
 		}
 
         public void Dispose()

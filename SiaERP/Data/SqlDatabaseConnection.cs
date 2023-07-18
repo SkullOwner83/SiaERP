@@ -22,7 +22,7 @@ namespace SiaERP.Data
 		}
 
 		//Check if can get connection with MySQL and return this connection
-		public MySqlConnection? GetConnection()
+		public MySqlConnection GetConnection()
 		{
 			try
 			{
@@ -30,14 +30,13 @@ namespace SiaERP.Data
 				{
 					Connection.Open();
 				}
-
-				return Connection;
 			}
 			catch (Exception e)
 			{
-				//MessageBox.Show(e.ToString());
-				return null;
+				MessageBox.Show(e.ToString());
 			}
-		}
+
+            return Connection;
+        }
 	}
 }
