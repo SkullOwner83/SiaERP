@@ -21,7 +21,11 @@
     <None Remove="Resources\Images\ButtonRestore.png" />
     <None Remove="Resources\Images\ButtonSales.png" />
     <None Remove="Resources\Images\ButtonServices.png" />
-    <None Remove="Resources\Images\CustomerType.png" />
+    <None Remove="Resources\Images\ImgCustomerEnterprice.png" />
+    <None Remove="Resources\Images\ImgCustomerEnterpriceTrusted.png" />
+    <None Remove="Resources\Images\ImgCustomerIndividual.png" />
+    <None Remove="Resources\Images\ImgCustomerIndividualTrusted.png" />
+    <None Remove="Resources\Images\ImgCustomerLoadImage.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,7 +49,11 @@
     <Resource Include="Resources\Images\ButtonMinimize.png" />
     <Resource Include="Resources\Images\ButtonSales.png" />
     <Resource Include="Resources\Images\ButtonServices.png" />
-    <Resource Include="Resources\Images\CustomerType.png" />
+    <Resource Include="Resources\Images\ImgCustomerEnterprice.png" />
+    <Resource Include="Resources\Images\ImgCustomerEnterpriceTrusted.png" />
+    <Resource Include="Resources\Images\ImgCustomerIndividual.png" />
+    <Resource Include="Resources\Images\ImgCustomerIndividualTrusted.png" />
+    <Resource Include="Resources\Images\ImgCustomerLoadImage.png" />
   </ItemGroup>
 
   <ItemGroup>

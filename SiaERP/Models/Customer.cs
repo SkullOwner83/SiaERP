@@ -28,7 +28,7 @@ namespace Models
 		private BitmapImage image;
 
 
-        //Customer Properties
+        //Customer properties
         public int Id
 		{
 			get { return id; }

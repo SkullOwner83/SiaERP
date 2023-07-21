@@ -39,6 +39,7 @@ namespace SiaERP.ViewModels
 
         //Define commands
         public ICommand CmdShowCustomersView { get; }
+        public ICommand CmdShowServicesView { get; }
         public ICommand CmdExpanLateralMenu { get; }
 
         //Contructor method
@@ -46,7 +47,11 @@ namespace SiaERP.ViewModels
 		{
 			CmdShowCustomersView = new ViewModelCommand(ShowCustomersViewExecute);
             CmdExpanLateralMenu = new ViewModelCommand(ExpandLateralMenuExecute);
+            CmdShowServicesView = new ViewModelCommand(ShowServicesViewExecute);
         }
+
+        private void ShowCustomersViewExecute(object obj) => CurrentView = new CustomerViewModel();
+        private void ShowServicesViewExecute(object obj) => CurrentView = new ServiceViewModel();
 
         private void ExpandLateralMenuExecute(object obj)
         {
@@ -55,7 +60,5 @@ namespace SiaERP.ViewModels
             else
                 LateralMenuSize = 48;
         }
-
-        private void ShowCustomersViewExecute(object obj) => CurrentView = new CustomerViewModel();
     }
 }

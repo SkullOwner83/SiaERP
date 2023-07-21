@@ -52,25 +52,6 @@ namespace SiaERP.Resources.Utilities
         }
     }
 
-    //Keep a squared size ratio of the control based on his height
-    public class WidthToHeight : IValueConverter
-    {
-        public object Convert(object Value, Type TargetType, object Parameter, CultureInfo Culture)
-        {
-            if (Value is double Height)
-            {
-                return Height;
-            }
-
-            return Binding.DoNothing;
-        }
-
-        public object ConvertBack(object Value, Type TargetType, object Parameter, CultureInfo Culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     //Phone number string format
     public class PhoneNumberForamt : IValueConverter
     {
@@ -79,6 +60,7 @@ namespace SiaERP.Resources.Utilities
             if (Value is string PhoneNumber)
             {
                 //Delete empty spaces to format string
+
                 PhoneNumber = Regex.Replace(PhoneNumber, @"\s", "");
 
                 //Split the phone number string in groups
@@ -100,8 +82,8 @@ namespace SiaERP.Resources.Utilities
                 return PhoneNumber;
             }
 
-            //Don't do any conversion if the value is not a string
-            return Binding.DoNothing;
+            //Return the original value if not is string or is null
+            return Value;
         }
 
         public object ConvertBack(object Value, Type TargetType, object Parameter, CultureInfo Culture)
@@ -114,8 +96,8 @@ namespace SiaERP.Resources.Utilities
                 return PhoneNumber;
             }
 
-            //Don't do any conversion if the value is not a string
-            return Binding.DoNothing;
+            //Return the original value if not is string or is null
+            return Value;
         }
     }
 }

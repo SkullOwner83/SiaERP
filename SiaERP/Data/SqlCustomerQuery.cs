@@ -2,7 +2,6 @@
 using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
 using System;
-using MySqlX.XDevAPI.Common;
 using SiaERP.Resources.Utilities;
 using System.Windows.Media.Imaging;
 

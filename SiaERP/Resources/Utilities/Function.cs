@@ -9,35 +9,25 @@ namespace SiaERP.Resources.Utilities
 {
     public class Function
     {
-        public static void CloneObject(Customer Source, Customer Destination)
-        {
-            Type ObjectType = typeof(Customer);
-            PropertyInfo[] Properties = ObjectType.GetProperties();
-
-            foreach (PropertyInfo Property in Properties)
-            {
-                if (Property.CanWrite)
-                {
-                    object? Value = Property.GetValue(Source);
-                    Property.SetValue(Destination, Value);
-                }
-            }
-        }
-
         //Convert bitmap image to bytes array to save in database
         public static byte[] BitmapImageToBytes(BitmapImage Image)
         {
-            JpegBitmapEncoder Encoder = new JpegBitmapEncoder(); // Dependiendo del formato de la imagen, puedes usar otros encoders (PNG, BMP, etc.)
-            Encoder.Frames.Add(BitmapFrame.Create(Image));
-            byte[] ImageData;
-
-            using (MemoryStream Stream = new MemoryStream())
+            if (Image != null)
             {
-                Encoder.Save(Stream);
-                ImageData = Stream.ToArray();
+                JpegBitmapEncoder Encoder = new JpegBitmapEncoder(); // Dependiendo del formato de la imagen, puedes usar otros encoders (PNG, BMP, etc.)
+                Encoder.Frames.Add(BitmapFrame.Create(Image));
+                byte[] ImageData;
+
+                using (MemoryStream Stream = new MemoryStream())
+                {
+                    Encoder.Save(Stream);
+                    ImageData = Stream.ToArray();
+                }
+
+                return ImageData;
             }
 
-            return ImageData;
+            return null;
         }
 
         //Convert bytes array to bitmap image to show in view

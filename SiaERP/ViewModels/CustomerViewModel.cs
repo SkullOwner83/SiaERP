@@ -20,9 +20,9 @@ namespace SiaERP.ViewModels
 	{
         //Define property class
         private SqlCustomerQuery Query;
-        private ObservableCollection<Customer> listcustomers;
-        private Customer? selectedcustomer;
-        private Customer? auxiliarcustomer;
+        private ObservableCollection<Customer> _Listcustomers;
+        private Customer? _Selectedcustomer;
+        private Customer? _Auxiliarcustomer;
         private bool _EnableEdition = false;
         private string Action = "None";
         private string _Filter;
@@ -31,20 +31,20 @@ namespace SiaERP.ViewModels
         #region Property encapsulation
         public ObservableCollection<Customer> ListCustomers 
         { 
-            get => listcustomers;
+            get => _Listcustomers;
             set
             {
-                listcustomers = value;
+                _Listcustomers = value;
                 OnPropertyChanged(nameof(ListCustomers));
             }
         }
 
-        public Customer SelectedCustomer 
+        public Customer? SelectedCustomer 
         {
-            get => selectedcustomer;
+            get => _Selectedcustomer;
             set
             {
-                selectedcustomer = value;
+                _Selectedcustomer = value;
                 SelectionItemChanged();
                 OnPropertyChanged(nameof(SelectedCustomer));
             }
@@ -52,10 +52,10 @@ namespace SiaERP.ViewModels
 
 		public Customer? AuxiliarCustomer 
         { 
-            get => auxiliarcustomer;
+            get => _Auxiliarcustomer;
             set
             {
-                auxiliarcustomer = value;
+                _Auxiliarcustomer = value;
                 OnPropertyChanged(nameof(AuxiliarCustomer));
             }
         }
@@ -91,7 +91,7 @@ namespace SiaERP.ViewModels
         }
         #endregion
 
-        //Define commands
+        #region Define commands
         public ICommand CmdNew { get; }
         public ICommand CmdDelete { get; }
         public ICommand CmdModify { get; }
@@ -101,6 +101,7 @@ namespace SiaERP.ViewModels
         public ICommand CmdFilter { get; }
         public ICommand CmdLoadImage { get; }
         public ICommand CmdCollapseColumn { get; }
+        #endregion
 
         //Constructor method
         public CustomerViewModel()
@@ -123,18 +124,6 @@ namespace SiaERP.ViewModels
         private void CollapseColumnExecute(object obj)
         {
             
-        }
-
-        private void LoadImageExecute(object obj)
-        {
-            OpenFileDialog LoadFile = new OpenFileDialog();
-            LoadFile.Filter = "Image Files (*.jpg; *.png; *.bmp)|*.jpg; *.png; *.bmp";
-
-            if (LoadFile.ShowDialog() == true)
-            {
-                AuxiliarCustomer.Image = new BitmapImage(new Uri(LoadFile.FileName));
-                OnPropertyChanged(nameof(AuxiliarCustomer));
-            }
         }
 
         private void FilterExecute(object obj)
@@ -237,6 +226,18 @@ namespace SiaERP.ViewModels
                 return true;
             else
                 return false;
+        }
+
+        private void LoadImageExecute(object obj)
+        {
+            OpenFileDialog LoadFile = new OpenFileDialog();
+            LoadFile.Filter = "Image Files (*.jpg; *.png; *.bmp)|*.jpg; *.png; *.bmp";
+
+            if (LoadFile.ShowDialog() == true)
+            {
+                AuxiliarCustomer.Image = new BitmapImage(new Uri(LoadFile.FileName));
+                OnPropertyChanged(nameof(AuxiliarCustomer));
+            }
         }
 
         //Clone properties from one instance to another instance

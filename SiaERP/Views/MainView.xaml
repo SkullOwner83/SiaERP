@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:View="clr-namespace:SiaERP.Views"
 		xmlns:ViewModel="clr-namespace:SiaERP.ViewModels"
+        xmlns:Property="clr-namespace:SiaERP.Resources.Utilities"
 		mc:Ignorable="d"
 		
         Title="Sia ERP" 
@@ -19,77 +20,81 @@
     </Window.DataContext>
 
     <!-- Program body grid -->
-	<Border Background="{StaticResource ClrDimSurface}">
+    <Border Background="GhostWhite">
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition x:Name="PnlMenu"
+                <ColumnDefinition x:Name="PnlMenu"
 								  Width="{Binding LateralMenuSize}"/>
-				<ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
 			
 			<!-- Lateral menu container -->
-			<Border Background="{StaticResource ClrPrimary}" Cursor="Hand">
-				<Grid HorizontalAlignment="Left">
+			<Border Background="{StaticResource ClrPrimary}"
+                    Cursor="Hand">
+				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition x:Name="PnlMenuHeader" Height="{Binding LateralMenuSize}"/>
 						<RowDefinition Height="*"/>
 						<RowDefinition Height="48"/>
 					</Grid.RowDefinitions>
-					
-					<Button x:Name="BtnExpandPanel" Grid.Row="0"
+
+                    <Button Grid.Row="0" Width="48"
 							Style="{StaticResource MenuButtonStyle}"
-                            Command="{Binding CmdExpanLateralMenu}">
+                            Command="{Binding CmdExpanLateralMenu}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
 					</Button>
 
-					<StackPanel Orientation="Vertical" Grid.Row="1">
-						<Button x:Name="BtnCustomers"
-								Style="{StaticResource MenuButtonStyle}"
-								Command="{Binding CmdShowCustomersView}">
-							<Image Source="/Resources/Images/ButtonCustomers.png"/>
-						</Button>
+                    <StackPanel Orientation="Vertical" Grid.Row="1">
+                        <Button x:Name="BtnCustomers"
+								Content="Clientes"
+                                Property:CustomProperties.Image="/Resources/Images/ButtonCustomers.png"
+								Command="{Binding CmdShowCustomersView}"
+                                Style="{StaticResource MenuButtonStyle}"/>
 
-						<Button x:Name="BtnServices"
-								Style="{StaticResource MenuButtonStyle}">
-							<Image Source="/Resources/Images/ButtonServices.png"/>
-						</Button>
+                        <Button x:Name="BtnServices"
+                                Content="Servicios"
+                                Property:CustomProperties.Image="/Resources/Images/ButtonServices.png"
+                                Command="{Binding CmdShowServicesView}"
+								Style="{StaticResource MenuButtonStyle}"/>
 
-						<Button x:Name="BtnSales"
-								Style="{StaticResource MenuButtonStyle}">
-							<Image Source="/Resources/Images/ButtonSales.png"/>
-						</Button>
+                        <Button x:Name="BtnSales"
+                                Content="Ventas"
+								Property:CustomProperties.Image="/Resources/Images/ButtonSales.png"
+								Style="{StaticResource MenuButtonStyle}"/>
 
-						<Button x:Name="BtnProducts"
-								Style="{StaticResource MenuButtonStyle}">
-							<Image Source="/Resources/Images/ButtonProducts.png"/>
-						</Button>
+                        <Button x:Name="BtnProducts"
+                                Content="Productos"
+                                Property:CustomProperties.Image="/Resources/Images/ButtonProducts.png"
+								Style="{StaticResource MenuButtonStyle}"/>
 
-						<Button x:Name="BtnQuote"
-								Style="{StaticResource MenuButtonStyle}">
-							<Image Source="/Resources/Images/ButtonQuote.png"/>
-						</Button>
+                        <Button x:Name="BtnQuote"
+                                Content="Cotizaciones"
+                                Property:CustomProperties.Image="/Resources/Images/ButtonQuote.png"
+								Style="{StaticResource MenuButtonStyle}"/>
 
 						<Button x:Name="BtnCredit"
-								Style="{StaticResource MenuButtonStyle}">
-							<Image Source="/Resources/Images/ButtonCredit.png"/>
-						</Button>
+                                Content="Credito"
+                                Property:CustomProperties.Image="/Resources/Images/ButtonCredit.png"
+								Style="{StaticResource MenuButtonStyle}"/>
 
-						<Button x:Name="BtnInvoices"
-								Style="{StaticResource MenuButtonStyle}" Cursor="Hand">
-							<Image Source="/Resources/Images/ButtonInvoices.png"/>
-						</Button>
+                        <Button x:Name="BtnInvoices"
+                                Content="Facturas"
+                                Property:CustomProperties.Image="/Resources/Images/ButtonInvoices.png"
+								Style="{StaticResource MenuButtonStyle}" Cursor="Hand"/>
 
-						<Button x:Name="BtnNotes"
-								Style="{StaticResource MenuButtonStyle}">
-							<Image Source="/Resources/Images/ButtonNotes.png"/>
-						</Button>
+                        <Button x:Name="BtnNotes"
+                                Content="Notas"
+                                Property:CustomProperties.Image="/Resources/Images/ButtonNotes.png"
+								Style="{StaticResource MenuButtonStyle}"/>
 					</StackPanel>
 
-					<Button x:Name="BtnLogOut" Grid.Row="2"
-								Style="{StaticResource MenuButtonStyle}"
-								Padding="12"
-								Click="MtdButtonClicked">
-						<Image Source="/Resources/Images/ButtonLogOut.png"/>
-					</Button>
+                    <Button Grid.Row="2" Width="48"
+                            HorizontalAlignment="Left"
+                            Property:CustomProperties.Image="/Resources/Images/ButtonLogOut.png"
+							Style="{StaticResource MenuButtonStyle}"                            
+							Padding="12"
+							Click="MtdButtonClicked"/>
 				</Grid>
 			</Border>
 

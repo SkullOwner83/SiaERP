@@ -1,20 +1,22 @@
-﻿namespace SiaERP.Models
+﻿using System;
+
+namespace SiaERP.Models
 {
-	public class Service
+	public class Service : IDisposable
 	{
-		//Define private varibales
-		private int _Folio;
-        private int _Customer;
-        private string _Name;
-        private string _AdmissionDate;
-        private string? _DeliveryDate;
+        //Service fields
+        private int _Folio;
+		private int _Customer;
+		private string _Name;
+        private DateTime _AdmissionDate;
+        private DateTime _DeliveryDate;
         private string _Status;
         private int _Product;
         private string? _Diagnostic;
 		private string? _ProblemOrService;
 
-		//Define public properties
-		public int Folio 
+        //Service Properties
+        public int Folio 
 		{ 
 			get => _Folio; 
 			set => _Folio = value; 
@@ -32,13 +34,13 @@
 			set => _Name = value;
 		}
 
-		public string AdmissionDate 
+		public DateTime AdmissionDate 
 		{ 
 			get => _AdmissionDate; 
 			set => _AdmissionDate = value; 
 		}
 
-		public string? DeliveryDate 
+		public DateTime DeliveryDate 
 		{ 
 			get => _DeliveryDate; 
 			set => _DeliveryDate = value; 
@@ -67,5 +69,16 @@
 			get => _ProblemOrService; 
 			set => _ProblemOrService = value; 
 		}
-	}
+
+		//Constructor method
+		public Service()
+		{
+			AdmissionDate = DateTime.Now;
+        }
+
+        public void Dispose()
+        {
+            
+        }
+    }
 }

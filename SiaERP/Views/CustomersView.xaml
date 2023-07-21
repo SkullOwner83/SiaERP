@@ -18,11 +18,9 @@
     <UserControl.Resources>
         <Utilities:BooleanInverse x:Key="BooleanInverse"/>
         <Utilities:IntToBoolean x:Key="IntToBoolean"/>
-        <Utilities:WidthToHeight x:Key="WidthToHeight"/>
         <Utilities:PhoneNumberForamt x:Key="PhoneNumberForamt"/>
-    </UserControl.Resources>             
-    
-    <!-- Draw user control -->
+    </UserControl.Resources>
+
     <!-- Draw user control -->
     <Border Background="GhostWhite">
         <Grid>
@@ -85,27 +83,70 @@
             <!-- Customers data grid -->
             <DataGrid Grid.Row="1" Grid.ColumnSpan="2"
                       ItemsSource="{Binding ListCustomers}"
-                      Style="{StaticResource DataGridStyle}"
                       SelectedItem="{Binding SelectedCustomer}"
+                      Style="{StaticResource DataGridStyle}"
                       Margin="0 0 16 0">
 
-                <!-- Double click on item trigger -->
-                <Behaviors:Interaction.Triggers>
-                    <Behaviors:EventTrigger EventName="MouseDoubleClick">
-                        <Behaviors:InvokeCommandAction Command="{Binding CmdModify}"/>
-                    </Behaviors:EventTrigger>
-                </Behaviors:Interaction.Triggers>
+                <!-- Double click on item event -->
+                <DataGrid.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick"
+                      Command="{Binding DataContext.CmdModify, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                      CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                </DataGrid.InputBindings>
 
                 <!-- Column headers definition -->
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn CanUserReorder="False"
+                    <!-- Customer type column -->
+                    <DataGridTemplateColumn Width="26"
+                                            CanUserReorder="False"
                                             CanUserResize="False"
-                                            CanUserSort="False"
-                                            Width="26">
+                                            CanUserSort="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Source="/Resources/Images/CustomerType.png"
-                                       Stretch="Uniform"/>
+                                <Image Stretch="Uniform">
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <!-- Set customer type image -->
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Trusted}" Value="False"/>
+                                                        <Condition Binding="{Binding Type}" Value="1"/>
+                                                    </MultiDataTrigger.Conditions>
+
+                                                    <Setter Property="Source" Value="/Resources/Images/ImgCustomerIndividual.png"/>
+                                                </MultiDataTrigger>
+
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Trusted}" Value="True"/>
+                                                        <Condition Binding="{Binding Type}" Value="1"/>
+                                                    </MultiDataTrigger.Conditions>
+
+                                                    <Setter Property="Source" Value="/Resources/Images/ImgCustomerIndividualTrusted.png"/>
+                                                </MultiDataTrigger>
+
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Trusted}" Value="False"/>
+                                                        <Condition Binding="{Binding Type}" Value="2"/>
+                                                    </MultiDataTrigger.Conditions>
+
+                                                    <Setter Property="Source" Value="/Resources/Images/ImgCustomerEnterprice.png"/>
+                                                </MultiDataTrigger>
+
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Trusted}" Value="True"/>
+                                                        <Condition Binding="{Binding Type}" Value="2"/>
+                                                    </MultiDataTrigger.Conditions>
+
+                                                    <Setter Property="Source" Value="/Resources/Images/ImgCustomerEnterpriceTrusted.png"/>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -128,12 +169,13 @@
                 </DataGrid.Columns>
             </DataGrid>
 
+            <!-- Customer data tabcontrol -->
             <TabControl Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
                         Style="{StaticResource TabControlStyle}">
                 <!-- Customer general data form -->
                 <TabItem Header="Datos generales"
                          IsSelected="True">
-                    <Grid Grid.Column="2" Grid.Row="1">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
@@ -145,7 +187,8 @@
                         </Grid.RowDefinitions>
 
                         <!-- Customer register data -->
-                        <StackPanel Grid.Row="0" Grid.Column="0">
+                        <StackPanel Grid.Row="0" Grid.Column="0"
+                                    x:Name="ImageColumn">
                             <RadioButton Content="Individuo"
                                          IsChecked="{Binding AuxiliarCustomer.Type, Converter={StaticResource IntToBoolean}, ConverterParameter=1, Mode=TwoWay}"
                                          IsEnabled="{Binding EnableEdition}"
@@ -173,10 +216,11 @@
 
                         <!-- Load customer image -->
                         <Button Grid.Row="0" Grid.Column="1"
-                                Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource WidthToHeight}}"
+                                Width="{Binding ElementName=ImageColumn, Path=ActualHeight, Mode=OneWay}"
                                 Style="{StaticResource LoadImageButtonStyle}"
                                 Command="{Binding CmdLoadImage}"
-                                Margin="24 0 0 0">
+                                ClickMode="Release"
+                                Margin="28 0 0 0">
                             <Button.Background>
                                 <ImageBrush ImageSource="{Binding AuxiliarCustomer.Image}"
                                        Stretch="UniformToFill"
