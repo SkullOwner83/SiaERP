@@ -59,10 +59,6 @@ namespace SiaERP.ViewModels
 			CmdLogIn = new ViewModelCommand(LogInExecute, LogInCanExecute);
 			CmdCancel = new ViewModelCommand(CancelExecute);
 			CmdEnterKey = new ViewModelCommand(EnterKeyExecute);
-
-			//Check if can establish connection with database
-			SqlDatabaseConnection Connection = new SqlDatabaseConnection();
-			DatabaseLocation = Connection.GetConnection() != null ? "MySql" : "Local";
 		}
 
 		private bool LogInCanExecute(object obj)

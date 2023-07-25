@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using SiaERP.Resources.Utilities;
 using SiaERP.Views;
-using Models;
+using SiaERP.Models;
 using System.Security.Cryptography.X509Certificates;
 
 namespace SiaERP.ViewModels
@@ -41,17 +41,21 @@ namespace SiaERP.ViewModels
         public ICommand CmdShowCustomersView { get; }
         public ICommand CmdShowServicesView { get; }
         public ICommand CmdExpanLateralMenu { get; }
+        public ICommand CmdShowProductsView { get; }
 
         //Contructor method
         public MainViewModel()
 		{
 			CmdShowCustomersView = new ViewModelCommand(ShowCustomersViewExecute);
-            CmdExpanLateralMenu = new ViewModelCommand(ExpandLateralMenuExecute);
             CmdShowServicesView = new ViewModelCommand(ShowServicesViewExecute);
+            CmdShowProductsView = new ViewModelCommand(ShowProductsViewExecute);
+            CmdExpanLateralMenu = new ViewModelCommand(ExpandLateralMenuExecute);
         }
+
 
         private void ShowCustomersViewExecute(object obj) => CurrentView = new CustomerViewModel();
         private void ShowServicesViewExecute(object obj) => CurrentView = new ServiceViewModel();
+        private void ShowProductsViewExecute(object obj) => CurrentView = new ProductsViewModel();
 
         private void ExpandLateralMenuExecute(object obj)
         {

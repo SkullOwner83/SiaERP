@@ -1,20 +1,24 @@
-﻿namespace SiaERP.Models
+﻿using System;
+using System.Windows.Media.Imaging;
+
+namespace SiaERP.Models
 {
-	internal class Product
+	internal class Product : IDisposable
 	{
 		//Define private varibales
 		private int _Id;
-		private string _ProductType;
-		private string _Catergory;
+		private int _Type;
+		private int _Category;
 		private int _Supplier;
 		private string _Name;
+		private string? _Brand;
 		private string? _Description;
-		private byte[] _Image;
 		private string? _Code;
 		private decimal _BuyPrice;
 		private decimal _SalePrice;
 		private int _Stock;
 		private int _MinStock;
+		private BitmapImage? _Image;
 
 		//Define public properties
 		public int Id
@@ -23,16 +27,16 @@
 			set => _Id = value; 
 		}
 
-		public string ProductType
+		public int Type
 		{ 
-			get => _ProductType; 
-			set => _ProductType = value; 
+			get => _Type; 
+			set => _Type = value; 
 		}
 
-		public string Catergory
+		public int Category
 		{ 
-			get => _Catergory; 
-			set => _Catergory = value; 
+			get => _Category; 
+			set => _Category = value; 
 		}
 
 		public int Supplier 
@@ -41,22 +45,22 @@
 			set => _Supplier = value;
 		}
 
-		public string Name 
+		public string Name
 		{ 
 			get => _Name; 
 			set => _Name = value; 
 		}
 
-		public string? Description 
+        public string? Brand
+        {
+            get => _Brand;
+            set => _Brand = value;
+        }
+
+        public string? Description 
 		{ 
 			get => _Description; 
 			set => _Description = value;
-		}
-
-		public byte[] Image
-		{ 
-			get => _Image; 
-			set => _Image = value; 
 		}
 
 		public string? Code 
@@ -87,5 +91,24 @@
 			get => _MinStock; 
 			set => _MinStock = value; 
 		}
-	}
+        public BitmapImage? Image
+        {
+            get => _Image;
+            set => _Image = value;
+        }
+
+        public Product()
+		{
+			Type = 1;
+			BuyPrice = 0;
+			SalePrice = 0;
+			Stock = 0;
+			MinStock = 10;
+		}
+
+        public void Dispose()
+        {
+            
+        }
+    }
 }

@@ -6,45 +6,48 @@ using SiaERP.Models;
 
 namespace SiaERP.Data
 {
-	internal class SqlUserQuery
+	internal class SqlUserQuery : SqlDatabase
 	{
 		//Define variables
-		private SqlDatabaseConnection Connection;
 		private ObservableCollection<User> ListUsers;
 
 		//Constructor method
 		public SqlUserQuery()
 		{
-			Connection = new SqlDatabaseConnection();
 			ListUsers = new ObservableCollection<User>();
-		}
+            PrimaryKey = "idUser";
+        }
 
 		//Extract objects from database of users type
 		internal ObservableCollection<User> Get()
 		{
 			string Query = "SELECT * FROM Users ";
 
-			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
+			using(Connection = GetConnection())
 			{
-				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
-				MySqlDataReader Reader = Command.ExecuteReader();
-
-				while(Reader.Read())
+				using (MySqlCommand Command = new MySqlCommand(Query, Connection))
 				{
-					//Create one instance with data obtained of conexion and save in list users
-					ListUsers.Add(new User()
-					{
-						Id = (int)Reader["idUser"],
-						Name = (string)Reader["Name"],
-						UserName = (string)Reader["UserName"],
-						Password = (string)Reader["Password"],
-						AccountType = (string)Reader["AccountType"],
-						NumberPhone = (string)Reader["NumberPhone"]
-					});
-				}
+					Connection.Open();
+					MySqlDataReader Reader = Command.ExecuteReader();
 
-				Reader.Close();
-				ConnectionOpended.Close();
+					while(Reader.Read())
+					{
+						//Create one instance with data obtained of conexion and save in list users
+						ListUsers.Add(new User()
+						{
+							Id = (int)Reader["idUser"],
+							Name = (string)Reader["Name"],
+							UserName = (string)Reader["UserName"],
+							Password = (string)Reader["Password"],
+							AccountType = (string)Reader["AccountType"],
+							NumberPhone = (string)Reader["NumberPhone"]
+						});
+					}
+
+
+					Reader.Close();
+                    Connection.Close();
+				}
 			}
 
 			return ListUsers;
@@ -55,10 +58,10 @@ namespace SiaERP.Data
 		{
 			string Query = "INSERT INTO Users VALUES(@id, @name, @userName, @password, @accountType, @numberPhone);";
 
-			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
+			using(Connection = GetConnection())
 			{
-				ConnectionOpended.Open();
-				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
+                Connection.Open();
+				MySqlCommand Command = new MySqlCommand(Query, Connection);
 				Command.Parameters.AddWithValue("@id", Model.Id);
 				Command.Parameters.AddWithValue("@name", Model.Name);
 				Command.Parameters.AddWithValue("@userName", Model.UserName);
@@ -66,7 +69,7 @@ namespace SiaERP.Data
 				Command.Parameters.AddWithValue("@accountType", Model.AccountType);
 				Command.Parameters.AddWithValue("@numberPhone", Model.NumberPhone);
 				Command.ExecuteNonQuery();
-				ConnectionOpended.Close();
+                Connection.Close();
 			}
 		}
 
@@ -75,12 +78,15 @@ namespace SiaERP.Data
 		{
 			string Query = "DELETE FROM Users WHERE idUser = @id";
 
-			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
+			using(Connection = GetConnection())
 			{
-				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
-				Command.Parameters.AddWithValue("@id", Model.Id);
-				Command.ExecuteNonQuery();
-				ConnectionOpended.Close();
+				using (MySqlCommand Command = new MySqlCommand(Query, Connection))
+				{
+                    Connection.Open();
+                    Command.Parameters.AddWithValue("@id", Model.Id);
+					Command.ExecuteNonQuery();
+                    Connection.Close();
+				}
 			}
 		}
 
@@ -89,17 +95,20 @@ namespace SiaERP.Data
 		{
 			string Query = "UPDATE Users SET Name=@name, UserName=@userName, Password=@password, AccountType=@accountType, NumberPhone=@numberPhone";
 
-			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
+			using(Connection = GetConnection())
 			{
-				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
-				Command.Parameters.AddWithValue("@id", Model.Id);
-				Command.Parameters.AddWithValue("@name", Model.Name);
-				Command.Parameters.AddWithValue("@userName", Model.UserName);
-				Command.Parameters.AddWithValue("@password", Model.Password);
-				Command.Parameters.AddWithValue("@accountType", Model.AccountType);
-				Command.Parameters.AddWithValue("@numberPhone", Model.NumberPhone);
-				Command.ExecuteNonQuery();
-				ConnectionOpended.Close();
+				using (MySqlCommand Command = new MySqlCommand(Query, Connection))
+				{
+                    Connection.Open();
+                    Command.Parameters.AddWithValue("@id", Model.Id);
+					Command.Parameters.AddWithValue("@name", Model.Name);
+					Command.Parameters.AddWithValue("@userName", Model.UserName);
+					Command.Parameters.AddWithValue("@password", Model.Password);
+					Command.Parameters.AddWithValue("@accountType", Model.AccountType);
+					Command.Parameters.AddWithValue("@numberPhone", Model.NumberPhone);
+					Command.ExecuteNonQuery();
+					Connection.Close();
+				}
 			}
 		}
 
@@ -109,13 +118,16 @@ namespace SiaERP.Data
 			bool ValidUser;
 			string Query = "SELECT * FROM Users WHERE UserName=@UserName and Password=@Password";
 
-			using(MySqlConnection ConnectionOpended = Connection.GetConnection())
+			using(Connection = GetConnection())
 			{
-				MySqlCommand Command = new MySqlCommand(Query, ConnectionOpended);
-				Command.Parameters.Add("@UserName", MySqlDbType.VarChar).Value=Credential.UserName;
-				Command.Parameters.Add("@Password", MySqlDbType.VarChar).Value=Credential.Password;
-				ValidUser=Command.ExecuteScalar()==null?false:true;
-				ConnectionOpended.Close();
+				using (MySqlCommand Command = new MySqlCommand(Query, Connection))
+				{
+                    Connection.Open();
+                    Command.Parameters.Add("@UserName", MySqlDbType.VarChar).Value = Credential.UserName;
+					Command.Parameters.Add("@Password", MySqlDbType.VarChar).Value = Credential.Password;
+					ValidUser = Command.ExecuteScalar() == null ? false : true;
+                    Connection.Close();
+				}
 			}
 
 			return ValidUser;

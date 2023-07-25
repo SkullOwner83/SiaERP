@@ -3,11 +3,19 @@
                     xmlns:ViewModel="clr-namespace:SiaERP.ViewModels"
                     xmlns:View="clr-namespace:SiaERP.Views">
     
+    <DataTemplate DataType="{x:Type ViewModel:LogInViewModel}">
+        <View:LogInView/>
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModel:CustomerViewModel}">
         <View:CustomersView/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModel:ServiceViewModel}">
         <View:ServicesView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModel:ProductsViewModel}">
+        <View:ProductsView/>
     </DataTemplate>
 </ResourceDictionary>

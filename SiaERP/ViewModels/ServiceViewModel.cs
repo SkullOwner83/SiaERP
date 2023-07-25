@@ -1,6 +1,5 @@
-﻿using Models;
+﻿using SiaERP.Models;
 using SiaERP.Data;
-using SiaERP.Models;
 using SiaERP.Resources.Utilities;
 using System;
 using System.Collections.ObjectModel;
@@ -17,7 +16,7 @@ namespace SiaERP.ViewModels
         private ObservableCollection<Service> _ListServices;
         private ObservableCollection<Customer> _ListCustomers;
         private Service? _SelectedService;
-        private Customer? _Selectedcustomer;
+        private Customer? _SelectedCustomer;
         private Service? _AuxiliarService;
         private bool _EnableEdition = false;
         private string Action = "None";
@@ -55,13 +54,13 @@ namespace SiaERP.ViewModels
             }
         }
 
-        public Customer? Selectedcustomer
+        public Customer? SelectedCustomer
         {
-            get => _Selectedcustomer;
+            get => _SelectedCustomer;
             set
             {
-                _Selectedcustomer = value;
-                OnPropertyChanged(nameof(Selectedcustomer));
+                _SelectedCustomer = value;
+                OnPropertyChanged(nameof(SelectedCustomer));
             }
         }
 

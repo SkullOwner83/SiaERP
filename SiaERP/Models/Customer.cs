@@ -6,117 +6,117 @@ using System.Windows.Media.TextFormatting;
 using System.ComponentModel;
 using System.Windows.Media.Imaging;
 
-namespace Models
+namespace SiaERP.Models
 {
     public class Customer : IDisposable
     {
 		//Customer fields
-        private int id;
-        private int type;
-        private string name;
-        private string rfc;
-        private string phonenumber;
-        private string email;
-        private string adress;
-        private string city;
-        private string state;
-        private string country;
-        private string postalcode;
-        private string taxregime;
-		private DateTime registerdate;
-		private bool trusted;
-		private BitmapImage image;
+        private int _Id;
+        private int _Type;
+        private string _Name;
+        private string? _RFC;
+        private string? _PhoneNumber;
+        private string? _Email;
+        private string? _Adress;
+        private string? _City;
+        private string? _State;
+        private string? _Country;
+        private string? _PostalCode;
+        private string? _Taxregime;
+		private DateTime _Registerdate;
+        private BitmapImage? _Image;
+        private bool _Trusted;
 
 
         //Customer properties
         public int Id
 		{
-			get { return id; }
-			set { id = value;}
+			get { return _Id; }
+			set { _Id = value;}
 		}
 
 		public int Type
 		{
-			get { return type; }
-			set { type = value; }
+			get { return _Type; }
+			set { _Type = value; }
 		}
 
 		public string Name
 		{
-			get { return name; }
-			set { name = value; }
+			get { return _Name; }
+			set { _Name = value; }
 		}
 
-		public string RFC
+		public string? RFC
 		{
-			get { return rfc; }
-			set { rfc = value; }
+			get { return _RFC; }
+			set { _RFC = value; }
 		}
 
-		public string PhoneNumber
+		public string? PhoneNumber
 		{
-			get { return phonenumber; }
-			set { phonenumber = value; }
+			get { return _PhoneNumber; }
+			set { _PhoneNumber = value; }
 		}
 
-		public string Email
+		public string? Email
 		{
-			get { return email; }
-			set { email = value; }
+			get { return _Email; }
+			set { _Email = value; }
 		}
 
-		public string Adress
+		public string? Adress
 		{
-			get { return adress; }
-			set { adress = value; }
+			get { return _Adress; }
+			set { _Adress = value; }
 		}
 
-		public string City
+		public string? City
 		{
-			get { return city; }
-			set { city = value; }
+			get { return _City; }
+			set { _City = value; }
 		}
 
-		public string State
+		public string? State
 		{
-			get { return state; }
-			set { state = value; }
+			get { return _State; }
+			set { _State = value; }
 		}
 
-		public string Country
+		public string? Country
 		{
-			get { return country; }
-			set { country = value; }
+			get { return _Country; }
+			set { _Country = value; }
 		}
 
-		public string PostalCode
+		public string? PostalCode
 		{
-			get { return postalcode; }
-			set { postalcode = value; }
+			get { return _PostalCode; }
+			set { _PostalCode = value; }
 		}
 
-		public string TaxRegime
+		public string? TaxRegime
 		{
-			get { return taxregime; }
-			set { taxregime = value; }
+			get { return _Taxregime; }
+			set { _Taxregime = value; }
 		}
 
 		public DateTime RegisterDate
 		{
-			get { return registerdate; }
-			set { registerdate = value; }
+			get { return _Registerdate; }
+			set { _Registerdate = value; }
 		}
 
         public bool Trusted 
 		{ 
-			get => trusted; 
-			set => trusted = value; 
+			get => _Trusted; 
+			set => _Trusted = value; 
 		}
 
-        public BitmapImage Image
+        public BitmapImage? Image
 		{ 
-			get => image; 
-			set => image = value; 
+			get => _Image; 
+			set => _Image = value; 
 		}
 
         //Constructor method

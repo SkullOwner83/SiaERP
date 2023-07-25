@@ -1,9 +1,9 @@
 ﻿using SiaERP.Resources.Utilities;
 using System.Collections.ObjectModel;
+using SiaERP.Models;
 using SiaERP.Data;
 using System.Windows.Input;
 using System.Windows;
-using Models;
 using System.Reflection;
 
 
@@ -19,14 +19,14 @@ namespace SiaERP.ViewModels
     internal class CustomerViewModel : ViewModelBase
 	{
         //Define property class
-        private SqlCustomerQuery Query;
+        private SqlCustomerQuery CustomerQuery;
         private ObservableCollection<Customer> _Listcustomers;
-        private Customer? _Selectedcustomer;
-        private Customer? _Auxiliarcustomer;
+        private Customer? _SelectedCustomer;
+        private Customer? _AuxiliarCustomer;
+        private ImageSource _CustomerImage;
         private bool _EnableEdition = false;
         private string Action = "None";
         private string _Filter;
-        private ImageSource _CustomerImage;
 
         #region Property encapsulation
         public ObservableCollection<Customer> ListCustomers 
@@ -41,10 +41,10 @@ namespace SiaERP.ViewModels
 
         public Customer? SelectedCustomer 
         {
-            get => _Selectedcustomer;
+            get => _SelectedCustomer;
             set
             {
-                _Selectedcustomer = value;
+                _SelectedCustomer = value;
                 SelectionItemChanged();
                 OnPropertyChanged(nameof(SelectedCustomer));
             }
@@ -52,11 +52,21 @@ namespace SiaERP.ViewModels
 
 		public Customer? AuxiliarCustomer 
         { 
-            get => _Auxiliarcustomer;
+            get => _AuxiliarCustomer;
             set
             {
-                _Auxiliarcustomer = value;
+                _AuxiliarCustomer = value;
                 OnPropertyChanged(nameof(AuxiliarCustomer));
+            }
+        }
+
+        public ImageSource CustomerImage
+        {
+            get => _CustomerImage;
+            set
+            {
+                _CustomerImage = value;
+                OnPropertyChanged(nameof(CustomerImage));
             }
         }
 
@@ -79,16 +89,6 @@ namespace SiaERP.ViewModels
                 OnPropertyChanged(nameof(Filter));
             }
         }
-        
-        public ImageSource CustomerImage
-        {
-            get => _CustomerImage;
-            set
-            {
-                _CustomerImage = value;
-                OnPropertyChanged(nameof(CustomerImage));
-            }
-        }
         #endregion
 
         #region Define commands
@@ -106,7 +106,6 @@ namespace SiaERP.ViewModels
         //Constructor method
         public CustomerViewModel()
         {
-            Query = new SqlCustomerQuery();
             CmdNew = new ViewModelCommand(CreateCustomerExecute, CreateCustomerCanExecute);
             CmdDelete = new ViewModelCommand(DeleteCustomerExecute, DeleteCustomerCanExecute);
             CmdModify = new ViewModelCommand(UpdateCustomerExecute, DeleteCustomerCanExecute);
@@ -117,8 +116,9 @@ namespace SiaERP.ViewModels
             CmdLoadImage = new ViewModelCommand(LoadImageExecute, ActionCanExecute);
             CmdCollapseColumn = new ViewModelCommand(CollapseColumnExecute);
 
+            CustomerQuery = new SqlCustomerQuery();
             ListCustomers = new ObservableCollection<Customer>();
-            ListCustomers = Query.Read();
+            ListCustomers = CustomerQuery.Read();
         }
 
         private void CollapseColumnExecute(object obj)
@@ -130,7 +130,7 @@ namespace SiaERP.ViewModels
         {
 
             ListCustomers.Clear();
-            Query.Read(Filter);
+            CustomerQuery.Read(Filter);
         }
 
         //Set properties of selected item in the form
@@ -156,7 +156,7 @@ namespace SiaERP.ViewModels
 
             //Clear the auxiliar customer, get last id in database and call property to update view
             AuxiliarCustomer = CloneObject(null);
-            AuxiliarCustomer.Id = Query.LastId() + 1;
+            AuxiliarCustomer.Id = CustomerQuery.LastId() + 1;
             OnPropertyChanged(nameof(AuxiliarCustomer));
         }
 
@@ -175,7 +175,7 @@ namespace SiaERP.ViewModels
 
             if (Result == MessageBoxResult.Yes)
             {
-                Query.Delete(SelectedCustomer);
+                CustomerQuery.Delete(SelectedCustomer);
                 ListCustomers.Remove(SelectedCustomer);
                 AuxiliarCustomer = null;
             }
@@ -185,15 +185,15 @@ namespace SiaERP.ViewModels
         {
             if (Action == "Create")
             {
-                Query.Create(AuxiliarCustomer);
+                CustomerQuery.Create(AuxiliarCustomer);
             }
             else if (Action == "Update")
             {
-                Query.Update(AuxiliarCustomer);
+                CustomerQuery.Update(AuxiliarCustomer);
             }
 
             ListCustomers.Clear();
-            ListCustomers = Query.Read();
+            ListCustomers = CustomerQuery.Read();
             EnableEdition = false;
         }
 
@@ -228,6 +228,7 @@ namespace SiaERP.ViewModels
                 return false;
         }
 
+        //Load customer image from file explorer
         private void LoadImageExecute(object obj)
         {
             OpenFileDialog LoadFile = new OpenFileDialog();

@@ -150,15 +150,15 @@
                                         Margin="16 0 0 0">
                                 <TextBlock Text="Fecha de ingreso:"
                                        Style="{StaticResource FormLabelStyle}"/>
-                                <TextBox Text="{Binding AuxiliarService.AdmissionDate}"
+                                <TextBox Text="{Binding AuxiliarService.AdmissionDate, StringFormat=\{0:dd/MM/yyyy\}}"
                                      IsReadOnly="True"
                                      Style="{StaticResource TextBoxStyle}"
                                      Margin="0 0 0 8"/>
 
                                 <TextBlock Text="Fecha de entrega:"
                                        Style="{StaticResource FormLabelStyle}"/>
-                                <TextBox Text="{Binding AuxiliarService.DeliveryDate}"
-                                     IsReadOnly="True"
+                                <TextBox Text="{Binding AuxiliarService.DeliveryDate, StringFormat=\{0:dd/MM/yyyy\}, Mode=TwoWay}"
+                                     IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
                                      Style="{StaticResource TextBoxStyle}"/>
                             </StackPanel>
 

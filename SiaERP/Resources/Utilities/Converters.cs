@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Data;
 
 namespace SiaERP.Resources.Utilities
@@ -43,7 +44,7 @@ namespace SiaERP.Resources.Utilities
         public object ConvertBack(object Value, Type TargetType, object Parameter, CultureInfo Culture)
         {
             //Return the parameter in view model when changing value control
-            if (Value is bool isChecked && isChecked && int.TryParse(Parameter.ToString(), out int OptionValue))
+            if ((Value is bool isChecked && isChecked == true) && int.TryParse(Parameter.ToString(), out int OptionValue))
             {
                 return OptionValue;
             }
@@ -100,4 +101,24 @@ namespace SiaERP.Resources.Utilities
             return Value;
         }
     }
+
+    //Insert the currency symbol to valyue if is read only
+    public class CurrencyFormat : IValueConverter
+    {
+        public object Convert(object Value, Type TargetType, object Parameter, CultureInfo Culture)
+        {
+            if (Value is decimal Price)
+            {
+                return $"${Price}";
+            }
+
+            return Value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
 }
+
