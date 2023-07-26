@@ -19,6 +19,7 @@
         <Utilities:BooleanInverse x:Key="BooleanInverse"/>
         <Utilities:IntToBoolean x:Key="IntToBoolean"/>
         <Utilities:PhoneNumberForamt x:Key="PhoneNumberForamt"/>
+        <Utilities:BooleanToVisibility x:Key="BooleanToVisibility"/>
     </UserControl.Resources>
 
     <!-- Draw user control -->
@@ -27,7 +28,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
@@ -46,11 +47,10 @@
                            Style="{StaticResource BoldLabelStyle}"
                            Margin="0 0 8 0"/>
                 <ComboBox Width="200"
-                          Style="{StaticResource ComboBoxStyle}"
-                          
                           SelectedIndex="0"
                           IsEditable="False"
-                          IsEnabled="True">
+                          IsEnabled="True"
+                          Style="{StaticResource ComboBoxStyle}">
 
                     <ComboBoxItem Content="2021"/>
                     <ComboBoxItem Content="2022"/>
@@ -171,6 +171,7 @@
 
             <!-- Customer data tabcontrol -->
             <TabControl Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
+                        HorizontalAlignment="Right"
                         Style="{StaticResource TabControlStyle}">
                 <!-- Customer general data form -->
                 <TabItem Header="Datos generales"
@@ -314,26 +315,30 @@
                 <Button Width="100" Height="32" 
                         Content="Nuevo"
                         Margin="0 16 16 0"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdNew}"/>
+                        CommandParameter="Create"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Modificar"
                         Margin="0 16 16 0"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdModify}"/>
+                        CommandParameter="Update"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Eliminar"
                         Margin="0 16 16 0"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdDelete}"/>
+                        CommandParameter="Delete"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Imprimir"
                         Margin="0 16 16 0"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdPrint}"/>
+                        CommandParameter="Print"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
             </StackPanel>
 
             <!-- Execute CRUD buttons -->
@@ -344,12 +349,14 @@
                 <Button Width="100" Height="32" 
                         Content="Aceptar"
                         Margin="0 16 16 0"
+                        Visibility="{Binding CollapsedColumn, Converter={StaticResource BooleanToVisibility}}"
                         Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdAcept}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Cancelar"
                         Margin="0 16 0 0"
+                        Visibility="{Binding CollapsedColumn, Converter={StaticResource BooleanToVisibility}}"
                         Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdCancel}"/>
             </StackPanel>

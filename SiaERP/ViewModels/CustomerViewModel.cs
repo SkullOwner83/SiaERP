@@ -1,18 +1,14 @@
-﻿using SiaERP.Resources.Utilities;
-using System.Collections.ObjectModel;
-using SiaERP.Models;
-using SiaERP.Data;
+﻿using System.Collections.ObjectModel;
+using SiaERP.Resources.Utilities;
+using System.Reflection;
+using Microsoft.Win32;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
-using System.Reflection;
-
-
-using MySql.Data.MySqlClient;
+using SiaERP.Data;
+using SiaERP.Models;
 using System;
-using Microsoft.Win32;
-using System.IO;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace SiaERP.ViewModels
 {
@@ -20,16 +16,17 @@ namespace SiaERP.ViewModels
 	{
         //Define property class
         private SqlCustomerQuery CustomerQuery;
-        private ObservableCollection<Customer> _Listcustomers;
+        private ObservableCollection<Customer>? _Listcustomers;
         private Customer? _SelectedCustomer;
         private Customer? _AuxiliarCustomer;
-        private ImageSource _CustomerImage;
+        private ImageSource? _CustomerImage;
         private bool _EnableEdition = false;
+        private string? _Filter;
         private string Action = "None";
-        private string _Filter;
+        private bool _CollapsedColumn = false;
 
         #region Property encapsulation
-        public ObservableCollection<Customer> ListCustomers 
+        public ObservableCollection<Customer>? ListCustomers 
         { 
             get => _Listcustomers;
             set
@@ -60,7 +57,7 @@ namespace SiaERP.ViewModels
             }
         }
 
-        public ImageSource CustomerImage
+        public ImageSource? CustomerImage
         {
             get => _CustomerImage;
             set
@@ -80,7 +77,7 @@ namespace SiaERP.ViewModels
             }
         }
 
-        public string Filter 
+        public string? Filter 
         { 
             get => _Filter;
             set
@@ -89,13 +86,20 @@ namespace SiaERP.ViewModels
                 OnPropertyChanged(nameof(Filter));
             }
         }
+
+        public bool CollapsedColumn
+        {
+            get => _CollapsedColumn;
+            set
+            {
+                _CollapsedColumn = value;
+                OnPropertyChanged(nameof(CollapsedColumn));
+            }
+        }
         #endregion
 
         #region Define commands
-        public ICommand CmdNew { get; }
-        public ICommand CmdDelete { get; }
-        public ICommand CmdModify { get; }
-        public ICommand CmdPrint { get; }
+        public ICommand CmdCRUD { get; }      
         public ICommand CmdAcept { get; }
         public ICommand CmdCancel { get; }
         public ICommand CmdFilter { get; }
@@ -106,10 +110,7 @@ namespace SiaERP.ViewModels
         //Constructor method
         public CustomerViewModel()
         {
-            CmdNew = new ViewModelCommand(CreateCustomerExecute, CreateCustomerCanExecute);
-            CmdDelete = new ViewModelCommand(DeleteCustomerExecute, DeleteCustomerCanExecute);
-            CmdModify = new ViewModelCommand(UpdateCustomerExecute, DeleteCustomerCanExecute);
-            CmdPrint = new ViewModelCommand(UpdateCustomerExecute, DeleteCustomerCanExecute);
+            CmdCRUD = new ViewModelCommand(CRUDExecute, CRUDCanExecute);
             CmdAcept = new ViewModelCommand(AceptActionExecute, ActionCanExecute);
             CmdCancel = new ViewModelCommand(CancelActionExecute, ActionCanExecute);
             CmdFilter = new ViewModelCommand(FilterExecute);
@@ -121,21 +122,9 @@ namespace SiaERP.ViewModels
             ListCustomers = CustomerQuery.Read();
         }
 
-        private void CollapseColumnExecute(object obj)
-        {
-            
-        }
-
-        private void FilterExecute(object obj)
-        {
-
-            ListCustomers.Clear();
-            CustomerQuery.Read(Filter);
-        }
-
         //Set properties of selected item in the form
         private void SelectionItemChanged()
-		{
+        {
             if (EnableEdition == false)
             {
                 if (AuxiliarCustomer == null)
@@ -143,42 +132,85 @@ namespace SiaERP.ViewModels
                     AuxiliarCustomer = new Customer();
                 }
 
+                //Clone the object selected and assign it to currently being edited
                 AuxiliarCustomer = CloneObject(SelectedCustomer);
             }
-		}
-
-        //Create new customer register
-		private void CreateCustomerExecute(object obj)
-        {
-            EnableEdition = true;
-            Filter = string.Empty;
-            Action = "Create";
-
-            //Clear the auxiliar customer, get last id in database and call property to update view
-            AuxiliarCustomer = CloneObject(null);
-            AuxiliarCustomer.Id = CustomerQuery.LastId() + 1;
-            OnPropertyChanged(nameof(AuxiliarCustomer));
         }
 
-        //Update data of customer in database
-        private void UpdateCustomerExecute(object obj)
+        //Database query management execute command
+        private void CRUDExecute(object Parameter)
         {
-            EnableEdition = true;
-            Filter = string.Empty;
-            Action = "Update";
-        }
+            string? ButtonName = Parameter as string;
 
-        //Delete customer of data grid and data base
-        private void DeleteCustomerExecute(object obj)
-        {
-            MessageBoxResult Result = MessageBox.Show($"¿Estás seguro que deseas eliminar el cliente {SelectedCustomer.Name}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (Result == MessageBoxResult.Yes)
+            switch (ButtonName)
             {
-                CustomerQuery.Delete(SelectedCustomer);
-                ListCustomers.Remove(SelectedCustomer);
-                AuxiliarCustomer = null;
+                //Create new register
+                case "Create":
+                    EnableEdition = true;
+                    Filter = string.Empty;
+                    Action = "Create";
+
+                    //Clear the auxiliar customer, get last id in database and call property to update view
+                    AuxiliarCustomer = CloneObject(null);
+                    AuxiliarCustomer.Id = CustomerQuery.LastId() + 1;
+                    OnPropertyChanged(nameof(AuxiliarCustomer));
+                    break;
+
+                //Update data of register in database
+                case "Update":
+                    EnableEdition = true;
+                    Filter = string.Empty;
+                    Action = "Update";
+                    break;
+
+                //Delete register of data grid and database
+                case "Delete":
+                    MessageBoxResult Result = MessageBox.Show($"¿Estás seguro que deseas eliminar el cliente {SelectedCustomer.Name}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (Result == MessageBoxResult.Yes)
+                    {
+                        CustomerQuery.Delete(SelectedCustomer);
+                        ListCustomers.Remove(SelectedCustomer);
+                        AuxiliarCustomer = null;
+                    }
+                    break;
             }
+        }
+
+        //Database query management can execute command
+        private bool CRUDCanExecute(object Parameter)
+        {
+            string? ButtonName = Parameter as string;
+            bool CanExecute = false;
+
+            switch (ButtonName)
+            {
+                //Enable button if edition is false
+                case "Create":
+                    if (EnableEdition == false)
+                        CanExecute = true;
+                    else
+                        CanExecute = false;
+                    break;
+
+                //Enable buttons if there is an object selected in datagrid
+                case "Update":
+                case "Delete":
+                case "Print":
+                    if (SelectedCustomer != null && EnableEdition == false)
+                        CanExecute = true;
+                    else
+                        CanExecute = false;
+                    break;
+            }
+
+            return CanExecute;
+        }
+
+        private void FilterExecute(object obj)
+        {
+            ListCustomers.Clear();
+            CustomerQuery.Read(Filter);
         }
 
         private void AceptActionExecute(object obj)
@@ -204,28 +236,17 @@ namespace SiaERP.ViewModels
             Action = "None";
         }
 
-        private bool CreateCustomerCanExecute(object obj)
-        {
-            if (EnableEdition == false)
-                return true;
-            else
-                return false;
-        }
-
-        private bool DeleteCustomerCanExecute(object obj)
-        {
-            if (SelectedCustomer != null && EnableEdition == false)
-                return true;
-            else
-                return false;
-        }
-
         private bool ActionCanExecute(object obj)
         {
             if (EnableEdition == true)
                 return true;
             else
                 return false;
+        }
+
+        private void CollapseColumnExecute(object obj)
+        {
+            CollapsedColumn = !CollapsedColumn;
         }
 
         //Load customer image from file explorer

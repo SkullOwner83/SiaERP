@@ -1,34 +1,35 @@
 ﻿using System.Collections.ObjectModel;
 using SiaERP.Resources.Utilities;
-using SiaERP.Models;
 using System.Reflection;
-using System.Windows.Input;
 using Microsoft.Win32;
 using System.Windows.Media.Imaging;
-using System.Windows;
-using System;
 using System.Windows.Media;
+using System.Windows.Input;
+using System.Windows;
+using SiaERP.Models;
 using SiaERP.Data;
 using System.Linq;
+using System;
 
 namespace SiaERP.ViewModels
 {
     internal class ProductsViewModel : ViewModelBase
     {
+        //Define property class
         private SqlProductsQuery ProductsQuery;
         private SqlProductCategoryQuery CategoryQuery;
-        private ObservableCollection<Product> _ListProducts;
-        private ObservableCollection<ProductCategory> _ListCategories;
-        private Product _SelectedProduct;
-        private ProductCategory _SelectedCategory;
+        private ObservableCollection<Product>? _ListProducts;
+        private ObservableCollection<ProductCategory>? _ListCategories;
+        private Product? _SelectedProduct;
+        private ProductCategory? _SelectedCategory;
         private Product? _AuxiliarProduct;
-        private ImageSource _ProductImage;
+        private ImageSource? _ProductImage;
         private bool _EnableEdition = false;
+        private string? _Filter;
         private string Action = "None";
-        private string _Filter;
 
         #region Property encapsulation
-        public ObservableCollection<Product> ListProducts
+        public ObservableCollection<Product>? ListProducts
         { 
             get => _ListProducts;
             set
@@ -38,7 +39,7 @@ namespace SiaERP.ViewModels
             }
         }
 
-        public ObservableCollection<ProductCategory> ListCategories
+        public ObservableCollection<ProductCategory>? ListCategories
         {
             get => _ListCategories;
             set
@@ -48,7 +49,7 @@ namespace SiaERP.ViewModels
             }
         }
 
-        public Product SelectedProduct
+        public Product? SelectedProduct
         { 
             get => _SelectedProduct;
             set
@@ -57,14 +58,15 @@ namespace SiaERP.ViewModels
                 SelectionItemChanged();
                 OnPropertyChanged(nameof(SelectedProduct));
 
-                if (SelectedProduct != null)
+                //Search in list categories the corresponding to the product by his id and select it
+                if (SelectedProduct != null && EnableEdition == false)
                 {
-                    SelectedCategory = ListCategories.FirstOrDefault(c => c.Id == SelectedProduct.Category);
+                    SelectedCategory = ListCategories.FirstOrDefault(p => p.Id == SelectedProduct.Category);
                 }
             }
         }
 
-        public ProductCategory SelectedCategory
+        public ProductCategory? SelectedCategory
         {
             get => _SelectedCategory;
             set
@@ -72,7 +74,8 @@ namespace SiaERP.ViewModels
                 _SelectedCategory = value;
                 OnPropertyChanged(nameof(SelectedCategory));
 
-                if (SelectedCategory != null && AuxiliarProduct != null)
+                //Assigns the selected category to the product currently being edited
+                if (SelectedCategory != null && AuxiliarProduct != null && EnableEdition == true)
                 {
                     AuxiliarProduct.Category = SelectedCategory.Id;
                 }
@@ -89,7 +92,7 @@ namespace SiaERP.ViewModels
             }
         }
 
-        public ImageSource ProductImage
+        public ImageSource? ProductImage
         {
             get => _ProductImage;
             set
@@ -109,7 +112,7 @@ namespace SiaERP.ViewModels
             }
         }
 
-        public string Filter
+        public string? Filter
         { 
             get => _Filter;
             set
@@ -117,26 +120,21 @@ namespace SiaERP.ViewModels
                 _Filter = value;
                 OnPropertyChanged(nameof(Filter));
             }
-        }
+        }     
         #endregion
 
         #region Define commands
-        public ICommand CmdNew { get; }
-        public ICommand CmdDelete { get; }
-        public ICommand CmdModify { get; }
-        public ICommand CmdPrint { get; }
+        public ICommand CmdCRUD { get; }
         public ICommand CmdAcept { get; }
         public ICommand CmdCancel { get; }
         public ICommand CmdFilter { get; }
         public ICommand CmdLoadImage { get; }
         #endregion
 
+        //Constructor method
         public ProductsViewModel()
         {
-            CmdNew = new ViewModelCommand(CreateProductExecute, CreateProductCanExecute);
-            CmdDelete = new ViewModelCommand(DeleteProductExecute, DeleteProductCanExecute);
-            CmdModify = new ViewModelCommand(UpdateProductExecute, DeleteProductCanExecute);
-            CmdPrint = new ViewModelCommand(UpdateProductExecute, DeleteProductCanExecute);
+            CmdCRUD = new ViewModelCommand(CRUDExecute, CRUDCanExecute);
             CmdAcept = new ViewModelCommand(AceptActionExecute, ActionCanExecute);
             CmdCancel = new ViewModelCommand(CancelActionExecute, ActionCanExecute);
             CmdFilter = new ViewModelCommand(FilterExecute);
@@ -151,12 +149,6 @@ namespace SiaERP.ViewModels
             ListCategories = CategoryQuery.Read();
         }
 
-        private void FilterExecute(object obj)
-        {
-            ListProducts.Clear();
-            ProductsQuery.Read(Filter);
-        }
-
         //Set properties of selected item in the form
         private void SelectionItemChanged()
         {
@@ -167,42 +159,84 @@ namespace SiaERP.ViewModels
                     AuxiliarProduct = new Product();
                 }
 
+                //Clone the object selected and assign it to currently being edited
                 AuxiliarProduct = CloneObject(SelectedProduct);
             }
         }
 
-        //Create new customer register
-        private void CreateProductExecute(object obj)
+        //Database query management execute command
+        private void CRUDExecute(object Parameter)
         {
-            EnableEdition = true;
-            Filter = string.Empty;
-            Action = "Create";
+            string? ButtonName = Parameter as string;
 
-            //Clear the auxiliar customer, get last id in database and call property to update view
-            AuxiliarProduct = CloneObject(null);
-            AuxiliarProduct.Id = ProductsQuery.LastId() + 1;
-            OnPropertyChanged(nameof(AuxiliarProduct));
-        }
-
-        //Update data of customer in database
-        private void UpdateProductExecute(object obj)
-        {
-            EnableEdition = true;
-            Filter = string.Empty;
-            Action = "Update";
-        }
-
-        //Delete customer of data grid and data base
-        private void DeleteProductExecute(object obj)
-        {
-            MessageBoxResult Result = MessageBox.Show($"¿Estás seguro que deseas eliminar el producto {SelectedProduct.Name}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (Result == MessageBoxResult.Yes)
+            switch (ButtonName)
             {
-                ProductsQuery.Delete(SelectedProduct);
-                ListProducts.Remove(SelectedProduct);
-                AuxiliarProduct = null;
+                //Create new register
+                case "Create":
+                    EnableEdition = true;
+                    SelectedCategory = null;
+                    Filter = string.Empty;
+                    Action = "Create";
+
+                    //Clear the auxiliar object, get last id in database and call property to update view
+                    AuxiliarProduct = CloneObject(null);
+                    AuxiliarProduct.Id = ProductsQuery.LastId() + 1;
+                    OnPropertyChanged(nameof(AuxiliarProduct));
+                    break;
+
+                //Update data of register in database
+                case "Update":
+                    EnableEdition = true;
+                    Filter = string.Empty;
+                    Action = "Update";
+                    break;
+
+                //Delete register of data grid and database
+                case "Delete":
+                    MessageBoxResult Result = MessageBox.Show($"¿Estás seguro que deseas eliminar el producto {SelectedProduct.Name}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (Result == MessageBoxResult.Yes)
+                    {
+                        ProductsQuery.Delete(SelectedProduct);
+                        ListProducts.Remove(SelectedProduct);
+                        AuxiliarProduct = null;
+                    }
+                    break;
             }
+        }
+
+        //Database query management can execute command
+        private bool CRUDCanExecute(object Parameter)
+        {
+            string? ButtonName = Parameter as string;
+            bool CanExecute = false;
+
+            switch (ButtonName)
+            {
+                //Enable button if edition is false
+                case "Create":
+                    if (EnableEdition == false)
+                        CanExecute = true;
+                    else
+                        CanExecute = false;
+                    break;
+
+                //Enable buttons if there is an object selected in datagrid
+                case "Update": case "Delete": case "Print":
+                    if (SelectedProduct != null && EnableEdition == false)
+                        CanExecute = true;
+                    else
+                        CanExecute = false;
+                    break;
+            }
+
+            return CanExecute;
+        }
+
+        private void FilterExecute(object obj)
+        {
+            ListProducts.Clear();
+            ProductsQuery.Read(Filter);
         }
 
         private void AceptActionExecute(object obj)
@@ -225,23 +259,8 @@ namespace SiaERP.ViewModels
         {
             EnableEdition = false;
             AuxiliarProduct = null;
+            SelectedCategory = null;
             Action = "None";
-        }
-
-        private bool CreateProductCanExecute(object obj)
-        {
-            if (EnableEdition == false)
-                return true;
-            else
-                return false;
-        }
-
-        private bool DeleteProductCanExecute(object obj)
-        {
-            if (SelectedProduct != null && EnableEdition == false)
-                return true;
-            else
-                return false;
         }
 
         private bool ActionCanExecute(object obj)
@@ -258,7 +277,7 @@ namespace SiaERP.ViewModels
             OpenFileDialog LoadFile = new OpenFileDialog();
             LoadFile.Filter = "Image Files (*.jpg; *.png; *.bmp)|*.jpg; *.png; *.bmp";
 
-            if (LoadFile.ShowDialog() == true)
+            if (LoadFile.ShowDialog() == true && AuxiliarProduct != null)
             {
                 AuxiliarProduct.Image = new BitmapImage(new Uri(LoadFile.FileName));
                 OnPropertyChanged(nameof(AuxiliarProduct));
