@@ -136,6 +136,7 @@
 				<!-- Work area -->
                 <ContentControl Grid.Row="1"
                                 Content="{Binding CurrentView}"
+                                Focusable="False"
                                 Margin="24">
                 </ContentControl>
 			</Grid>

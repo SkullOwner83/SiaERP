@@ -129,6 +129,7 @@ namespace SiaERP.ViewModels
         public ICommand CmdCancel { get; }
         public ICommand CmdFilter { get; }
         public ICommand CmdLoadImage { get; }
+        public ICommand CmdCollapseColumn { get; }
         #endregion
 
         //Constructor method
@@ -139,6 +140,7 @@ namespace SiaERP.ViewModels
             CmdCancel = new ViewModelCommand(CancelActionExecute, ActionCanExecute);
             CmdFilter = new ViewModelCommand(FilterExecute);
             CmdLoadImage = new ViewModelCommand(LoadImageExecute, ActionCanExecute);
+            CmdCollapseColumn = new ViewModelCommand(CollapseColumnExecute);
 
             ProductsQuery = new SqlProductsQuery();
             ListProducts = new ObservableCollection<Product>();
@@ -269,6 +271,13 @@ namespace SiaERP.ViewModels
                 return true;
             else
                 return false;
+        }
+
+        //Tabcontrol of data collapse column
+        private void CollapseColumnExecute(object obj)
+        {
+            TabControlCollapsed = !TabControlCollapsed;
+            TabControlColumn = TabControlCollapsed == true ? 2 : 3;
         }
 
         //Load customer image from file explorer

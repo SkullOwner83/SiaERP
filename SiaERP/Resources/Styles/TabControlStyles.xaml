@@ -67,6 +67,7 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{StaticResource ClrPrimary}"/>
                             <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Cursor" Value="Arrow"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -82,11 +83,11 @@
         <Setter Property="BorderBrush" Value="{StaticResource ClrBorder}"/>
         <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemStyle}"/>
         <Setter Property="TabStripPlacement" Value="Top"/>
+        <Setter Property="MinWidth" Value="400"/>
         <Setter Property="Padding" Value="16"/>
 
         <!-- Behaviors properties -->
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="Cursor" Value="Hand"/>
 
         <!-- Draw control components -->
         <Setter Property="Template">
@@ -128,6 +129,7 @@
                                       Width="32" Height="32"
                                       VerticalAlignment="Top"
                                       Margin="16 0 0 0"
+                                      Cursor="Hand"
                                       Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabControl}}, Path=DataContext.CmdCollapseColumn}"
                                       Style="{StaticResource TabControlCollapseButtonStyle}"/>
                         </Grid>
@@ -155,6 +157,7 @@
                             <Setter TargetName="Content" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="TabsColumn" Property="Width" Value="0"/>
                             <Setter TargetName="CollapseButton" Property="Margin" Value="0"/>
+                            <Setter Property="MinWidth" Value="0"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

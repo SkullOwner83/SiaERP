@@ -122,6 +122,9 @@
         <Setter Property="FontSize" Value="{StaticResource FntMaxSize}"/>
         <Setter Property="TextBlock.TextTrimming" Value="CharacterEllipsis"/> <!--ERROR-->
 
+        <!-- Control behavior properties -->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
         <!-- Draw control components -->
         <Setter Property="Template">
             <Setter.Value>
@@ -198,17 +201,17 @@
                                         </Grid.RowDefinitions>
 
                                         <!-- Draw column headers -->
-                                        <DataGridColumnHeadersPresenter Grid.Column="0" Grid.ColumnSpan="2"
+                                        <DataGridColumnHeadersPresenter Grid.Column="0"
                                                                         x:Name="PART_ColumnHeadersPresenter" 
                                                                         Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                         
                                         <!-- Draw content of datagrid -->
-                                        <ScrollContentPresenter Grid.ColumnSpan="1" Grid.Row="1"
+                                        <ScrollContentPresenter Grid.Row="1"
                                                                 x:Name="PART_ScrollContentPresenter" 
                                                                 CanContentScroll="{TemplateBinding CanContentScroll}" />
                                         
                                         <!-- Draw scroll bars -->
-                                        <ScrollBar Grid.Column="1" Grid.Row="1"
+                                        <ScrollBar Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
                                                    x:Name="PART_VerticalScrollBar"
                                                    Orientation="Vertical"
                                                    Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"

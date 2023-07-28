@@ -17,6 +17,7 @@
 
     <UserControl.Resources>
         <Utilities:BooleanInverse x:Key="BooleanInverse"/>
+        <Utilities:BooleanToVisibility x:Key="BooleanToVisibility"/>
     </UserControl.Resources>
 
     <Border Background="GhostWhite">
@@ -24,14 +25,15 @@
         <Border Background="GhostWhite">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
@@ -80,7 +82,7 @@
                 </Grid>
 
                 <!-- Services data grid -->
-                <DataGrid Grid.Row="1" Grid.ColumnSpan="2"
+                <DataGrid Grid.Row="1" Grid.ColumnSpan="3"
                       ItemsSource="{Binding ListServices}"
                       SelectedItem="{Binding SelectedCustomer}"
                       Style="{StaticResource DataGridStyle}"
@@ -114,7 +116,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <TabControl Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
+                <TabControl Grid.Column="3" Grid.Row="0" Grid.RowSpan="2"
                         Style="{StaticResource TabControlStyle}">
                     <!--  -->
                     <TabItem Header=""
@@ -170,10 +172,9 @@
                                           SelectedItem="{Binding Selectedcustomer}"
                                           DisplayMemberPath="Name"
                                           IsEditable="True"
-                                          IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                          IsEnabled="{Binding EnableEdition}"
                                           Style="{StaticResource ComboBoxStyle}"
                                           Margin="0 0 0 8"/>
-
                             </StackPanel>
                         </Grid>
                     </TabItem>

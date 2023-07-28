@@ -23,7 +23,6 @@ namespace SiaERP.ViewModels
         private bool _EnableEdition = false;
         private string? _Filter;
         private string Action = "None";
-        private bool _CollapsedColumn = false;
 
         #region Property encapsulation
         public ObservableCollection<Customer>? ListCustomers 
@@ -85,30 +84,21 @@ namespace SiaERP.ViewModels
                 _Filter = value;
                 OnPropertyChanged(nameof(Filter));
             }
-        }
+        } 
+		#endregion
 
-        public bool CollapsedColumn
-        {
-            get => _CollapsedColumn;
-            set
-            {
-                _CollapsedColumn = value;
-                OnPropertyChanged(nameof(CollapsedColumn));
-            }
-        }
-        #endregion
-
-        #region Define commands
-        public ICommand CmdCRUD { get; }      
+		#region Define commands
+		public ICommand CmdCRUD { get; }      
         public ICommand CmdAcept { get; }
         public ICommand CmdCancel { get; }
         public ICommand CmdFilter { get; }
         public ICommand CmdLoadImage { get; }
         public ICommand CmdCollapseColumn { get; }
-        #endregion
+		
+		#endregion
 
-        //Constructor method
-        public CustomerViewModel()
+		//Constructor method
+		public CustomerViewModel()
         {
             CmdCRUD = new ViewModelCommand(CRUDExecute, CRUDCanExecute);
             CmdAcept = new ViewModelCommand(AceptActionExecute, ActionCanExecute);
@@ -244,9 +234,11 @@ namespace SiaERP.ViewModels
                 return false;
         }
 
+        //Tabcontrol of data collapse column
         private void CollapseColumnExecute(object obj)
         {
-            CollapsedColumn = !CollapsedColumn;
+            TabControlCollapsed = !TabControlCollapsed;
+            TabControlColumn = TabControlCollapsed == true? 2 : 3;
         }
 
         //Load customer image from file explorer
