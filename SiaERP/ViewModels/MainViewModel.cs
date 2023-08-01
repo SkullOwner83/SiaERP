@@ -1,12 +1,6 @@
-﻿using SiaERP.Data;
-using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System;
 using System.Windows.Input;
 using SiaERP.Resources.Utilities;
-using SiaERP.Views;
-using SiaERP.Models;
-using System.Security.Cryptography.X509Certificates;
 
 namespace SiaERP.ViewModels
 {
@@ -38,31 +32,32 @@ namespace SiaERP.ViewModels
         }
 
         //Define commands
-        public ICommand CmdShowCustomersView { get; }
-        public ICommand CmdShowServicesView { get; }
+        public ICommand CmdShowView { get; }
         public ICommand CmdExpanLateralMenu { get; }
-        public ICommand CmdShowProductsView { get; }
 
         //Contructor method
         public MainViewModel()
 		{
-			CmdShowCustomersView = new ViewModelCommand(ShowCustomersViewExecute);
-            CmdShowServicesView = new ViewModelCommand(ShowServicesViewExecute);
-            CmdShowProductsView = new ViewModelCommand(ShowProductsViewExecute);
             CmdExpanLateralMenu = new ViewModelCommand(ExpandLateralMenuExecute);
+            CmdShowView = new ViewModelCommand(ShowViewCommand);
         }
 
+        //Show views in the interface
+        private void ShowViewCommand(object Parameter)
+        {
+            string? ButtonName = Parameter as string;
 
-        private void ShowCustomersViewExecute(object obj) => CurrentView = new CustomerViewModel();
-        private void ShowServicesViewExecute(object obj) => CurrentView = new ServiceViewModel();
-        private void ShowProductsViewExecute(object obj) => CurrentView = new ProductsViewModel();
+            switch(ButtonName)
+            {
+                case "Customers": CurrentView = new CustomerViewModel();  break;
+                case "Services": CurrentView = new ServiceViewModel(); break;
+                case "Products": CurrentView = new ProductsViewModel();  break;
+            }
+        }
 
         private void ExpandLateralMenuExecute(object obj)
         {
-            if (LateralMenuSize == 48)
-                LateralMenuSize = 200;
-            else
-                LateralMenuSize = 48;
+            
         }
     }
 }

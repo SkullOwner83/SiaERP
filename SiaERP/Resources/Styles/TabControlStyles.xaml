@@ -13,7 +13,7 @@
         <!-- Draw Header control -->
         <Setter Property="HeaderTemplate">
             <Setter.Value>
-                <DataTemplate>  
+                <DataTemplate>
                     <!-- This text is for the styles to not affect the content -->
                     <TextBlock Name="HeaderText" 
                                Text="{Binding}"
@@ -81,10 +81,11 @@
         <Setter Property="Background" Value="{StaticResource ClrDimSurface}"/>
         <Setter Property="BorderThickness" Value="{StaticResource BdrSize}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ClrBorder}"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemStyle}"/>
         <Setter Property="TabStripPlacement" Value="Top"/>
-        <Setter Property="MinWidth" Value="400"/>
         <Setter Property="Padding" Value="16"/>
+
 
         <!-- Behaviors properties -->
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -93,73 +94,111 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
-                    <Grid SnapsToDevicePixels="true"
-                          ClipToBounds="true">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                    <Border x:Name="TabControl" 
+                            Width="400"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+                        <Grid SnapsToDevicePixels="true"
+                              ClipToBounds="true">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="TabsColumn" Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <!-- Panel of buttons tab -->
-                            <ItemsControl Grid.Column="0"
-                                          x:Name="HeaderTabs"
-                                          ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Items}"
-                                          Background="Transparent"
-                                          Margin="-16 0 0 16"
-                                          Visibility="Visible"
-                                          ItemContainerStyle="{StaticResource TabItemStyle}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Rows="1"
-                                                 HorizontalAlignment="Stretch"
-                                                 Cursor="Hand"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition x:Name="TabsColumn" Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                            <!-- Colapse column button -->
-                            <CheckBox Grid.Column="1"
-                                      x:Name="CollapseButton"
-                                      Width="32" Height="32"
-                                      VerticalAlignment="Top"
-                                      Margin="16 0 0 0"
-                                      Cursor="Hand"
-                                      Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabControl}}, Path=DataContext.CmdCollapseColumn}"
-                                      Style="{StaticResource TabControlCollapseButtonStyle}"/>
+                                <!-- Panel of buttons tab -->
+                                <ItemsControl Grid.Column="0"
+                                              x:Name="HeaderTabs"
+                                              ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Items}"
+                                              Background="Transparent"
+                                              Margin="-16 0 0 16"
+                                              Visibility="Visible"
+                                              ItemContainerStyle="{StaticResource TabItemStyle}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Rows="1"
+                                                     HorizontalAlignment="Stretch"
+                                                     Cursor="Hand"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+
+                                <!-- Hide or show control button -->
+                                <ToggleButton Grid.Column="1"
+                                              x:Name="HideShowButton"
+                                              Width="32" Height="32"
+                                              VerticalAlignment="Top"
+                                              Margin="16 0 0 0"
+                                              Cursor="Hand"
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabControl}}, Path=DataContext.CmdCollapseColumn}"
+                                              Style="{StaticResource TabControlCollapseButtonStyle}">
+
+                                    <!-- Define button triggers -->
+                                    <ToggleButton.Triggers>
+                                        <!-- Show TabControl column -->
+                                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="TabControl"
+                                                                     Storyboard.TargetProperty="Width"
+                                                                     Duration="0:0:0.3"
+                                                                     To="400"/>
+
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        Duration="0:0:0.3"
+                                                                        To="16 0 0 0"/>
+
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content"
+                                                                                   Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+
+                                        <!-- Hide TabControl column -->
+                                        <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="TabControl"
+                                                                     Storyboard.TargetProperty="Width"
+                                                                     Duration="0:0:0.3"
+                                                                     To="32"/>
+
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        Duration="0:0:0.3"
+                                                                        To="0"/>
+
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content"
+                                                                                   Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </ToggleButton.Triggers>
+                                </ToggleButton>
+                            </Grid>
+
+                            <!-- Panel of content -->
+                            <Border Grid.Row="1"
+                                    x:Name="Content"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    Padding="{TemplateBinding Padding}"
+                                    CornerRadius="{StaticResource BrdRadius}">
+
+                                <!-- Draw the content of control -->
+                                <ContentPresenter  SnapsToDevicePixels="True"
+                                                   ContentSource="SelectedContent"/>
+                            </Border>
                         </Grid>
-
-
-                        <!-- Panel of content -->
-                        <Border Grid.Row="1"
-                                x:Name="Content"
-                                Background="{TemplateBinding Background}"
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                Padding="{TemplateBinding Padding}"
-                                CornerRadius="{StaticResource BrdRadius}"
-                                Visibility="Visible">
-
-                            <ContentPresenter  SnapsToDevicePixels="True"
-                                               ContentSource="SelectedContent"/>
-                        </Border>
-                    </Grid>
-
-                    <!-- Define control triggers -->
-                    <ControlTemplate.Triggers>
-                        <Trigger SourceName="CollapseButton" Property="IsChecked" Value="True">
-                            <Setter TargetName="HeaderTabs" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="Content" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="TabsColumn" Property="Width" Value="0"/>
-                            <Setter TargetName="CollapseButton" Property="Margin" Value="0"/>
-                            <Setter Property="MinWidth" Value="0"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

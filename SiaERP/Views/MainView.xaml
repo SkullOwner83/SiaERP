@@ -23,71 +23,120 @@
     <Border Background="GhostWhite">
 		<Grid>
 			<Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="PnlMenu"
-								  Width="{Binding LateralMenuSize}"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
 			
 			<!-- Lateral menu container -->
-			<Border Background="{StaticResource ClrPrimary}"
-                    Cursor="Hand">
+			<Border x:Name="MenuContainer"
+                    Background="{StaticResource ClrPrimary}"
+                    Width="48">
 				<Grid>
 					<Grid.RowDefinitions>
-						<RowDefinition x:Name="PnlMenuHeader" Height="{Binding LateralMenuSize}"/>
+						<RowDefinition Height="Auto"/>
 						<RowDefinition Height="*"/>
-						<RowDefinition Height="48"/>
+						<RowDefinition Height="Auto"/>
 					</Grid.RowDefinitions>
 
-                    <Button Grid.Row="0" Width="48"
-							Style="{StaticResource MenuButtonStyle}"
-                            Command="{Binding CmdExpanLateralMenu}"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top">
-					</Button>
+                    <!-- Menu header -->
+                    <Grid x:Name="MenuHeader">
+                        <ToggleButton Grid.Row="0"
+								      Command="{Binding CmdExpanLateralMenu}"
+								      HorizontalAlignment="Right"
+								      VerticalAlignment="Top"
+                                      Style="{StaticResource ShowMenuStyles}">
+                            <ToggleButton.Triggers>
+                                <!-- Show complete menu animation -->
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MenuContainer"
+                                                             Storyboard.TargetProperty="Width"
+                                                             From="48" To="200"
+                                                             Duration="0:0:0.2"/>
 
-                    <StackPanel Orientation="Vertical" Grid.Row="1">
-                        <Button Content="Clientes"
-                                Property:CustomProperties.Image="/Resources/Images/ButtonCustomers.png"
-								Command="{Binding CmdShowCustomersView}"
-                                Style="{StaticResource MenuButtonStyle}"/>
+                                            <DoubleAnimation Storyboard.TargetName="MenuHeader"
+                                                             Storyboard.TargetProperty="Height"
+                                                             From="48" To="200"
+                                                             Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
 
-                        <Button Content="Servicios"
-                                Property:CustomProperties.Image="/Resources/Images/ButtonServices.png"
-                                Command="{Binding CmdShowServicesView}"
-								Style="{StaticResource MenuButtonStyle}"/>
+                                <!-- Hidden menu animation -->
+                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="MenuContainer"
+                                                         Storyboard.TargetProperty="Width"
+                                                         BeginTime="0:0:0"
+                                                         From="200" To="48"
+                                                         Duration="0:0:0.2"/>
 
-                        <Button Content="Productos"
-                                Property:CustomProperties.Image="/Resources/Images/ButtonProducts.png"
-                                Command="{Binding CmdShowProductsView}"
-								Style="{StaticResource MenuButtonStyle}"/>
-                        
-                        <Button Content="Ventas"
-								Property:CustomProperties.Image="/Resources/Images/ButtonSales.png"
-                                Style="{StaticResource MenuButtonStyle}"/>
+                                            <DoubleAnimation Storyboard.TargetName="MenuHeader"
+                                                         Storyboard.TargetProperty="Height"
+                                                         BeginTime="0:0:0"
+                                                         From="200" To="48"
+                                                         Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ToggleButton.Triggers>
+                        </ToggleButton>
+                    </Grid>
 
-                        <Button Content="Cotizaciones"
-                                Property:CustomProperties.Image="/Resources/Images/ButtonQuote.png"
-								Style="{StaticResource MenuButtonStyle}"/>
+                    <!-- Panel of navigation buttons -->
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Hidden">
+                        <StackPanel Orientation="Vertical">
+                            <Button Content="Clientes"
+                                    Property:CustomProperties.Image="/Resources/Images/ButtonCustomers.png"
+                                    CommandParameter="Customers"
+								    Command="{Binding CmdShowView}"
+                                    Style="{StaticResource MenuButtonStyle}"/>
 
-						<Button Content="Credito"
-                                Property:CustomProperties.Image="/Resources/Images/ButtonCredit.png"
-								Style="{StaticResource MenuButtonStyle}"/>
+                            <Button Content="Servicios"
+                                    Property:CustomProperties.Image="/Resources/Images/ButtonServices.png"
+                                    CommandParameter="Services"
+                                    Command="{Binding CmdShowView}"
+								    Style="{StaticResource MenuButtonStyle}"/>
 
-                        <Button Content="Facturas"
-                                Property:CustomProperties.Image="/Resources/Images/ButtonInvoices.png"
-								Style="{StaticResource MenuButtonStyle}" Cursor="Hand"/>
+                            <Button Content="Productos"
+                                    Property:CustomProperties.Image="/Resources/Images/ButtonProducts.png"
+                                    CommandParameter="Products"
+                                    Command="{Binding CmdShowView}"
+								    Style="{StaticResource MenuButtonStyle}"/>
 
-                        <Button Content="Notas"
-                                Property:CustomProperties.Image="/Resources/Images/ButtonNotes.png"
-								Style="{StaticResource MenuButtonStyle}"/>
-					</StackPanel>
+                            <Button Content="Ventas"
+								    Property:CustomProperties.Image="/Resources/Images/ButtonSales.png"
+                                    CommandParameter="Sales"
+                                    Style="{StaticResource MenuButtonStyle}"/>
+
+                            <Button Content="Cotizaciones"
+                                    Property:CustomProperties.Image="/Resources/Images/ButtonQuote.png"
+								    Style="{StaticResource MenuButtonStyle}"/>
+
+                            <Button Content="Credito"
+                                    Property:CustomProperties.Image="/Resources/Images/ButtonCredit.png"
+								    Style="{StaticResource MenuButtonStyle}"/>
+
+                            <Button Content="Facturas"
+                                    Property:CustomProperties.Image="/Resources/Images/ButtonInvoices.png"
+								    Style="{StaticResource MenuButtonStyle}" Cursor="Hand"/>
+
+                            <Button Content="Notas"
+                                    Property:CustomProperties.Image="/Resources/Images/ButtonNotes.png"
+								    Style="{StaticResource MenuButtonStyle}"/>
+                        </StackPanel>
+                    </ScrollViewer>
 
                     <Button Grid.Row="2" Width="48"
                             HorizontalAlignment="Left"
                             Property:CustomProperties.Image="/Resources/Images/ButtonLogOut.png"
-							Style="{StaticResource MenuButtonStyle}"                            
-							Padding="12"
-							Click="MtdButtonClicked"/>
+							Margin="0 48 0 0"
+                            Padding="12"
+                            Click="MtdButtonClicked"
+							Style="{StaticResource MenuButtonStyle}"/>
 				</Grid>
 			</Border>
 

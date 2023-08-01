@@ -48,8 +48,6 @@ C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\ref\SiaERP.dll
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\DataGridStyles.baml
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\LabelStyles.baml
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Utilities\DataTemplate.baml
-C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\ControlBaseStyles.baml
-C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\InterfaceProperties.baml
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll
 C:\Users\DELL Sia\Desktop\Sia\SiaERP\SiaERP\bin\Debug\net6.0-windows\SiaERP.exe
 C:\Users\DELL Sia\Desktop\Sia\SiaERP\SiaERP\bin\Debug\net6.0-windows\SiaERP.deps.json
@@ -225,3 +223,12 @@ C:\Users\DELL Sia\Desktop\Nueva carpeta\SiaERP\SiaERP\obj\Debug\net6.0-windows\r
 C:\Users\DELL Sia\Desktop\Nueva carpeta\SiaERP\SiaERP\obj\Debug\net6.0-windows\SiaERP.pdb
 C:\Users\DELL Sia\Desktop\Nueva carpeta\SiaERP\SiaERP\obj\Debug\net6.0-windows\SiaERP.genruntimeconfig.cache
 C:\Users\DELL Sia\Desktop\Nueva carpeta\SiaERP\SiaERP\obj\Debug\net6.0-windows\ref\SiaERP.dll
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\ToggleButtonStyles.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\CheckboxStyles.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\ComboBoxStyles.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\RadioButtonStyles.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\TabControlStyles.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Styles\ToggleButtonStyles.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Utilities\InterfaceProperties.baml
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\ProductsView.g.cs
+C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\ProductsView.baml

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\App.xaml
-15-1118278876
+16-1554100762
 
 341916110083
 2022086205684
-Resources\Styles\ButtonStyles.xaml;Resources\Styles\CheckboxStyles.xaml;Resources\Styles\ComboBoxStyles.xaml;Resources\Styles\DataGridStyles.xaml;Resources\Styles\LabelStyles.xaml;Resources\Styles\RadioButtonStyles.xaml;Resources\Styles\TabControlStyles.xaml;Resources\Styles\TextboxStyles.xaml;Resources\Utilities\DataTemplate.xaml;Resources\Utilities\InterfaceProperties.xaml;Views\CustomersView.xaml;Views\LogInView.xaml;Views\MainView.xaml;Views\ProductsView.xaml;Views\ServicesView.xaml;
+Resources\Styles\ButtonStyles.xaml;Resources\Styles\CheckboxStyles.xaml;Resources\Styles\ComboBoxStyles.xaml;Resources\Styles\DataGridStyles.xaml;Resources\Styles\LabelStyles.xaml;Resources\Styles\RadioButtonStyles.xaml;Resources\Styles\TabControlStyles.xaml;Resources\Styles\TextboxStyles.xaml;Resources\Styles\ToggleButtonStyles.xaml;Resources\Utilities\DataTemplate.xaml;Resources\Utilities\InterfaceProperties.xaml;Views\CustomersView.xaml;Views\LogInView.xaml;Views\MainView.xaml;Views\ProductsView.xaml;Views\ServicesView.xaml;
 
 True
 
