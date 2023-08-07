@@ -18,221 +18,301 @@
     <UserControl.Resources>
         <Utilities:BooleanInverse x:Key="BooleanInverse"/>
         <Utilities:BooleanToVisibility x:Key="BooleanToVisibility"/>
+        <Utilities:WidthToShow x:Key="WidthToShow"/>
     </UserControl.Resources>
-
+    
+    <!-- Draw user control -->
     <Border Background="GhostWhite">
-        <!-- Draw user control -->
-        <Border Background="GhostWhite">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-                <!-- Filter data combobox -->
-                <StackPanel Grid.Row="0" Grid.Column="0"
+            <!-- Filter data combobox -->
+            <StackPanel Grid.Row="0" Grid.Column="0"
                         Orientation="Horizontal"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Margin="0 0 0 12">
-                    <TextBlock Text="Periodo:" 
+                <TextBlock Text="Periodo:" 
                            Style="{StaticResource BoldLabelStyle}"
                            Margin="0 0 8 0"/>
-                    <ComboBox Width="200"
+                <ComboBox Width="200"
                           Style="{StaticResource ComboBoxStyle}"
                           
                           SelectedIndex="0"
                           IsEditable="False"
                           IsEnabled="True">
 
-                        <ComboBoxItem Content="2021"/>
-                        <ComboBoxItem Content="2022"/>
-                        <ComboBoxItem Content="2023"/>
-                    </ComboBox>
-                </StackPanel>
+                    <ComboBoxItem Content="2021"/>
+                    <ComboBoxItem Content="2022"/>
+                    <ComboBoxItem Content="2023"/>
+                </ComboBox>
+            </StackPanel>
 
-                <!-- Filter data textbox -->
-                <Grid Grid.Row="0" Grid.Column="1"
-                        Margin="0 0 16 16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+            <!-- Filter data textbox -->
+            <Grid Grid.Row="0" Grid.Column="1"
+                        Margin="0 0 0 16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Buscar:" Grid.Column="0"
+                <TextBlock Text="Buscar:" Grid.Column="0"
                            Style="{StaticResource BoldLabelStyle}"
                            Margin="0 0 8 0"/>
-                    <TextBox Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"
+                <TextBox Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"
                          IsReadOnly="{Binding EnableEdition}"
                          Style="{StaticResource TextBoxStyle}">
-                        <Behaviors:Interaction.Triggers>
-                            <Behaviors:EventTrigger EventName="TextChanged">
-                                <Behaviors:InvokeCommandAction Command="{Binding CmdFilter}"/>
-                            </Behaviors:EventTrigger>
-                        </Behaviors:Interaction.Triggers>
-                    </TextBox>
-                </Grid>
+                    <Behaviors:Interaction.Triggers>
+                        <Behaviors:EventTrigger EventName="TextChanged">
+                            <Behaviors:InvokeCommandAction Command="{Binding CmdFilter}"/>
+                        </Behaviors:EventTrigger>
+                    </Behaviors:Interaction.Triggers>
+                </TextBox>
+            </Grid>
 
-                <!-- Services data grid -->
-                <DataGrid Grid.Row="1" Grid.ColumnSpan="3"
+            <!-- Services data grid -->
+            <DataGrid Grid.Row="1" Grid.ColumnSpan="3"
                       ItemsSource="{Binding ListServices}"
-                      SelectedItem="{Binding SelectedCustomer}"
-                      Style="{StaticResource DataGridStyle}"
-                      Margin="0 0 16 0">
+                      SelectedItem="{Binding SelectedService}"
+                      Style="{StaticResource DataGridStyle}">
 
-                    <!-- Double click on item event -->
-                    <DataGrid.InputBindings>
-                        <MouseBinding MouseAction="LeftDoubleClick"
+                <!-- Double click on item event -->
+                <DataGrid.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick"
                       Command="{Binding DataContext.CmdModify, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
                       CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                    </DataGrid.InputBindings>
+                </DataGrid.InputBindings>
 
-                    <!-- Column headers definition -->
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="26"
-                                                CanUserReorder="False"
-                                                CanUserResize="False"
-                                                CanUserSort="True"/>
-                        
-                        <DataGridTextColumn Header="Folio"
+                <!-- Column headers definition -->
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="26"
+                                            CanUserReorder="False"
+                                            CanUserResize="False"
+                                            CanUserSort="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Stretch="Uniform">
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <!-- Set service status image -->
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Status}" Value="1">
+                                                    <Setter Property="Source" Value="/Resources/Images/ImgStatusInService.png"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding Status}" Value="2">
+                                                    <Setter Property="Source" Value="/Resources/Images/ImgStatusFinished.png"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding Status}" Value="3">
+                                                    <Setter Property="Source" Value="/Resources/Images/ImgStatusDelivered.png"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="Folio"
                                         Width="80"
-                                        Binding="{Binding Folio}"/>
-                        
-                        <DataGridTextColumn Header="Nombre"
-                                        Width="200"
-                                        Binding="{Binding Name}"/>
+                                        Binding="{Binding Id}"/>
 
-                        <DataGridTextColumn Header="Fecha"
+                    <DataGridTextColumn Header="Nombre"
+                                        Width="300"
+                                        Binding="{Binding CustomerName}"/>
+
+                    <DataGridTextColumn Header="Fecha"
                                         Binding="{Binding AdmissionDate, StringFormat=\{0:dd/MM/yyyy\}}"
                                         Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                </DataGrid.Columns>
+            </DataGrid>
 
-                <!-- Service data tabcontrol -->
-                <TabControl Grid.Column="3" Grid.Row="0" Grid.RowSpan="2"
-                        Style="{StaticResource TabControlStyle}">
-                    <!-- Service general data form -->
-                    <TabItem Header="Datos generales"
-                         IsSelected="True">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+            <!-- Service data tabcontrol -->
+            <TabControl x:Name="DataTabControl" 
+                        Grid.Row="0" Grid.RowSpan="2"
+                        Width="{Binding TabControlWidth, Mode=TwoWay}"
+                        Margin="16 0 0 0">
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+                <!-- Set the styles and extra operations -->
+                <TabControl.Style>
+                    <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource TabControlStyle}">
+                        <!-- Set the default column for the control -->
+                        <Setter Property="Grid.Column" Value="3" />
 
-                            <StackPanel Grid.Column="0" Grid.Row="0"
+                        <Style.Triggers>
+                            <!-- Change the column when the controls is hiden -->
+                            <DataTrigger Binding="{Binding ElementName=DataTabControl, Path=ActualWidth}" Value="32">
+                                <Setter Property="Grid.Column" Value="2" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabControl.Style>
+                
+                <!-- Service general data form -->
+                <TabItem Header="Datos generales"
+                             IsSelected="True">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Column="0" Grid.Row="0"
                                         Margin="0 0 16 0">
-                                <TextBlock Text="Folio:"
+                            <TextBlock Text="Folio:"
                                        Style="{StaticResource FormLabelStyle}"/>
-                                <TextBox Text=""
+                            <TextBox Text="{Binding AuxiliarService.Id}"
                                      IsReadOnly="True"
                                      Style="{StaticResource TextBoxStyle}"
                                      Margin="0 0 0 8"/>
 
-                                <TextBlock Text="Cliente:"
+                            <TextBlock Text="Cliente:"
                                        Style="{StaticResource FormLabelStyle}"/>
-                                <TextBox Text="{Binding Selectedcustomer.Id}"
+                            <TextBox Text="{Binding AuxiliarService.IdCustomer}"
                                      IsReadOnly="True"
                                      Style="{StaticResource TextBoxStyle}"/>
-                            </StackPanel>
+                        </StackPanel>
 
-                            <StackPanel Grid.Column="1"
+                        <StackPanel Grid.Column="1"
                                         Margin="16 0 0 0">
-                                <TextBlock Text="Fecha de ingreso:"
+                            <TextBlock Text="Fecha de ingreso:"
                                        Style="{StaticResource FormLabelStyle}"/>
-                                <TextBox Text="{Binding AuxiliarService.AdmissionDate, StringFormat=\{0:dd/MM/yyyy\}}"
+                            <TextBox Text="{Binding AuxiliarService.AdmissionDate, StringFormat=\{0:dd/MM/yyyy\}}"
                                      IsReadOnly="True"
                                      Style="{StaticResource TextBoxStyle}"
                                      Margin="0 0 0 8"/>
 
-                                <TextBlock Text="Fecha de entrega:"
+                            <TextBlock Text="Fecha de entrega:"
                                        Style="{StaticResource FormLabelStyle}"/>
-                                <TextBox Text="{Binding AuxiliarService.DeliveryDate, StringFormat=\{0:dd/MM/yyyy\}, Mode=TwoWay}"
+                            <TextBox Text="{Binding AuxiliarService.DeliveryDate, StringFormat=\{0:dd/MM/yyyy\}, Mode=TwoWay}"
                                      IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
                                      Style="{StaticResource TextBoxStyle}"/>
-                            </StackPanel>
+                        </StackPanel>
 
-                            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
-                                        Margin="0 8 0 0">
-                                <TextBlock Text="Nombre:"
+                        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
+                                    Margin="0 8 0 0">
+                            <TextBlock Text="Nombre:"
                                        Style="{StaticResource FormLabelStyle}"/>
-                                <ComboBox ItemsSource="{Binding ListCustomers}"
-                                          SelectedItem="{Binding Selectedcustomer}"
-                                          DisplayMemberPath="Name"
-                                          IsEditable="True"
-                                          IsEnabled="{Binding EnableEdition}"
-                                          Style="{StaticResource ComboBoxStyle}"
-                                          Margin="0 0 0 8"/>
-                            </StackPanel>
-                        </Grid>
-                    </TabItem>
+                            <ComboBox ItemsSource="{Binding ListCustomers}"
+                                      SelectedItem="{Binding SelectedCustomer}"
+                                      DisplayMemberPath="Name"
+                                      IsEditable="True"
+                                      IsEnabled="{Binding EnableEdition}"
+                                      Style="{StaticResource ComboBoxStyle}"
+                                      Margin="0 0 0 8"/>
 
-                    <!--  -->
-                    <TabItem Header="Detalle del servicio">
+                            <TextBlock Text="Estado:"
+                                       Style="{StaticResource FormLabelStyle}"/>
+                            <ComboBox ItemsSource="{Binding ListStatus}"
+                                      SelectedItem="{Binding SelectedStatus}"
+                                      DisplayMemberPath="Name"
+                                      IsEditable="False"
+                                      IsEnabled="{Binding EnableEdition}"
+                                      Style="{StaticResource ComboBoxStyle}"
+                                      Margin="0 0 0 8"/>
+                        </StackPanel>
 
-                    </TabItem>
-                </TabControl>
+                        <!-- Services details tab control -->
+                        <TabControl Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+                            <TabItem Header="Resumen">
+                                <StackPanel>
+                                    <TextBlock Text="Diagnostico:"
+                                       Style="{StaticResource FormLabelStyle}"/>
+                                    <TextBox Text="{Binding AuxiliarService.Diagnostic, Mode=TwoWay}"
+                                     IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                     VerticalContentAlignment="Top"
+                                     VerticalScrollBarVisibility="Auto"
+                                     TextWrapping="Wrap"
+                                     Height="400"
+                                     Style="{StaticResource TextBoxStyle}"
+                                     Margin="0 0 0 8"/>
+                                </StackPanel>
+                            </TabItem>
 
-                <!-- Panel of CRUD Buttons -->
-                <StackPanel Grid.Row="2" Grid.ColumnSpan="2"
+                            <TabItem Header="Detalles">
+                                
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </TabItem>
+
+                <!--  -->
+                <TabItem Header="Detalle del servicio">
+
+                </TabItem>
+            </TabControl>
+
+            <!-- Panel of CRUD Buttons -->
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2"
                         Orientation="Horizontal">
 
-                    <Button Width="100" Height="32" 
+                <Button Width="100" Height="32" 
                         Content="Nuevo"
                         Margin="0 16 16 0"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdNew}"/>
+                        CommandParameter="Create"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
 
-                    <Button Width="100" Height="32" 
+                <Button Width="100" Height="32" 
                         Content="Modificar"
                         Margin="0 16 16 0"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdModify}"/>
+                        CommandParameter="Update"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
 
-                    <Button Width="100" Height="32" 
+                <Button Width="100" Height="32" 
                         Content="Eliminar"
                         Margin="0 16 16 0"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdDelete}"/>
+                        CommandParameter="Delete"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
 
-                    <Button Width="100" Height="32" 
+                <Button Width="100" Height="32" 
                         Content="Imprimir"
                         Margin="0 16 16 0"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdPrint}"/>
-                </StackPanel>
+                        CommandParameter="Print"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
+            </StackPanel>
 
-                <!-- Execute CRUD buttons -->
-                <StackPanel Grid.Row="2" Grid.Column="3"
+            <!-- Execute CRUD buttons -->
+            <StackPanel Grid.Row="2" Grid.Column="3"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
 
-                    <Button Width="100" Height="32" 
+                <Button Width="100" Height="32" 
                         Content="Aceptar"
                         Margin="0 16 16 0"
+                        Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
                         Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdAcept}"/>
 
-                    <Button Width="100" Height="32" 
+                <Button Width="100" Height="32" 
                         Content="Cancelar"
                         Margin="0 16 0 0"
+                        Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
                         Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdCancel}"/>
-                </StackPanel>
-            </Grid>
-        </Border>
+            </StackPanel>
+        </Grid>
     </Border>
 </UserControl>

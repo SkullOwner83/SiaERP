@@ -9,6 +9,7 @@ using System.Windows;
 using SiaERP.Data;
 using SiaERP.Models;
 using System;
+using System.Linq;
 
 namespace SiaERP.ViewModels
 {
@@ -17,11 +18,14 @@ namespace SiaERP.ViewModels
         //Define property class
         private SqlCustomerQuery CustomerQuery;
         private ObservableCollection<Customer>? _Listcustomers;
+        private ObservableCollection<TaxRegime> _ListTaxRegime;
         private Customer? _SelectedCustomer;
+        private TaxRegime? _SelectedTaxRegime;
         private Customer? _AuxiliarCustomer;
         private ImageSource? _CustomerImage;
-        private bool _EnableEdition = false;
+
         private string? _Filter;
+        private bool _EnableEdition = false;
         private string Action = "None";
 
         #region Property encapsulation
@@ -35,6 +39,16 @@ namespace SiaERP.ViewModels
             }
         }
 
+        public ObservableCollection<TaxRegime> ListTaxRegime
+        {
+            get => _ListTaxRegime;
+            set
+            {
+                _ListTaxRegime = value;
+                OnPropertyChanged(nameof(ListTaxRegime));
+            }
+        }
+
         public Customer? SelectedCustomer 
         {
             get => _SelectedCustomer;
@@ -43,10 +57,32 @@ namespace SiaERP.ViewModels
                 _SelectedCustomer = value;
                 SelectionItemChanged();
                 OnPropertyChanged(nameof(SelectedCustomer));
+
+                //Search in list categories the corresponding to the product by his id and select it
+                if (SelectedCustomer != null && EnableEdition == false)
+                {
+                    SelectedTaxRegime = ListTaxRegime.FirstOrDefault(p => p.Id == SelectedCustomer.TaxRegime);
+                }
             }
         }
 
-		public Customer? AuxiliarCustomer 
+        public TaxRegime? SelectedTaxRegime
+        {
+            get => _SelectedTaxRegime;
+            set
+            {
+                _SelectedTaxRegime = value;
+                OnPropertyChanged(nameof(SelectedTaxRegime));
+
+                //Assigns the selected category to the product currently being edited
+                if (SelectedTaxRegime != null && AuxiliarCustomer != null && EnableEdition == true)
+                {
+                    AuxiliarCustomer.TaxRegime = SelectedTaxRegime.Id;
+                }
+            }
+        }
+
+        public Customer? AuxiliarCustomer 
         { 
             get => _AuxiliarCustomer;
             set
@@ -54,7 +90,7 @@ namespace SiaERP.ViewModels
                 _AuxiliarCustomer = value;
                 OnPropertyChanged(nameof(AuxiliarCustomer));
             }
-        }
+        } 
 
         public ImageSource? CustomerImage
         {
@@ -66,16 +102,6 @@ namespace SiaERP.ViewModels
             }
         }
 
-        public bool EnableEdition 
-        { 
-            get => _EnableEdition;
-            set
-            {
-                _EnableEdition = value;
-                OnPropertyChanged(nameof(EnableEdition));
-            }
-        }
-
         public string? Filter 
         { 
             get => _Filter;
@@ -84,32 +110,42 @@ namespace SiaERP.ViewModels
                 _Filter = value;
                 OnPropertyChanged(nameof(Filter));
             }
-        } 
-		#endregion
+        }
 
-		#region Define commands
-		public ICommand CmdCRUD { get; }      
+        public bool EnableEdition
+        {
+            get => _EnableEdition;
+            set
+            {
+                _EnableEdition = value;
+                OnPropertyChanged(nameof(EnableEdition));
+            }
+        }
+        #endregion
+
+        #region Define commands
+        public ICommand CmdCRUD { get; }      
         public ICommand CmdAcept { get; }
         public ICommand CmdCancel { get; }
         public ICommand CmdFilter { get; }
         public ICommand CmdLoadImage { get; }
-        public ICommand CmdCollapseColumn { get; }
-		
-		#endregion
+        public ICommand CmdUploadTaxDocument { get; }
+        #endregion
 
-		//Constructor method
-		public CustomerViewModel()
+        //Constructor method
+        public CustomerViewModel()
         {
             CmdCRUD = new ViewModelCommand(CRUDExecute, CRUDCanExecute);
             CmdAcept = new ViewModelCommand(AceptActionExecute, ActionCanExecute);
             CmdCancel = new ViewModelCommand(CancelActionExecute, ActionCanExecute);
             CmdFilter = new ViewModelCommand(FilterExecute);
             CmdLoadImage = new ViewModelCommand(LoadImageExecute, ActionCanExecute);
-            CmdCollapseColumn = new ViewModelCommand(CollapseColumnExecute);
 
             CustomerQuery = new SqlCustomerQuery();
             ListCustomers = new ObservableCollection<Customer>();
             ListCustomers = CustomerQuery.Read();
+
+            ListTaxRegime = DataManagement.ListTaxRegime();
         }
 
         //Set properties of selected item in the form
@@ -137,6 +173,7 @@ namespace SiaERP.ViewModels
                 //Create new register
                 case "Create":
                     EnableEdition = true;
+                    SelectedTaxRegime = null;
                     Filter = string.Empty;
                     Action = "Create";
 
@@ -223,6 +260,7 @@ namespace SiaERP.ViewModels
         {
             EnableEdition = false;
             AuxiliarCustomer = null;
+            SelectedTaxRegime = null;
             Action = "None";
         }
 
@@ -232,13 +270,6 @@ namespace SiaERP.ViewModels
                 return true;
             else
                 return false;
-        }
-
-        //Tabcontrol of data collapse column
-        private void CollapseColumnExecute(object obj)
-        {
-            TabControlCollapsed = !TabControlCollapsed;
-            TabControlColumn = TabControlCollapsed == true? 2 : 3;
         }
 
         //Load customer image from file explorer

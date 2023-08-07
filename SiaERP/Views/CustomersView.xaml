@@ -20,6 +20,7 @@
         <Utilities:IntToBoolean x:Key="IntToBoolean"/>
         <Utilities:PhoneNumberForamt x:Key="PhoneNumberForamt"/>
         <Utilities:BooleanToVisibility x:Key="BooleanToVisibility"/>
+        <Utilities:WidthToShow x:Key="WidthToShow"/>
     </UserControl.Resources>
 
     <!-- Draw user control -->
@@ -61,7 +62,7 @@
 
             <!-- Filter data textbox -->
             <Grid Grid.Row="0" Grid.Column="1"
-                        Margin="0 0 0 16">
+                  Margin="0 0 0 16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -73,6 +74,7 @@
                 <TextBox Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"
                          IsReadOnly="{Binding EnableEdition}"
                          Style="{StaticResource TextBoxStyle}">
+
                     <Behaviors:Interaction.Triggers>
                         <Behaviors:EventTrigger EventName="TextChanged">
                             <Behaviors:InvokeCommandAction Command="{Binding CmdFilter}"/>
@@ -170,9 +172,26 @@
             </DataGrid>
 
             <!-- Customer data tabcontrol -->
-            <TabControl Grid.Column="{Binding TabControlColumn}" Grid.Row="0" Grid.RowSpan="2"
-                        Margin="16 0 0 0"
-                        Style="{StaticResource TabControlStyle}">
+            <TabControl x:Name="DataTabControl" 
+                        Grid.Row="0" Grid.RowSpan="2"
+                        Width="{Binding TabControlWidth, Mode=TwoWay}"
+                        Margin="16 0 0 0">
+
+                <!-- Set the styles and extra operations -->
+                <TabControl.Style>
+                    <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource TabControlStyle}">
+                        <!-- Set the default column for the control -->
+                        <Setter Property="Grid.Column" Value="3" />
+                        
+                        <Style.Triggers>
+                            <!-- Change the column when the controls is hiden -->
+                            <DataTrigger Binding="{Binding ElementName=DataTabControl, Path=ActualWidth}" Value="32">
+                                <Setter Property="Grid.Column" Value="2" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabControl.Style>
+                
                 <!-- Customer general data form -->
                 <TabItem Header="Datos generales"
                          IsSelected="True">
@@ -216,18 +235,48 @@
                         </StackPanel>
 
                         <!-- Load customer image -->
-                        <Button Grid.Row="0" Grid.Column="1"
-                                Width="{Binding ElementName=ImageColumn, Path=ActualHeight, Mode=OneWay}"
-                                Style="{StaticResource LoadImageButtonStyle}"
-                                Command="{Binding CmdLoadImage}"
-                                ClickMode="Release"
-                                Margin="28 0 0 0">
-                            <Button.Background>
-                                <ImageBrush ImageSource="{Binding AuxiliarCustomer.Image}"
-                                       Stretch="UniformToFill"
-                                       AlignmentX="Center" AlignmentY="Center"/>
-                            </Button.Background>
-                        </Button>
+                        <Border Grid.Row="0" Grid.Column="1"
+                                    Width="{Binding ElementName=ImageColumn, Path=ActualHeight, Mode=OneWay}"
+                                    Margin="28 0 0 0">
+                            <Border.Background>
+                                <ImageBrush ImageSource="/Resources/Images/ImgCustomerLoadImage.png"
+                                            Stretch="UniformToFill"
+                                            Viewport="0.25,0.25,0.5,0.5"
+                                            AlignmentX="Center" AlignmentY="Center"/>
+                            </Border.Background>
+
+                            <Grid>
+                                <Button x:Name="ImageContainer"
+                                    Style="{StaticResource LoadImageButtonStyle}"
+                                    Command="{Binding CmdLoadImage}"
+                                    ClickMode="Release">
+                                    <Button.Background>
+                                        <ImageBrush ImageSource="{Binding AuxiliarCustomer.Image}"
+                                                Stretch="UniformToFill"
+                                                AlignmentX="Center" AlignmentY="Center"/>
+                                    </Button.Background>
+                                </Button>
+
+                                <Button Width="32" Height="32"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Padding="8">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DeleteContentStyles}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding AuxiliarCustomer.Image}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding EnableEdition}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
+                        </Border>
 
                         <!-- Customer general data -->
                         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
@@ -278,6 +327,13 @@
                                  Style="{StaticResource TextBoxStyle}"
                                  Margin="0 0 0 8"/>
 
+                        <TextBlock Text="Codigo postal:"
+                                   Style="{StaticResource FormLabelStyle}"/>
+                        <TextBox Text="{Binding AuxiliarCustomer.PostalCode, Mode=TwoWay}" 
+                                 IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                 Style="{StaticResource TextBoxStyle}"
+                                 Margin="0 0 0 8"/>
+
                         <TextBlock Text="Ciudad:"
                                    Style="{StaticResource FormLabelStyle}"/>
                         <TextBox Text="{Binding AuxiliarCustomer.City, Mode=TwoWay}" 
@@ -292,18 +348,15 @@
                                  Style="{StaticResource TextBoxStyle}"
                                  Margin="0 0 0 8"/>
 
-                        <TextBlock Text="Codigo postal:"
-                                   Style="{StaticResource FormLabelStyle}"/>
-                        <TextBox Text="{Binding AuxiliarCustomer.PostalCode, Mode=TwoWay}" 
-                                 IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
-                                 Style="{StaticResource TextBoxStyle}"
-                                 Margin="0 0 0 8"/>
-
                         <TextBlock Text="Regimen fiscal:"
                                    Style="{StaticResource FormLabelStyle}"/>
-                        <TextBox Text="{Binding AuxiliarCustomer.TaxRegime, Mode=TwoWay}" 
-                                 IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
-                                 Style="{StaticResource TextBoxStyle}"/>
+                        <ComboBox ItemsSource="{Binding ListTaxRegime}"
+                                  SelectedItem="{Binding SelectedTaxRegime}"
+                                  DisplayMemberPath="Name"
+                                  IsEditable="True"
+                                  IsEnabled="{Binding EnableEdition}"
+                                  Style="{StaticResource ComboBoxStyle}"
+                                  Margin="0 0 0 8"/>
                     </StackPanel>
                 </TabItem>
             </TabControl>
@@ -349,14 +402,14 @@
                 <Button Width="100" Height="32" 
                         Content="Aceptar"
                         Margin="0 16 16 0"
-                        Visibility="{Binding TabControlCollapsed, Converter={StaticResource BooleanToVisibility}}"
+                        Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
                         Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdAcept}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Cancelar"
                         Margin="0 16 0 0"
-                        Visibility="{Binding TabControlCollapsed, Converter={StaticResource BooleanToVisibility}}"
+                        Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
                         Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdCancel}"/>
             </StackPanel>

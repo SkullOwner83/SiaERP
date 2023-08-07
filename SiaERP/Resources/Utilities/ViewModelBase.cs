@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows;
 
 namespace SiaERP.Resources.Utilities
 {
@@ -6,17 +7,7 @@ namespace SiaERP.Resources.Utilities
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private bool _TabControlCollapsed = false;
-        private int _TabControlColumn = 3;
-
-        public int TabControlColumn
-        {
-            get => _TabControlColumn;
-            set
-            {
-                _TabControlColumn = value;
-                OnPropertyChanged(nameof(TabControlColumn));
-            }
-        }
+        private int _TabControlWidth = 400;
 
         public bool TabControlCollapsed
         {
@@ -25,6 +16,16 @@ namespace SiaERP.Resources.Utilities
             {
                 _TabControlCollapsed = value;
                 OnPropertyChanged(nameof(TabControlCollapsed));
+            }
+        }
+
+        public int TabControlWidth
+        {
+            get => _TabControlWidth;
+            set
+            {
+                _TabControlWidth = value;
+                OnPropertyChanged(nameof(TabControlWidth));
             }
         }
 

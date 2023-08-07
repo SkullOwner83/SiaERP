@@ -12,15 +12,20 @@ namespace SiaERP.ViewModels
 {
     internal class ServiceViewModel : ViewModelBase
     {
+		//Define property class
+		private SqlServiceQuery ServiceQuery;
         private SqlCustomerQuery CustomerQuery;
         private ObservableCollection<Service> _ListServices;
         private ObservableCollection<Customer> _ListCustomers;
+        private ObservableCollection<ServiceStatus> _ListStatus;
         private Service? _SelectedService;
         private Customer? _SelectedCustomer;
+        private ServiceStatus? _SelectedStatus;
         private Service? _AuxiliarService;
+       
+        private string _Filter;
         private bool _EnableEdition = false;
         private string Action = "None";
-        private string _Filter;
 
         #region Property encapsulation
         public ObservableCollection<Service> ListServices
@@ -43,6 +48,16 @@ namespace SiaERP.ViewModels
             }
         }
 
+        public ObservableCollection<ServiceStatus> ListStatus
+        {
+            get => _ListStatus;
+            set
+            {
+                _ListStatus = value;
+                OnPropertyChanged(nameof(ListStatus));
+            }
+        }
+
         public Service? SelectedService
         {
             get => _SelectedService;
@@ -51,7 +66,14 @@ namespace SiaERP.ViewModels
                 _SelectedService = value;
                 SelectionItemChanged();
                 OnPropertyChanged(nameof(SelectedService));
-            }
+
+				//Search in list services the corresponding to the customer and status by his id and select it
+				if (SelectedService != null && EnableEdition == false)
+				{
+					SelectedCustomer = ListCustomers.FirstOrDefault(p => p.Id == SelectedService.IdCustomer);
+					SelectedStatus = ListStatus.FirstOrDefault(p => p.Id == SelectedService.Status);
+				}
+			}
         }
 
         public Customer? SelectedCustomer
@@ -61,7 +83,30 @@ namespace SiaERP.ViewModels
             {
                 _SelectedCustomer = value;
                 OnPropertyChanged(nameof(SelectedCustomer));
-            }
+
+				//Assigns the selected customer to the services currently being edited
+				if (SelectedCustomer != null && AuxiliarService != null && EnableEdition == true)
+				{
+					AuxiliarService.IdCustomer = SelectedCustomer.Id;
+                    OnPropertyChanged(nameof(AuxiliarService));
+				}
+			}
+        }
+
+        public ServiceStatus? SelectedStatus
+        {
+            get => _SelectedStatus;
+            set
+            {
+                _SelectedStatus = value;
+                OnPropertyChanged(nameof(SelectedStatus));
+
+				//Assigns the selected status to the services currently being edited
+				if (SelectedStatus != null && AuxiliarService != null && EnableEdition == true)
+				{
+					AuxiliarService.Status = SelectedStatus.Id;
+				}
+			}
         }
 
         public Service? AuxiliarService
@@ -74,16 +119,6 @@ namespace SiaERP.ViewModels
             }
         }
 
-        public bool EnableEdition
-        {
-            get => _EnableEdition;
-            set
-            {
-                _EnableEdition = value;
-                OnPropertyChanged(nameof(EnableEdition));
-            }
-        }
-
         public string Filter
         {
             get => _Filter;
@@ -91,6 +126,16 @@ namespace SiaERP.ViewModels
             {
                 _Filter = value;
                 OnPropertyChanged(nameof(Filter));
+            }
+        }
+
+        public bool EnableEdition
+        {
+            get => _EnableEdition;
+            set
+            {
+                _EnableEdition = value;
+                OnPropertyChanged(nameof(EnableEdition));
             }
         }
         #endregion
@@ -102,22 +147,25 @@ namespace SiaERP.ViewModels
         public ICommand CmdPrint { get; }
         public ICommand CmdAcept { get; }
         public ICommand CmdCancel { get; }
+        public ICommand CmdCRUD { get; }
         #endregion
 
         //Constructor method
         public ServiceViewModel()
         {
-            ListServices = new ObservableCollection<Service>();
-            ListCustomers = new ObservableCollection<Customer>();
-            CmdNew = new ViewModelCommand(CreateServiceExecute, CreateServiceCanExecute);
-            CmdDelete = new ViewModelCommand(DeleteServiceExecute, DeleteServiceCanExecute);
-            CmdModify = new ViewModelCommand(UpdateServiceExecute, DeleteServiceCanExecute);
-            CmdPrint = new ViewModelCommand(UpdateServiceExecute, DeleteServiceCanExecute);
+            CmdCRUD = new ViewModelCommand(CRUDExecute, CRUDCanExecute);
             CmdAcept = new ViewModelCommand(AceptActionExecute, ActionCanExecute);
             CmdCancel = new ViewModelCommand(CancelActionExecute, ActionCanExecute);
 
+            ServiceQuery = new SqlServiceQuery();
+            ListServices = new ObservableCollection<Service>();
+            ListServices = ServiceQuery.Read();
+
             CustomerQuery = new SqlCustomerQuery();
+            ListCustomers = new ObservableCollection<Customer>();
             ListCustomers = CustomerQuery.Read();
+
+            ListStatus = DataManagement.ListServiceStatus();
         }
 
         //Set properties of selected item in the form
@@ -134,82 +182,115 @@ namespace SiaERP.ViewModels
             }
         }
 
-        //Create new customer register
-        private void CreateServiceExecute(object obj)
+        //Database query management execute command
+        private void CRUDExecute(object Parameter)
         {
-            EnableEdition = true;
-            Filter = string.Empty;
-            Action = "Create";
+            string? ButtonName = Parameter as string;
 
-            //Clear the auxiliar customer, get last id in database and call property to update view
-            AuxiliarService = CloneObject(null);
-            //AuxiliarService.Folio = Query.LastId() + 1;
-            OnPropertyChanged(nameof(AuxiliarService));
-        }
-
-        //Update data of customer in database
-        private void UpdateServiceExecute(object obj)
-        {
-            EnableEdition = true;
-            Filter = string.Empty;
-            Action = "Update";
-        }
-
-        //Delete service of data grid and data base
-        private void DeleteServiceExecute(object obj)
-        {
-            MessageBoxResult Result = MessageBox.Show($"¿Estás seguro que deseas eliminar el cliente {SelectedService.Name}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (Result == MessageBoxResult.Yes)
+            switch (ButtonName)
             {
-                //Query.Delete(SelectedService);
-                ListServices.Remove(SelectedService);
-                AuxiliarService = null;
+                //Create new register
+                case "Create":
+                    EnableEdition = true;
+                    SelectedCustomer = null;
+                    SelectedStatus = null;
+                    Filter = string.Empty;
+                    Action = "Create";
+
+                    //Clear the auxiliar services, get last id in database and call property to update view
+                    AuxiliarService = CloneObject(null);
+                    AuxiliarService.Id = ServiceQuery.LastId() + 1;
+                    OnPropertyChanged(nameof(AuxiliarService));
+
+                    SelectedStatus = ListStatus.FirstOrDefault(p => p.Id == AuxiliarService.Status);
+					break;
+
+                //Update data of register in database
+                case "Update":
+                    EnableEdition = true;
+                    TabControlCollapsed = false;
+                    Filter = string.Empty;
+                    Action = "Update";
+                    break;
+
+                //Delete register of data grid and database
+                case "Delete":
+                    MessageBoxResult Result = MessageBox.Show($"¿Estás seguro que deseas eliminar el cliente {SelectedService.CustomerName}?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (Result == MessageBoxResult.Yes)
+                    {
+                        ServiceQuery.Delete(SelectedService);
+                        ListServices.Remove(SelectedService);
+                        AuxiliarService = null;
+                    }
+                    break;
             }
+        }
+
+        //Database query management can execute command
+        private bool CRUDCanExecute(object Parameter)
+        {
+            string? ButtonName = Parameter as string;
+            bool CanExecute = false;
+
+            switch (ButtonName)
+            {
+                //Enable button if edition is false
+                case "Create":
+                    if (EnableEdition == false)
+                        CanExecute = true;
+                    else
+                        CanExecute = false;
+                    break;
+
+                //Enable buttons if there is an object selected in datagrid
+                case "Update":
+                case "Delete":
+                case "Print":
+                    if (SelectedService != null && EnableEdition == false)
+                        CanExecute = true;
+                    else
+                        CanExecute = false;
+                    break;
+            }
+
+            return CanExecute;
+        }
+
+        private void FilterExecute(object obj)
+        {
+            ListCustomers.Clear();
+            CustomerQuery.Read(Filter);
         }
 
         private void AceptActionExecute(object obj)
         {
             if (Action == "Create")
             {
-                //Query.Create(AuxiliarCustomer);
+               ServiceQuery.Create(AuxiliarService);
             }
             else if (Action == "Update")
             {
-                //Query.Update(AuxiliarCustomer);
+                ServiceQuery.Update(AuxiliarService);
             }
 
             ListServices.Clear();
-            //ListServices = Query.Read();
+			ListServices = ServiceQuery.Read();
             EnableEdition = false;
-        }
-
-        private bool CreateServiceCanExecute(object obj)
-        {
-            if (EnableEdition == false)
-                return true;
-            else
-                return false;
         }
 
         private void CancelActionExecute(object obj)
         {
             EnableEdition = false;
             AuxiliarService = null;
+            SelectedCustomer = null; 
+            SelectedStatus = null;
             Action = "None";
         }
 
         private bool ActionCanExecute(object obj)
         {
             if (EnableEdition == true)
-                return true;
-            else
-                return false;
-        }
-
-        private bool DeleteServiceCanExecute(object obj)
-        {
-            if (SelectedService != null && EnableEdition == false)
                 return true;
             else
                 return false;

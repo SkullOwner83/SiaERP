@@ -22,10 +22,11 @@ namespace SiaERP.Models
         private string? _State;
         private string? _Country;
         private string? _PostalCode;
-        private string? _Taxregime;
+        private int _Taxregime;
 		private DateTime _Registerdate;
         private BitmapImage? _Image;
         private bool _Trusted;
+		private Byte[] _TaxDocument;
 
 
         //Customer properties
@@ -95,7 +96,7 @@ namespace SiaERP.Models
 			set { _PostalCode = value; }
 		}
 
-		public string? TaxRegime
+		public int TaxRegime
 		{
 			get { return _Taxregime; }
 			set { _Taxregime = value; }
@@ -117,6 +118,12 @@ namespace SiaERP.Models
 		{ 
 			get => _Image; 
 			set => _Image = value; 
+		}
+
+        public byte[] TaxDocument
+		{ 
+			get => _TaxDocument; 
+			set => _TaxDocument = value; 
 		}
 
         //Constructor method

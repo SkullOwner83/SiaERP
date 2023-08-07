@@ -20,6 +20,7 @@
         <Utilities:IntToBoolean x:Key="IntToBoolean"/>
         <Utilities:CurrencyFormat x:Key="CurrencyFormat"/>
         <Utilities:BooleanToVisibility x:Key="BooleanToVisibility"/>
+        <Utilities:WidthToShow x:Key="WidthToShow"/>
     </UserControl.Resources>
 
     <!-- Draw user control -->
@@ -117,11 +118,28 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <!-- Customer data tabcontrol -->
-            <TabControl Grid.Column="{Binding TabControlColumn}" Grid.Row="0" Grid.RowSpan="2"
-                        Style="{StaticResource TabControlStyle}"
+            <!-- Product data tabcontrol -->
+            <TabControl x:Name="DataTabControl" 
+                        Grid.Row="0" Grid.RowSpan="2"
+                        Width="{Binding TabControlWidth, Mode=TwoWay}"
                         Margin="16 0 0 0">
-                <!-- Customer general data form -->
+
+                <!-- Set the styles and extra operations -->
+                <TabControl.Style>
+                    <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource TabControlStyle}">
+                        <!-- Set the default column for the control -->
+                        <Setter Property="Grid.Column" Value="3" />
+
+                        <Style.Triggers>
+                            <!-- Change the column when the controls is hiden -->
+                            <DataTrigger Binding="{Binding ElementName=DataTabControl, Path=ActualWidth}" Value="32">
+                                <Setter Property="Grid.Column" Value="2" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabControl.Style>
+                
+                <!-- Product general data form -->
                 <TabItem Header="Datos generales"
                          IsSelected="True">
                     <Grid>
@@ -136,7 +154,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Customer register data -->
+                        <!-- Product register data -->
                         <StackPanel Grid.Row="0" Grid.Column="0"
                                     x:Name="ImageColumn">
                             <RadioButton Content="Producto"
@@ -177,7 +195,7 @@
                             </TextBox>
                         </StackPanel>
 
-                        <!-- Load customer image -->
+                        <!-- Load Product image -->
                         <Button Grid.Row="0" Grid.Column="1"
                                 Width="{Binding ElementName=ImageColumn, Path=ActualHeight, Mode=OneWay}"
                                 Style="{StaticResource LoadImageButtonStyle}"
@@ -191,7 +209,7 @@
                             </Button.Background>
                         </Button>
 
-                        <!-- Customer general data -->
+                        <!-- Product general data -->
                         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
                                     Margin="0 8 0 0">
                             <TextBlock Text="Nombre:"
@@ -280,14 +298,14 @@
                 <Button Width="100" Height="32" 
                         Content="Aceptar"
                         Margin="0 16 16 0"
-                        Visibility="{Binding TabControlCollapsed, Converter={StaticResource BooleanToVisibility}}"
+                        Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
                         Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdAcept}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Cancelar"
                         Margin="0 16 0 0"
-                        Visibility="{Binding TabControlCollapsed, Converter={StaticResource BooleanToVisibility}}"
+                        Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
                         Style="{StaticResource ButtonStyle}"
                         Command="{Binding CmdCancel}"/>
             </StackPanel>

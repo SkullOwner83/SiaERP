@@ -153,7 +153,7 @@
                 <ImageBrush ImageSource="/Resources/Images/ImgCustomerLoadImage.png"/>
             </Setter.Value>
         </Setter>
-        
+
         <!-- Draw control components -->
         <Setter Property="Template">
             <Setter.Value>
@@ -172,6 +172,24 @@
                             <Setter Property="BorderBrush" Value="{StaticResource ClrOnPrimary}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Close or delete content of control styles -->
+    <Style x:Key="DeleteContentStyles" TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand"/>
+
+        <!-- Draw control components -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Margin="{TemplateBinding Padding}">
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Resources/Images/ButtonClose.png"/>
+                        </Border.Background>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

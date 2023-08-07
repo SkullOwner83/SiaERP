@@ -185,14 +185,14 @@
                    Placement="Bottom"
                    AllowsTransparency="true"
                    IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                   PopupAnimation="Slide"
                    Margin="1">
 
                 <!-- Draw shadow of popup control -->
                 <theme:SystemDropShadowChrome
                     x:Name="Shadow"
                     Color="Transparent"
-                    MinWidth="{Binding ActualWidth, ElementName=TriggerContainer}"
+                    Width="{Binding ActualWidth, ElementName=TriggerContainer}"
                     MaxHeight="{TemplateBinding MaxDropDownHeight}">
                     <!-- Define the area of popup menu -->
                     <Border SnapsToDevicePixels="True"
@@ -262,12 +262,12 @@
                    Placement="Bottom"
                    AllowsTransparency="true"
                    IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
+                   PopupAnimation="Slide">
                 <!-- Draw shadow of popup control -->
                 <theme:SystemDropShadowChrome 
                     x:Name="Shadow"
                     Color="Transparent"
-                    MinWidth="{Binding ActualWidth, ElementName=TriggerContainer}"
+                    Width="{Binding ActualWidth, ElementName=TriggerContainer}"
                     MaxHeight="{TemplateBinding MaxDropDownHeight}">
                     <!-- Define the area of popup menu -->
                     <Border SnapsToDevicePixels="True"

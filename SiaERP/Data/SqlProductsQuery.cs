@@ -17,18 +17,13 @@ namespace SiaERP.Data
         {
             ListProducts = new ObservableCollection<Product>();
             PrimaryKey = "idProduct";
+            Table = "Products";
         }
 
         //Extract objects from database
         internal ObservableCollection<Product> Read(string Filter = "")
         {
             string Query = "SELECT * FROM Products ";
-
-            //Display results matching the filter
-            if (Filter != string.Empty && Filter != null)
-            {
-                Query += $"WHERE idCustomer LIKE '%{Filter}%' OR Name LIKE '%{Filter}%' OR PhoneNumber LIKE '%{Filter}%' OR DATE_FORMAT(RegisterDate, '%d/%m/%Y') LIKE '%{Filter}%'";
-            }
 
             using (Connection = GetConnection())
             {
@@ -110,6 +105,7 @@ namespace SiaERP.Data
             {
                 using (MySqlCommand Command = new MySqlCommand(Query, Connection))
                 {
+                    //Add properties of parameter model to the query string
                     Connection.Open();
                     Command.Parameters.AddWithValue("@id", Model.Id);
                     Command.Parameters.AddWithValue("@type", Model.Type);

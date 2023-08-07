@@ -5,33 +5,33 @@ namespace SiaERP.Models
 	public class Service : IDisposable
 	{
         //Service fields
-        private int _Folio;
-		private int _Customer;
-		private string _Name;
+        private int _idService;
+		private int _idCustomer;
+		private string _CustomerName;
         private DateTime _AdmissionDate;
         private DateTime _DeliveryDate;
-        private string _Status;
+        private int _Status;
         private int _Product;
         private string? _Diagnostic;
 		private string? _ProblemOrService;
 
         //Service Properties
-        public int Folio 
-		{ 
-			get => _Folio; 
-			set => _Folio = value; 
+        public int Id
+        { 
+			get => _idService; 
+			set => _idService = value; 
 		}
 
-		public int Customer 
+		public int IdCustomer 
 		{ 
-			get => _Customer; 
-			set => _Customer = value; 
+			get => _idCustomer; 
+			set => _idCustomer = value; 
 		}
 
-		public string Name 
-		{ 
-			get => _Name; 
-			set => _Name = value;
+		public string CustomerName
+        {
+			get => _CustomerName; 
+			set => _CustomerName = value;
 		}
 
 		public DateTime AdmissionDate 
@@ -46,7 +46,7 @@ namespace SiaERP.Models
 			set => _DeliveryDate = value; 
 		}
 
-		public string Status 
+		public int Status 
 		{ 
 			get => _Status; 
 			set => _Status = value; 
@@ -74,11 +74,17 @@ namespace SiaERP.Models
 		public Service()
 		{
 			AdmissionDate = DateTime.Now;
+			Status = 1;
         }
 
         public void Dispose()
         {
             
         }
-    }
+
+		internal Customer? FirstOrDefault(Func<object, bool> value)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

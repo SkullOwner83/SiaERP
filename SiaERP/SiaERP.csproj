@@ -9,33 +9,36 @@
 
   <ItemGroup>
     <None Remove="Resources\Images\ButtonClose.png" />
-    <None Remove="Resources\Images\ButtonCredit.png" />
-    <None Remove="Resources\Images\ButtonCustomers.png" />
-    <None Remove="Resources\Images\ButtonInvoices.png" />
-    <None Remove="Resources\Images\ButtonLogOut.png" />
     <None Remove="Resources\Images\ButtonMaximize.png" />
     <None Remove="Resources\Images\ButtonMinimize.png" />
-    <None Remove="Resources\Images\ButtonNotes.png" />
-    <None Remove="Resources\Images\ButtonProducts.png" />
-    <None Remove="Resources\Images\ButtonQuote.png" />
     <None Remove="Resources\Images\ButtonRestore.png" />
-    <None Remove="Resources\Images\ButtonSales.png" />
-    <None Remove="Resources\Images\ButtonServices.png" />
     <None Remove="Resources\Images\ImgCustomerEnterprice.png" />
     <None Remove="Resources\Images\ImgCustomerEnterpriceTrusted.png" />
     <None Remove="Resources\Images\ImgCustomerIndividual.png" />
     <None Remove="Resources\Images\ImgCustomerIndividualTrusted.png" />
     <None Remove="Resources\Images\ImgCustomerLoadImage.png" />
+    <None Remove="Resources\Images\ImgMenuButtonCredit.png" />
+    <None Remove="Resources\Images\ImgMenuButtonCustomers.png" />
+    <None Remove="Resources\Images\ImgMenuButtonInvoices.png" />
+    <None Remove="Resources\Images\ImgMenuButtonLogOut.png" />
+    <None Remove="Resources\Images\ImgMenuButtonNotes.png" />
+    <None Remove="Resources\Images\ImgMenuButtonProducts.png" />
+    <None Remove="Resources\Images\ImgMenuButtonQuote.png" />
+    <None Remove="Resources\Images\ImgMenuButtonSales.png" />
+    <None Remove="Resources\Images\ImgMenuButtonServices.png" />
+    <None Remove="Resources\Images\ImgStatusDelivered.png" />
+    <None Remove="Resources\Images\ImgStatusFinished.png" />
+    <None Remove="Resources\Images\ImgStatusInService.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Images\ButtonNotes.png" />
-    <Resource Include="Resources\Images\ButtonQuote.png" />
-    <Resource Include="Resources\Images\ButtonCredit.png" />
-    <Resource Include="Resources\Images\ButtonCustomers.png" />
-    <Resource Include="Resources\Images\ButtonInvoices.png" />
-    <Resource Include="Resources\Images\ButtonLogOut.png" />
-    <Resource Include="Resources\Images\ButtonProducts.png" />
+    <Resource Include="Resources\Images\ImgMenuButtonNotes.png" />
+    <Resource Include="Resources\Images\ImgMenuButtonQuote.png" />
+    <Resource Include="Resources\Images\ImgMenuButtonCredit.png" />
+    <Resource Include="Resources\Images\ImgMenuButtonCustomers.png" />
+    <Resource Include="Resources\Images\ImgMenuButtonInvoices.png" />
+    <Resource Include="Resources\Images\ImgMenuButtonLogOut.png" />
+    <Resource Include="Resources\Images\ImgMenuButtonProducts.png" />
     <Resource Include="Resources\Images\ButtonRestore.png" />
   </ItemGroup>
 
@@ -47,13 +50,16 @@
     <Resource Include="Resources\Images\ButtonClose.png" />
     <Resource Include="Resources\Images\ButtonMaximize.png" />
     <Resource Include="Resources\Images\ButtonMinimize.png" />
-    <Resource Include="Resources\Images\ButtonSales.png" />
-    <Resource Include="Resources\Images\ButtonServices.png" />
+    <Resource Include="Resources\Images\ImgMenuButtonSales.png" />
+    <Resource Include="Resources\Images\ImgMenuButtonServices.png" />
     <Resource Include="Resources\Images\ImgCustomerEnterprice.png" />
     <Resource Include="Resources\Images\ImgCustomerEnterpriceTrusted.png" />
     <Resource Include="Resources\Images\ImgCustomerIndividual.png" />
     <Resource Include="Resources\Images\ImgCustomerIndividualTrusted.png" />
     <Resource Include="Resources\Images\ImgCustomerLoadImage.png" />
+    <Resource Include="Resources\Images\ImgStatusDelivered.png" />
+    <Resource Include="Resources\Images\ImgStatusFinished.png" />
+    <Resource Include="Resources\Images\ImgStatusInService.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,7 +72,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
-    <PackageReference Include="MySql.Data" Version="8.0.33" />
+    <PackageReference Include="MySql.Data" Version="8.1.0" />
   </ItemGroup>
 
 </Project>

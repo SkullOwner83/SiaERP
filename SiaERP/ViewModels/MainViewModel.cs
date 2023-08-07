@@ -9,6 +9,7 @@ namespace SiaERP.ViewModels
         //Define private variables
         private ViewModelBase _CurrentView;
         private int _LateralMenuSize = 48;
+        private bool EnableEdition;
 
         //Define public properties
         public ViewModelBase CurrentView 

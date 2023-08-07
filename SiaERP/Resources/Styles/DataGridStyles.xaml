@@ -226,7 +226,7 @@
                                                    Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                                    Maximum="{TemplateBinding ScrollableWidth}"
                                                    ViewportSize="{TemplateBinding ViewportWidth}" 
-                                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                                                   Visibility="Hidden"/>
                                     </Grid>
                                 </ControlTemplate>
                             </ScrollViewer.Template>

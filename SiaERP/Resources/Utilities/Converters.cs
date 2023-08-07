@@ -121,7 +121,46 @@ namespace SiaERP.Resources.Utilities
         }
     }
 
-    //
+    //Show or collapse control depending of control width
+    public class WidthToShow : IValueConverter
+    {
+        public object Convert(object Value, Type TargetType, object Parameter, CultureInfo Culture)
+        {
+            if (Value is double CurrentWidth && int.TryParse(Parameter.ToString(), out int RequeridWidth))
+            {
+                //Check if the width is greater than or equal that parameter value
+                return CurrentWidth >= RequeridWidth ? Visibility.Visible : Visibility.Collapsed;
+            }
+
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object Value, Type TargetType, object Parameter, CultureInfo Culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    //Keep one column roportion
+    public class KeepProportion : IValueConverter
+    {
+        //Divide the current width of control by the proportion of the parameter value
+        public object Convert(object Value, Type TargetType, object Parameter, CultureInfo Culture)
+        {
+            if (Value is double CurrentWidth && int.TryParse(Parameter.ToString(), out int Proportion))
+            {
+                return CurrentWidth / Proportion;
+            }
+            return 0;
+        }
+
+        public object ConvertBack(object Value, Type TargetType, object Parameter, CultureInfo Culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    //?????
     public class BooleanToVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

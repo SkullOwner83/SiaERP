@@ -24,8 +24,9 @@ namespace SiaERP.ViewModels
         private ProductCategory? _SelectedCategory;
         private Product? _AuxiliarProduct;
         private ImageSource? _ProductImage;
-        private bool _EnableEdition = false;
+
         private string? _Filter;
+        private bool _EnableEdition = false;
         private string Action = "None";
 
         #region Property encapsulation
@@ -102,6 +103,16 @@ namespace SiaERP.ViewModels
             }
         }
 
+        public string? Filter
+        { 
+            get => _Filter;
+            set
+            {
+                _Filter = value;
+                OnPropertyChanged(nameof(Filter));
+            }
+        }
+
         public bool EnableEdition
         {
             get => _EnableEdition;
@@ -111,16 +122,6 @@ namespace SiaERP.ViewModels
                 OnPropertyChanged(nameof(EnableEdition));
             }
         }
-
-        public string? Filter
-        { 
-            get => _Filter;
-            set
-            {
-                _Filter = value;
-                OnPropertyChanged(nameof(Filter));
-            }
-        }     
         #endregion
 
         #region Define commands
@@ -129,7 +130,6 @@ namespace SiaERP.ViewModels
         public ICommand CmdCancel { get; }
         public ICommand CmdFilter { get; }
         public ICommand CmdLoadImage { get; }
-        public ICommand CmdCollapseColumn { get; }
         #endregion
 
         //Constructor method
@@ -140,7 +140,6 @@ namespace SiaERP.ViewModels
             CmdCancel = new ViewModelCommand(CancelActionExecute, ActionCanExecute);
             CmdFilter = new ViewModelCommand(FilterExecute);
             CmdLoadImage = new ViewModelCommand(LoadImageExecute, ActionCanExecute);
-            CmdCollapseColumn = new ViewModelCommand(CollapseColumnExecute);
 
             ProductsQuery = new SqlProductsQuery();
             ListProducts = new ObservableCollection<Product>();
@@ -271,13 +270,6 @@ namespace SiaERP.ViewModels
                 return true;
             else
                 return false;
-        }
-
-        //Tabcontrol of data collapse column
-        private void CollapseColumnExecute(object obj)
-        {
-            TabControlCollapsed = !TabControlCollapsed;
-            TabControlColumn = TabControlCollapsed == true ? 2 : 3;
         }
 
         //Load customer image from file explorer

@@ -16,6 +16,8 @@ namespace SiaERP.Data
         public SqlCustomerQuery()
         {
             ListCustomers = new ObservableCollection<Customer>();
+            PrimaryKey = "idCustomer";
+            Table = "Customers";
         }
 
         //Extract objects from database of users type
@@ -55,7 +57,7 @@ namespace SiaERP.Data
                             State = Reader["State"] is DBNull ? null : (string)Reader["State"],
                             Country = Reader["Country"] is DBNull ? null : (string)Reader["Country"],
                             PostalCode = Reader["PostalCode"] is DBNull ? null : (string)Reader["PostalCode"],
-                            TaxRegime = Reader["TaxRegime"] is DBNull ? null : (string)Reader["TaxRegime"],
+                            TaxRegime = Reader["TaxRegime"] is DBNull ? 0 : (int)Reader["TaxRegime"],
                             RegisterDate = (DateTime)Reader["RegisterDate"],
                             Trusted = (bool)Reader["Trusted"],
                             Image = CustomerImage
@@ -73,13 +75,14 @@ namespace SiaERP.Data
         //Add register in table of data base
         internal void Create(Customer Model)
         {
-            string Query = "INSERT INTO Customers VALUES(@id, @type, @name, @rfc, @phonenumber, @email, @adress, @city, @state, @country, @postalcode, @taxregime, @registerdate, @trusted, @image);";
+            string Query = "INSERT INTO Customers VALUES(@id, @type, @name, @rfc, @phonenumber, @email, @adress, @city, @state, @country, @postalcode, @taxregime, @registerdate, @trusted, @image, @taxdocument);";
             byte[] ImageData = Function.BitmapImageToBytes(Model.Image);
 
             using(Connection = GetConnection())
             {
                 using(MySqlCommand Command = new MySqlCommand(Query, Connection))
                 {
+                    //Add properties of parameter model to the query string
                     Connection.Open();
                     Command.Parameters.AddWithValue("@id", Model.Id);
                     Command.Parameters.AddWithValue("@type", Model.Type);
@@ -96,6 +99,7 @@ namespace SiaERP.Data
                     Command.Parameters.AddWithValue("@registerdate", Model.RegisterDate);
                     Command.Parameters.AddWithValue("@trusted", Model.Trusted);
                     Command.Parameters.AddWithValue("@image", ImageData);
+                    Command.Parameters.AddWithValue("@taxdocument", Model.TaxDocument);
                     Command.ExecuteNonQuery();
                     Connection.Close();
                 }
@@ -150,30 +154,6 @@ namespace SiaERP.Data
                     Connection.Close();
                 }
             }
-        }
-
-        //Get the id of the last record in the database
-        internal int LastId()
-        {
-            string Query = "SELECT MAX(idCustomer) From Customers";
-            int LastId = 0;
-
-            using(Connection = GetConnection())
-            {
-                using(MySqlCommand Command = new MySqlCommand(Query, Connection))
-                {
-                    Connection.Open();
-                    object Resullt = Command.ExecuteScalar();
-
-                    if (Resullt != null && Resullt != DBNull.Value)
-                    {
-                        LastId = Convert.ToInt32(Resullt);
-                    }
-                }
-
-            }
-
-            return LastId;
         }
     }
 }

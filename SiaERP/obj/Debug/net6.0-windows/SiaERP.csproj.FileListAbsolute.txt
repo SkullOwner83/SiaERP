@@ -232,3 +232,5 @@ C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Style
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Resources\Utilities\InterfaceProperties.baml
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\ProductsView.g.cs
 C:\Users\DELL Sia\Desktop\SiaERP\SiaERP\obj\Debug\net6.0-windows\Views\ProductsView.baml
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\bin\Debug\net6.0-windows\System.Diagnostics.DiagnosticSource.dll
+D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\bin\Debug\net6.0-windows\ZstdSharp.dll

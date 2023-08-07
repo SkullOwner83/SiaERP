@@ -14,6 +14,7 @@ namespace SiaERP.Data
 		private readonly string ConnectionString;
 		public MySqlConnection Connection;
         public string PrimaryKey;
+        public string Table;
 
 		//Constructor method
 		public SqlDatabase()
@@ -30,7 +31,7 @@ namespace SiaERP.Data
         //Get the id of the last record in the database
         public int LastId()
         {
-            string Query = $"SELECT MAX({PrimaryKey}) From Products";
+            string Query = $"SELECT MAX({PrimaryKey}) From {Table}";
             int LastId = 0;
 
             using (Connection = GetConnection())
@@ -38,11 +39,11 @@ namespace SiaERP.Data
                 using (MySqlCommand Command = new MySqlCommand(Query, Connection))
                 {
                     Connection.Open();
-                    object Resullt = Command.ExecuteScalar();
+                    object Result = Command.ExecuteScalar();
 
-                    if (Resullt != null && Resullt != DBNull.Value)
+                    if (Result != null && Result != DBNull.Value)
                     {
-                        LastId = Convert.ToInt32(Resullt);
+                        LastId = Convert.ToInt32(Result);
                     }
                 }
 

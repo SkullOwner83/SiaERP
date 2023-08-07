@@ -90,49 +90,49 @@
                                   VerticalScrollBarVisibility="Hidden">
                         <StackPanel Orientation="Vertical">
                             <Button Content="Clientes"
-                                    Property:CustomProperties.Image="/Resources/Images/ButtonCustomers.png"
+                                    Property:CustomProperties.Image="/Resources/Images/ImgMenuButtonCustomers.png"
                                     CommandParameter="Customers"
 								    Command="{Binding CmdShowView}"
                                     Style="{StaticResource MenuButtonStyle}"/>
 
                             <Button Content="Servicios"
-                                    Property:CustomProperties.Image="/Resources/Images/ButtonServices.png"
+                                    Property:CustomProperties.Image="/Resources/Images/ImgMenuButtonServices.png"
                                     CommandParameter="Services"
                                     Command="{Binding CmdShowView}"
 								    Style="{StaticResource MenuButtonStyle}"/>
 
                             <Button Content="Productos"
-                                    Property:CustomProperties.Image="/Resources/Images/ButtonProducts.png"
+                                    Property:CustomProperties.Image="/Resources/Images/ImgMenuButtonProducts.png"
                                     CommandParameter="Products"
                                     Command="{Binding CmdShowView}"
 								    Style="{StaticResource MenuButtonStyle}"/>
 
                             <Button Content="Ventas"
-								    Property:CustomProperties.Image="/Resources/Images/ButtonSales.png"
+								    Property:CustomProperties.Image="/Resources/Images/ImgMenuButtonSales.png"
                                     CommandParameter="Sales"
                                     Style="{StaticResource MenuButtonStyle}"/>
 
                             <Button Content="Cotizaciones"
-                                    Property:CustomProperties.Image="/Resources/Images/ButtonQuote.png"
+                                    Property:CustomProperties.Image="/Resources/Images/ImgMenuButtonQuote.png"
 								    Style="{StaticResource MenuButtonStyle}"/>
 
                             <Button Content="Credito"
-                                    Property:CustomProperties.Image="/Resources/Images/ButtonCredit.png"
+                                    Property:CustomProperties.Image="/Resources/Images/ImgMenuButtonCredit.png"
 								    Style="{StaticResource MenuButtonStyle}"/>
 
                             <Button Content="Facturas"
-                                    Property:CustomProperties.Image="/Resources/Images/ButtonInvoices.png"
+                                    Property:CustomProperties.Image="/Resources/Images/ImgMenuButtonInvoices.png"
 								    Style="{StaticResource MenuButtonStyle}" Cursor="Hand"/>
 
                             <Button Content="Notas"
-                                    Property:CustomProperties.Image="/Resources/Images/ButtonNotes.png"
+                                    Property:CustomProperties.Image="/Resources/Images/ImgMenuButtonNotes.png"
 								    Style="{StaticResource MenuButtonStyle}"/>
                         </StackPanel>
                     </ScrollViewer>
 
                     <Button Grid.Row="2" Width="48"
                             HorizontalAlignment="Left"
-                            Property:CustomProperties.Image="/Resources/Images/ButtonLogOut.png"
+                            Property:CustomProperties.Image="/Resources/Images/ImgMenuButtonLogOut.png"
 							Margin="0 48 0 0"
                             Padding="12"
                             Click="MtdButtonClicked"
