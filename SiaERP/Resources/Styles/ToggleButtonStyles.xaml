@@ -44,6 +44,9 @@
         <Setter Property="BorderBrush" Value="{StaticResource ClrBorder}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        
+        <!-- Behaviors properties -->
+        <Setter Property="Cursor" Value="Hand"/>
 
         <!-- Draw control components -->
         <Setter Property="Template">

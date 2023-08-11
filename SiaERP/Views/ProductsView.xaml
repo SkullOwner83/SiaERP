@@ -94,7 +94,7 @@
 
                 <!-- Column headers definition -->
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="26"
+                    <DataGridTemplateColumn Width="27"
                                             CanUserReorder="False"
                                             CanUserResize="False"
                                             CanUserSort="True">
@@ -108,9 +108,9 @@
                                         Width="150"
                                         Binding="{Binding Brand}"/>
 
-                    <DataGridTextColumn Header="Stock"
-                                        Width="80"
-                                        Binding="{Binding Stock}"/>
+                    <DataGridTextColumn Header="Categoria"
+                                        Width="150"
+                                        Binding="{Binding CategoryName}"/>
 
                     <DataGridTextColumn Header="Precio"
                                         Width="*"
@@ -195,19 +195,52 @@
                             </TextBox>
                         </StackPanel>
 
-                        <!-- Load Product image -->
-                        <Button Grid.Row="0" Grid.Column="1"
+                        <!-- Load product image -->
+                        <Border Grid.Row="0" Grid.Column="1"
                                 Width="{Binding ElementName=ImageColumn, Path=ActualHeight, Mode=OneWay}"
-                                Style="{StaticResource LoadImageButtonStyle}"
-                                Command="{Binding CmdLoadImage}"
-                                ClickMode="Release"
                                 Margin="28 0 0 0">
-                            <Button.Background>
-                                <ImageBrush ImageSource="{Binding AuxiliarProduct.Image}"
-                                       Stretch="UniformToFill"
-                                       AlignmentX="Center" AlignmentY="Center"/>
-                            </Button.Background>
-                        </Button>
+                            <Border.Background>
+                                <ImageBrush ImageSource="/Resources/Images/ImgCustomerLoadImage.png"
+                                            Stretch="UniformToFill"
+                                            Viewport="0.25,0.25,0.5,0.5"
+                                            AlignmentX="Center" AlignmentY="Center"/>
+                            </Border.Background>
+
+                            <Grid>
+                                <Button x:Name="ImageContainer"
+                                        Style="{StaticResource LoadImageButtonStyle}"
+                                        Command="{Binding CmdLoadImage}"
+                                        ClickMode="Release">
+                                    <Button.Background>
+                                        <ImageBrush ImageSource="{Binding AuxiliarProduct.Image}"
+                                                    Stretch="UniformToFill"
+                                                    AlignmentX="Center" AlignmentY="Center"/>
+                                    </Button.Background>
+                                </Button>
+
+                                <!-- Delete image button -->
+                                <Button Width="32" Height="32"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Padding="8"
+                                        CommandParameter="DeleteImage"
+                                        Command="{Binding CmdEdition}">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DeleteContentStyles}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding AuxiliarProduct.Image}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding EnableEdition}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
+                        </Border>
 
                         <!-- Product general data -->
                         <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
@@ -299,15 +332,17 @@
                         Content="Aceptar"
                         Margin="0 16 16 0"
                         Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdAcept}"/>
+                        CommandParameter="Acept"
+                        Command="{Binding CmdEdition}"
+                        Style="{StaticResource ButtonStyle}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Cancelar"
                         Margin="0 16 0 0"
                         Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdCancel}"/>
+                        CommandParameter="Cancel"
+                        Command="{Binding CmdEdition}"
+                        Style="{StaticResource ButtonStyle}"/>
             </StackPanel>
         </Grid>
     </Border>

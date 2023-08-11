@@ -7,7 +7,7 @@ namespace SiaERP.Resources.Utilities
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private bool _TabControlCollapsed = false;
-        private int _TabControlWidth = 400;
+        private double _TabControlWidth = 400;
 
         public bool TabControlCollapsed
         {
@@ -19,7 +19,7 @@ namespace SiaERP.Resources.Utilities
             }
         }
 
-        public int TabControlWidth
+        public double TabControlWidth
         {
             get => _TabControlWidth;
             set

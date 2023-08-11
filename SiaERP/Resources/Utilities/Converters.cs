@@ -6,6 +6,23 @@ using System.Windows.Data;
 
 namespace SiaERP.Resources.Utilities
 {
+    public class KeepRatio : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is double totalWidth)
+            {
+                return totalWidth / 3;
+            }
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     //Invert the value of a boolean
     class BooleanInverse : IValueConverter
     {

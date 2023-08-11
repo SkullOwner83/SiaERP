@@ -126,8 +126,7 @@ namespace SiaERP.ViewModels
 
         #region Define commands
         public ICommand CmdCRUD { get; }
-        public ICommand CmdAcept { get; }
-        public ICommand CmdCancel { get; }
+        public ICommand CmdEdition { get; }
         public ICommand CmdFilter { get; }
         public ICommand CmdLoadImage { get; }
         #endregion
@@ -136,10 +135,9 @@ namespace SiaERP.ViewModels
         public ProductsViewModel()
         {
             CmdCRUD = new ViewModelCommand(CRUDExecute, CRUDCanExecute);
-            CmdAcept = new ViewModelCommand(AceptActionExecute, ActionCanExecute);
-            CmdCancel = new ViewModelCommand(CancelActionExecute, ActionCanExecute);
+            CmdEdition = new ViewModelCommand(EditionExecute, EditionCanExecute);
             CmdFilter = new ViewModelCommand(FilterExecute);
-            CmdLoadImage = new ViewModelCommand(LoadImageExecute, ActionCanExecute);
+            CmdLoadImage = new ViewModelCommand(LoadImageExecute, EditionCanExecute);
 
             ProductsQuery = new SqlProductsQuery();
             ListProducts = new ObservableCollection<Product>();
@@ -234,37 +232,42 @@ namespace SiaERP.ViewModels
             return CanExecute;
         }
 
-        private void FilterExecute(object obj)
+        //Edition actions on editable object execute command
+        private void EditionExecute(object Parameter)
         {
-            ListProducts.Clear();
-            ProductsQuery.Read(Filter);
-        }
+            string? ButtonName = Parameter as string;
+            bool CanExecute = false;
 
-        private void AceptActionExecute(object obj)
-        {
-            if (Action == "Create")
+            switch(ButtonName)
             {
-                ProductsQuery.Create(AuxiliarProduct);
-            }
-            else if (Action == "Update")
-            {
-                ProductsQuery.Update(AuxiliarProduct);
-            }
+                //Acept action execute
+                case "Acept":
+                    if (Action == "Create")
+                    {
+                        ProductsQuery.Create(AuxiliarProduct);
+                    }
+                    else if (Action == "Update")
+                    {
+                        ProductsQuery.Update(AuxiliarProduct);
+                    }
 
-            ListProducts.Clear();
-            ListProducts = ProductsQuery.Read();
-            EnableEdition = false;
+                    ListProducts.Clear();
+                    ListProducts = ProductsQuery.Read();
+                    EnableEdition = false;
+                    break;
+
+                //Cancel action execute
+                case "Cancel":
+                    EnableEdition = false;
+                    AuxiliarProduct = null;
+                    SelectedCategory = null;
+                    Action = "None";
+                    break;
+            }
         }
 
-        private void CancelActionExecute(object obj)
-        {
-            EnableEdition = false;
-            AuxiliarProduct = null;
-            SelectedCategory = null;
-            Action = "None";
-        }
-
-        private bool ActionCanExecute(object obj)
+        //Edition actions on editable object  can execute command
+        private bool EditionCanExecute(object Parameter)
         {
             if (EnableEdition == true)
                 return true;
@@ -272,8 +275,14 @@ namespace SiaERP.ViewModels
                 return false;
         }
 
+        private void FilterExecute(object Parameter)
+        {
+            ListProducts.Clear();
+            ProductsQuery.Read(Filter);
+        }
+
         //Load customer image from file explorer
-        private void LoadImageExecute(object obj)
+        private void LoadImageExecute(object Parameter)
         {
             OpenFileDialog LoadFile = new OpenFileDialog();
             LoadFile.Filter = "Image Files (*.jpg; *.png; *.bmp)|*.jpg; *.png; *.bmp";

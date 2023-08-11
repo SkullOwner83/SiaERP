@@ -23,7 +23,8 @@ namespace SiaERP.Data
         //Extract objects from database
         internal ObservableCollection<Product> Read(string Filter = "")
         {
-            string Query = "SELECT * FROM Products ";
+            string Query = "SELECT p.*, c.CategoryName FROM Products p " +
+                           "JOIN ProductCategory c ON p.Category = c.idCategory";
 
             using (Connection = GetConnection())
             {
@@ -46,6 +47,7 @@ namespace SiaERP.Data
                             Supplier = (int)Reader["Supplier"],
                             Name = (string)Reader["Name"],
                             Brand = Reader["Brand"] is DBNull ? null : (string)Reader["Brand"],
+                            CategoryName = (string)Reader["CategoryName"],
                             Description = Reader["Description"] is DBNull ? null : (string)Reader["Description"],
                             Code = Reader["Code"] is DBNull ? null : (string)Reader["Code"],
                             BuyPrice = (decimal)Reader["BuyPrice"],

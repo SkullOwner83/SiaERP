@@ -197,7 +197,6 @@
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="*"/>
-                                            <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
                                         <!-- Draw column headers -->

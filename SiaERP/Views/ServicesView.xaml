@@ -96,7 +96,7 @@
 
                 <!-- Column headers definition -->
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="26"
+                    <DataGridTemplateColumn Width="27"
                                             CanUserReorder="False"
                                             CanUserResize="False"
                                             CanUserSort="True">
@@ -193,7 +193,7 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="1"
-                                        Margin="16 0 0 0">
+                                    Margin="16 0 0 0">
                             <TextBlock Text="Fecha de ingreso:"
                                        Style="{StaticResource FormLabelStyle}"/>
                             <TextBox Text="{Binding AuxiliarService.AdmissionDate, StringFormat=\{0:dd/MM/yyyy\}}"
@@ -303,15 +303,17 @@
                         Content="Aceptar"
                         Margin="0 16 16 0"
                         Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdAcept}"/>
+                        CommandParameter="Acept"
+                        Command="{Binding CmdEdition}"
+                        Style="{StaticResource ButtonStyle}"/>
 
                 <Button Width="100" Height="32" 
                         Content="Cancelar"
                         Margin="0 16 0 0"
                         Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
-                        Style="{StaticResource ButtonStyle}"
-                        Command="{Binding CmdCancel}"/>
+                        CommandParameter="Cancel"
+                        Command="{Binding CmdEdition}"
+                        Style="{StaticResource ButtonStyle}"/>
             </StackPanel>
         </Grid>
     </Border>

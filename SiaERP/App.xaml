@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="/Resources/Styles/ToggleButtonStyles.xaml"/>
                 <ResourceDictionary Source="/Resources/Styles/TabControlStyles.xaml"/>
                 <ResourceDictionary Source="/Resources/Styles/TextboxStyles.xaml"/>
+                <ResourceDictionary Source="/Resources/Styles/ContextMenuStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 	</Application.Resources>

@@ -13,6 +13,7 @@
 		Background="Transparent"
 		AllowsTransparency="True" 
 		WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
 		WindowStyle="None">
 
     <Window.DataContext>

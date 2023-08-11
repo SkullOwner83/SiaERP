@@ -126,14 +126,10 @@
                             </ItemsControl>
 
                             <!-- Hide or show control button -->
-                            <ToggleButton Grid.Column="1"
-                                          x:Name="HideShowButton"
-                                          Width="32" Height="32"
-                                          VerticalAlignment="Top"
-                                          Margin="16 0 0 0"
-                                          Cursor="Hand"
-                                          Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabControl}}, Path=DataContext.CmdCollapseColumn}"
-                                          Style="{StaticResource TabControlCollapseButtonStyle}"/>
+                            <Border Grid.Column="1"
+                                    Width="32" Height="32"
+                                    Margin="16 0 0 0"
+                                    VerticalAlignment="Top"/>
                         </Grid>
 
                         <!-- Panel of content -->
@@ -150,53 +146,6 @@
                                                 ContentSource="SelectedContent"/>
                         </Border>
                     </Grid>
-
-                    <!-- Define button triggers -->
-                    <ControlTemplate.Triggers>
-                        <!-- Show TabControl column -->
-                        <EventTrigger SourceName="HideShowButton"
-                                      RoutedEvent="ToggleButton.Unchecked">
-                            <BeginStoryboard>
-                                <Storyboard x:Name="ShowControlAnimation">
-                                    <DoubleAnimation Storyboard.TargetProperty="Width"
-                                                     Duration="0:0:0.3"
-                                                     To="400"/>
-
-                                    <ThicknessAnimation Storyboard.TargetName="HideShowButton"
-                                                        Storyboard.TargetProperty="Margin"
-                                                        Duration="0:0:0.3"
-                                                        To="16 0 0 0"/>
-
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content"
-                                                                   Storyboard.TargetProperty="Visibility">
-                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
-                                    </ObjectAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-
-                        <!-- Hide TabControl column -->
-                        <EventTrigger SourceName="HideShowButton"
-                                      RoutedEvent="ToggleButton.Checked">
-                            <BeginStoryboard>
-                                <Storyboard x:Name="HideControlAnimation">
-                                    <DoubleAnimation Storyboard.TargetProperty="Width"
-                                                     Duration="0:0:0.3"
-                                                     To="32"/>
-
-                                    <ThicknessAnimation Storyboard.TargetName="HideShowButton"
-                                                        Storyboard.TargetProperty="Margin"
-                                                        Duration="0:0:0.3"
-                                                        To="0"/>
-
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content"
-                                                                   Storyboard.TargetProperty="Visibility">
-                                        <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}" />
-                                    </ObjectAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

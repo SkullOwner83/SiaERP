@@ -141,21 +141,15 @@ namespace SiaERP.ViewModels
         #endregion
 
         #region Define commands
-        public ICommand CmdNew { get; }
-        public ICommand CmdDelete { get; }
-        public ICommand CmdModify { get; }
-        public ICommand CmdPrint { get; }
-        public ICommand CmdAcept { get; }
-        public ICommand CmdCancel { get; }
         public ICommand CmdCRUD { get; }
+        public ICommand CmdEdition { get; }
         #endregion
 
         //Constructor method
         public ServiceViewModel()
         {
             CmdCRUD = new ViewModelCommand(CRUDExecute, CRUDCanExecute);
-            CmdAcept = new ViewModelCommand(AceptActionExecute, ActionCanExecute);
-            CmdCancel = new ViewModelCommand(CancelActionExecute, ActionCanExecute);
+            CmdEdition = new ViewModelCommand(EditionExecute, EditionCanExecute);
 
             ServiceQuery = new SqlServiceQuery();
             ListServices = new ObservableCollection<Service>();
@@ -257,43 +251,54 @@ namespace SiaERP.ViewModels
             return CanExecute;
         }
 
-        private void FilterExecute(object obj)
+        //Edition actions on editable object execute command
+        private void EditionExecute(object Parameter)
         {
-            ListCustomers.Clear();
-            CustomerQuery.Read(Filter);
-        }
+            string? ButtonName = Parameter as string;
+            bool CanExecute = false;
 
-        private void AceptActionExecute(object obj)
-        {
-            if (Action == "Create")
+            switch(ButtonName)
             {
-               ServiceQuery.Create(AuxiliarService);
-            }
-            else if (Action == "Update")
-            {
-                ServiceQuery.Update(AuxiliarService);
-            }
+                //Acept action execute
+                case "Acept":
+                    if (Action == "Create")
+                    {
+                        ServiceQuery.Create(AuxiliarService);
+                    }
+                    else if (Action == "Update")
+                    {
+                        ServiceQuery.Update(AuxiliarService);
+                    }
 
-            ListServices.Clear();
-			ListServices = ServiceQuery.Read();
-            EnableEdition = false;
+                    ListServices.Clear();
+                    ListServices = ServiceQuery.Read();
+                    EnableEdition = false;
+                    break;
+
+                //Cancel action execute
+                case "Cancel":
+                    EnableEdition = false;
+                    AuxiliarService = null;
+                    SelectedCustomer = null;
+                    SelectedStatus = null;
+                    Action = "None";
+                    break;
+            }
         }
 
-        private void CancelActionExecute(object obj)
-        {
-            EnableEdition = false;
-            AuxiliarService = null;
-            SelectedCustomer = null; 
-            SelectedStatus = null;
-            Action = "None";
-        }
-
-        private bool ActionCanExecute(object obj)
+        //Edition actions on editable object  can execute command
+        private bool EditionCanExecute(object Parameter)
         {
             if (EnableEdition == true)
                 return true;
             else
                 return false;
+        }
+
+        private void FilterExecute(object Parameter)
+        {
+            ListCustomers.Clear();
+            CustomerQuery.Read(Filter);
         }
 
         //Clone properties from one instance to another instance

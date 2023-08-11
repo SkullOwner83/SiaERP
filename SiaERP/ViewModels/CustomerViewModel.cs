@@ -125,10 +125,10 @@ namespace SiaERP.ViewModels
 
         #region Define commands
         public ICommand CmdCRUD { get; }      
-        public ICommand CmdAcept { get; }
-        public ICommand CmdCancel { get; }
+        public ICommand CmdEdition { get; }
         public ICommand CmdFilter { get; }
         public ICommand CmdLoadImage { get; }
+        public ICommand CmdDeleteImage { get; }
         public ICommand CmdUploadTaxDocument { get; }
         #endregion
 
@@ -136,10 +136,9 @@ namespace SiaERP.ViewModels
         public CustomerViewModel()
         {
             CmdCRUD = new ViewModelCommand(CRUDExecute, CRUDCanExecute);
-            CmdAcept = new ViewModelCommand(AceptActionExecute, ActionCanExecute);
-            CmdCancel = new ViewModelCommand(CancelActionExecute, ActionCanExecute);
+            CmdEdition = new ViewModelCommand(EditionExecute, EditionCanExecute);
             CmdFilter = new ViewModelCommand(FilterExecute);
-            CmdLoadImage = new ViewModelCommand(LoadImageExecute, ActionCanExecute);
+            CmdLoadImage = new ViewModelCommand(LoadImageExecute, EditionCanExecute);
 
             CustomerQuery = new SqlCustomerQuery();
             ListCustomers = new ObservableCollection<Customer>();
@@ -234,37 +233,52 @@ namespace SiaERP.ViewModels
             return CanExecute;
         }
 
-        private void FilterExecute(object obj)
+        //Edition actions on editable object execute command
+        private void EditionExecute(object Parameter)
         {
-            ListCustomers.Clear();
-            CustomerQuery.Read(Filter);
-        }
+            string? ButtonName = Parameter as string;
+            bool CanExecute = false;
 
-        private void AceptActionExecute(object obj)
-        {
-            if (Action == "Create")
+            switch(ButtonName)
             {
-                CustomerQuery.Create(AuxiliarCustomer);
-            }
-            else if (Action == "Update")
-            {
-                CustomerQuery.Update(AuxiliarCustomer);
-            }
+                //Acept action execute
+                case "Acept":
+                    if (Action == "Create")
+                    {
+                        CustomerQuery.Create(AuxiliarCustomer);
+                    }
+                    else if (Action == "Update")
+                    {
+                        CustomerQuery.Update(AuxiliarCustomer);
+                    }
 
-            ListCustomers.Clear();
-            ListCustomers = CustomerQuery.Read();
-            EnableEdition = false;
+                    ListCustomers.Clear();
+                    ListCustomers = CustomerQuery.Read();
+                    EnableEdition = false;
+                    break;
+
+                //Cancel action execute
+                case "Cancel":
+                    EnableEdition = false;
+                    AuxiliarCustomer = null;
+                    SelectedTaxRegime = null;
+                    Action = "None";
+                    break;
+
+                case "DeleteImage":
+                    MessageBoxResult Result = MessageBox.Show($"¿Estás seguro que deseas eliminar la imagen del cliente?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (Result == MessageBoxResult.Yes)
+                    {
+                        AuxiliarCustomer.Image = null;
+                        OnPropertyChanged(nameof(AuxiliarCustomer));
+                    }
+                    break;
+            }
         }
 
-        private void CancelActionExecute(object obj)
-        {
-            EnableEdition = false;
-            AuxiliarCustomer = null;
-            SelectedTaxRegime = null;
-            Action = "None";
-        }
-
-        private bool ActionCanExecute(object obj)
+        //Edition actions on editable object  can execute command
+        private bool EditionCanExecute(object Parameter)
         {
             if (EnableEdition == true)
                 return true;
@@ -272,8 +286,14 @@ namespace SiaERP.ViewModels
                 return false;
         }
 
+        private void FilterExecute(object Parameter)
+        {
+            ListCustomers.Clear();
+            CustomerQuery.Read(Filter);
+        }        
+
         //Load customer image from file explorer
-        private void LoadImageExecute(object obj)
+        private void LoadImageExecute(object Parameter)
         {
             OpenFileDialog LoadFile = new OpenFileDialog();
             LoadFile.Filter = "Image Files (*.jpg; *.png; *.bmp)|*.jpg; *.png; *.bmp";
