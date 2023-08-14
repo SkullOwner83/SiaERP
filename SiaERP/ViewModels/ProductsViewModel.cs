@@ -25,7 +25,6 @@ namespace SiaERP.ViewModels
         private Product? _AuxiliarProduct;
         private ImageSource? _ProductImage;
 
-        private string? _Filter;
         private bool _EnableEdition = false;
         private string Action = "None";
 
@@ -100,16 +99,6 @@ namespace SiaERP.ViewModels
             {
                 _ProductImage = value;
                 OnPropertyChanged(nameof(ProductImage));
-            }
-        }
-
-        public string? Filter
-        { 
-            get => _Filter;
-            set
-            {
-                _Filter = value;
-                OnPropertyChanged(nameof(Filter));
             }
         }
 

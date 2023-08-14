@@ -1,4 +1,4 @@
-﻿using System;
+﻿using SiaERP.Models;
 using System.Windows.Input;
 using SiaERP.Resources.Utilities;
 
@@ -7,11 +7,22 @@ namespace SiaERP.ViewModels
     internal class MainViewModel : ViewModelBase
 	{
         //Define private variables
+        private User _CurrentUser;
         private ViewModelBase _CurrentView;
         private int _LateralMenuSize = 48;
         private bool EnableEdition;
 
-        //Define public properties
+        #region Property encapsulation
+        public User CurrentUser 
+        { 
+            get => _CurrentUser;
+            set
+            {
+                _CurrentUser = value;
+                OnPropertyChanged(nameof(CurrentUser));
+            }
+        }
+
         public ViewModelBase CurrentView 
 		{ 
 			get => _CurrentView;
@@ -22,6 +33,7 @@ namespace SiaERP.ViewModels
 				OnPropertyChanged(nameof(CurrentView));
 			}
 		}
+
         public int LateralMenuSize
         {
             get => _LateralMenuSize;
@@ -31,15 +43,15 @@ namespace SiaERP.ViewModels
                 OnPropertyChanged(nameof(LateralMenuSize));
             }
         }
+        #endregion
 
-        //Define commands
+        #region Define commands
         public ICommand CmdShowView { get; }
-        public ICommand CmdExpanLateralMenu { get; }
+        #endregion
 
         //Contructor method
         public MainViewModel()
 		{
-            CmdExpanLateralMenu = new ViewModelCommand(ExpandLateralMenuExecute);
             CmdShowView = new ViewModelCommand(ShowViewCommand);
         }
 
@@ -54,11 +66,6 @@ namespace SiaERP.ViewModels
                 case "Services": CurrentView = new ServiceViewModel(); break;
                 case "Products": CurrentView = new ProductsViewModel();  break;
             }
-        }
-
-        private void ExpandLateralMenuExecute(object obj)
-        {
-            
         }
     }
 }

@@ -125,7 +125,7 @@
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
 
-                            <!-- Hide or show control button -->
+                            <!-- Leave space for the ShowHide toggle button in the view -->
                             <Border Grid.Column="1"
                                     Width="32" Height="32"
                                     Margin="16 0 0 0"
@@ -146,6 +146,13 @@
                                                 ContentSource="SelectedContent"/>
                         </Border>
                     </Grid>
+
+                    <!-- Define button triggers -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Width" Value="32">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

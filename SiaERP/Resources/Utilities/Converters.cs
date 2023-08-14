@@ -12,9 +12,9 @@ namespace SiaERP.Resources.Utilities
         {
             if (value is double totalWidth)
             {
-                return totalWidth / 3;
+                return totalWidth / 3.0;
             }
-            return value;
+            return DependencyProperty.UnsetValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

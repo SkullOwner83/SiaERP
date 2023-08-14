@@ -23,8 +23,7 @@ namespace SiaERP.ViewModels
         private TaxRegime? _SelectedTaxRegime;
         private Customer? _AuxiliarCustomer;
         private ImageSource? _CustomerImage;
-
-        private string? _Filter;
+        
         private bool _EnableEdition = false;
         private string Action = "None";
 
@@ -99,16 +98,6 @@ namespace SiaERP.ViewModels
             {
                 _CustomerImage = value;
                 OnPropertyChanged(nameof(CustomerImage));
-            }
-        }
-
-        public string? Filter 
-        { 
-            get => _Filter;
-            set
-            {
-                _Filter = value;
-                OnPropertyChanged(nameof(Filter));
             }
         }
 

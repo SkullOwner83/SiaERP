@@ -59,7 +59,7 @@
 
             <!-- Filter data textbox -->
             <Grid Grid.Row="0" Grid.Column="1"
-                        Margin="0 0 0 16">
+                  Margin="0 0 0 16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -70,7 +70,7 @@
                            Margin="0 0 8 0"/>
                 <TextBox Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"
                          IsReadOnly="{Binding EnableEdition}"
-                         Style="{StaticResource TextBoxStyle}">
+                         Style="{StaticResource SearchTextBoxStyles}">
                     <Behaviors:Interaction.Triggers>
                         <Behaviors:EventTrigger EventName="TextChanged">
                             <Behaviors:InvokeCommandAction Command="{Binding CmdFilter}"/>
@@ -81,15 +81,15 @@
 
             <!-- Product data grid -->
             <DataGrid Grid.Row="1" Grid.ColumnSpan="3"
-                      ItemsSource="{Binding ListProducts}"
-                      SelectedItem="{Binding SelectedProduct}"
-                      Style="{StaticResource DataGridStyle}">
+                        ItemsSource="{Binding ListProducts}"
+                        SelectedItem="{Binding SelectedProduct}"
+                        Style="{StaticResource DataGridStyle}">
 
                 <!-- Double click on item event -->
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                      Command="{Binding DataContext.CmdModify, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                      CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                        Command="{Binding DataContext.CmdModify, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                        CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                 </DataGrid.InputBindings>
 
                 <!-- Column headers definition -->
@@ -99,7 +99,7 @@
                                             CanUserResize="False"
                                             CanUserSort="True">
                     </DataGridTemplateColumn>
-                    
+
                     <DataGridTextColumn Header="Nombre"
                                         Width="300"
                                         Binding="{Binding Name}"/>
@@ -118,177 +118,218 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <!-- Product data tabcontrol -->
-            <TabControl x:Name="DataTabControl" 
-                        Grid.Row="0" Grid.RowSpan="2"
-                        Width="{Binding TabControlWidth, Mode=TwoWay}"
-                        Margin="16 0 0 0">
+            <!-- Data TabControl container -->
+            <Grid x:Name="TabControlGrid"
+                  Grid.Row="0" Grid.RowSpan="2"
+                  Width="Auto">
 
-                <!-- Set the styles and extra operations -->
-                <TabControl.Style>
-                    <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource TabControlStyle}">
-                        <!-- Set the default column for the control -->
-                        <Setter Property="Grid.Column" Value="3" />
+                <Grid.Style>
+                    <Style TargetType="{x:Type Grid}">
+                        <!-- Move grid container when the tabcontrol is hiden -->
+                        <Setter Property="Grid.Column" Value="3"/>
 
                         <Style.Triggers>
-                            <!-- Change the column when the controls is hiden -->
-                            <DataTrigger Binding="{Binding ElementName=DataTabControl, Path=ActualWidth}" Value="32">
+                            <DataTrigger Binding="{Binding ElementName=DataTabControl, Path=Visibility}" Value="Collapsed">
                                 <Setter Property="Grid.Column" Value="2" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </TabControl.Style>
+                </Grid.Style>
                 
-                <!-- Product general data form -->
-                <TabItem Header="Datos generales"
-                         IsSelected="True">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                <!-- Product data tabcontrol -->
+                <TabControl x:Name="DataTabControl"
+                            Width="{Binding TabControlWidth, Mode=TwoWay}"
+                            Margin="16 0 0 0"
+                            Style="{StaticResource TabControlStyle}">
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                    <!-- Product general data form -->
+                    <TabItem Header="Datos generales"
+                             IsSelected="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-                        <!-- Product register data -->
-                        <StackPanel Grid.Row="0" Grid.Column="0"
-                                    x:Name="ImageColumn">
-                            <RadioButton Content="Producto"
-                                         IsChecked="{Binding AuxiliarProduct.Type, Converter={StaticResource IntToBoolean}, ConverterParameter=1, Mode=TwoWay}"
-                                         IsEnabled="{Binding EnableEdition}"
-                                         Style="{StaticResource RadioButtonStyle}"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                            <RadioButton Content="Servicio"
-                                         IsChecked="{Binding AuxiliarProduct.Type, Converter={StaticResource IntToBoolean}, ConverterParameter=2, Mode=TwoWay}"
-                                         IsEnabled="{Binding EnableEdition}"
-                                         Style="{StaticResource RadioButtonStyle}"
+                            <!-- Product register data -->
+                            <StackPanel Grid.Row="0" Grid.Column="0"
+                                        x:Name="ImageColumn">
+                                <RadioButton Content="Producto"
+                                             IsChecked="{Binding AuxiliarProduct.Type, Converter={StaticResource IntToBoolean}, ConverterParameter=1, Mode=TwoWay}"
+                                             IsEnabled="{Binding EnableEdition}"
+                                             Style="{StaticResource RadioButtonStyle}"/>
+
+                                <RadioButton Content="Servicio"
+                                             IsChecked="{Binding AuxiliarProduct.Type, Converter={StaticResource IntToBoolean}, ConverterParameter=2, Mode=TwoWay}"
+                                             IsEnabled="{Binding EnableEdition}"
+                                             Style="{StaticResource RadioButtonStyle}"
+                                             Margin="0 0 0 8"/>
+
+                                <TextBlock Text="Existencia:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{Binding AuxiliarProduct.Stock, Mode=TwoWay}"
+                                         IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                         Style="{StaticResource TextBoxStyle}"
                                          Margin="0 0 0 8"/>
 
-                            <TextBlock Text="Existencia:"
-                                       Style="{StaticResource FormLabelStyle}"/>
-                            <TextBox Text="{Binding AuxiliarProduct.Stock, Mode=TwoWay}"
-                                     IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
-                                     Style="{StaticResource TextBoxStyle}"
-                                     Margin="0 0 0 8"/>
-
-                            <TextBlock Text="Precio:"
-                                       Style="{StaticResource FormLabelStyle}"/>
-                            <TextBox IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}">
-                                <TextBox.Style>
-                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxStyle}">
-                                        <!-- Show currency symbol if the textbox is read only using cyrrency converter -->
-                                        <Style.Triggers>
-                                            <Trigger Property="IsReadOnly" Value="True">
-                                                <Setter Property="Text" Value="{Binding AuxiliarProduct.SalePrice, Converter={StaticResource CurrencyFormat}, Mode=TwoWay}"/>
-                                            </Trigger>
-
-                                            <Trigger Property="IsReadOnly" Value="False">
-                                                <Setter Property="Text" Value="{Binding AuxiliarProduct.SalePrice, Mode=TwoWay}"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBox.Style>
-                            </TextBox>
-                        </StackPanel>
-
-                        <!-- Load product image -->
-                        <Border Grid.Row="0" Grid.Column="1"
-                                Width="{Binding ElementName=ImageColumn, Path=ActualHeight, Mode=OneWay}"
-                                Margin="28 0 0 0">
-                            <Border.Background>
-                                <ImageBrush ImageSource="/Resources/Images/ImgCustomerLoadImage.png"
-                                            Stretch="UniformToFill"
-                                            Viewport="0.25,0.25,0.5,0.5"
-                                            AlignmentX="Center" AlignmentY="Center"/>
-                            </Border.Background>
-
-                            <Grid>
-                                <Button x:Name="ImageContainer"
-                                        Style="{StaticResource LoadImageButtonStyle}"
-                                        Command="{Binding CmdLoadImage}"
-                                        ClickMode="Release">
-                                    <Button.Background>
-                                        <ImageBrush ImageSource="{Binding AuxiliarProduct.Image}"
-                                                    Stretch="UniformToFill"
-                                                    AlignmentX="Center" AlignmentY="Center"/>
-                                    </Button.Background>
-                                </Button>
-
-                                <!-- Delete image button -->
-                                <Button Width="32" Height="32"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Padding="8"
-                                        CommandParameter="DeleteImage"
-                                        Command="{Binding CmdEdition}">
-                                    <Button.Style>
-                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DeleteContentStyles}">
+                                <TextBlock Text="Precio:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}">
+                                    <TextBox.Style>
+                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxStyle}">
+                                            <!-- Show currency symbol if the textbox is read only using cyrrency converter -->
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding AuxiliarProduct.Image}" Value="{x:Null}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                </DataTrigger>
+                                                <Trigger Property="IsReadOnly" Value="True">
+                                                    <Setter Property="Text" Value="{Binding AuxiliarProduct.SalePrice, Converter={StaticResource CurrencyFormat}, Mode=TwoWay}"/>
+                                                </Trigger>
 
-                                                <DataTrigger Binding="{Binding EnableEdition}" Value="False">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                </DataTrigger>
+                                                <Trigger Property="IsReadOnly" Value="False">
+                                                    <Setter Property="Text" Value="{Binding AuxiliarProduct.SalePrice, Mode=TwoWay}"/>
+                                                </Trigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Button.Style>
-                                </Button>
-                            </Grid>
-                        </Border>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </StackPanel>
 
-                        <!-- Product general data -->
-                        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
-                                    Margin="0 8 0 0">
-                            <TextBlock Text="Nombre:"
-                                       Style="{StaticResource FormLabelStyle}"/>
-                            <TextBox Text="{Binding AuxiliarProduct.Name, Mode=TwoWay}"
-                                     IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
-                                     Style="{StaticResource TextBoxStyle}"
-                                     Margin="0 0 0 8"/>
+                            <!-- Load product image container -->
+                            <Border Grid.Row="0" Grid.Column="1"
+                                    Width="{Binding ElementName=ImageColumn, Path=ActualHeight, Mode=OneWay}"
+                                    Margin="28 0 0 0">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Resources/Images/ImgCustomerLoadImage.png"
+                                                Stretch="UniformToFill"
+                                                Viewport="0.25,0.25,0.5,0.5"
+                                                AlignmentX="Center" AlignmentY="Center"/>
+                                </Border.Background>
 
-                            <TextBlock Text="Marca:"
-                                       Style="{StaticResource FormLabelStyle}"/>
-                            <TextBox Text="{Binding AuxiliarProduct.Brand, Mode=TwoWay}"
-                                     IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
-                                     Style="{StaticResource TextBoxStyle}"
-                                     Margin="0 0 0 8"/>
+                                <!-- Load product image button -->
+                                <Grid>
+                                    <Button x:Name="ImageContainer"
+                                            Style="{StaticResource LoadImageButtonStyle}"
+                                            Command="{Binding CmdLoadImage}"
+                                            ClickMode="Release">
+                                        <Button.Background>
+                                            <ImageBrush ImageSource="{Binding AuxiliarProduct.Image}"
+                                                        Stretch="UniformToFill"
+                                                        AlignmentX="Center" AlignmentY="Center"/>
+                                        </Button.Background>
+                                    </Button>
 
-                            <TextBlock Text="Categoria:"
-                                       Style="{StaticResource FormLabelStyle}"/>
-                            <ComboBox ItemsSource="{Binding ListCategories}"
-                                      SelectedValue="{Binding SelectedCategory, Mode=TwoWay}"
-                                      DisplayMemberPath="CategoryName"
-                                      IsEditable="True"
-                                      IsEnabled="{Binding EnableEdition}"
-                                      Style="{StaticResource ComboBoxStyle}"
-                                      Margin="0 0 0 8"/>
+                                    <!-- Delete image button -->
+                                    <Button Width="32" Height="32"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Padding="8"
+                                            CommandParameter="DeleteImage"
+                                            Command="{Binding CmdEdition}">
+                                        <Button.Style>
+                                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DeleteContentStyles}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding AuxiliarProduct.Image}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
 
-                            <TextBlock Text="Descripción:"
-                                       Style="{StaticResource FormLabelStyle}"/>
-                            <TextBox Text="{Binding AuxiliarProduct.Description, Mode=TwoWay}"
-                                     IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
-                                     VerticalContentAlignment="Top"
-                                     VerticalScrollBarVisibility="Auto"
-                                     TextWrapping="Wrap"
-                                     Height="96"    
-                                     Style="{StaticResource TextBoxStyle}"
-                                     Margin="0 0 0 8"/>
-                        </StackPanel>
+                                                    <DataTrigger Binding="{Binding EnableEdition}" Value="False">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </Grid>
+                            </Border>
 
-                        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
-                            <TextBlock Text="{Binding AuxiliarProduct.SalePrice, StringFormat='{}{0:C}'}"
-                                       HorizontalAlignment="Right"
-                                       Style="{StaticResource BoldLabelStyle}"/>
-                        </StackPanel>
-                    </Grid>
-                </TabItem>
-            </TabControl>
+                            <!-- Product general data -->
+                            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
+                                        Margin="0 8 0 0">
+                                <TextBlock Text="Nombre:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{Binding AuxiliarProduct.Name, Mode=TwoWay}"
+                                         IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                         Style="{StaticResource TextBoxStyle}"
+                                         Margin="0 0 0 8"/>
+
+                                <TextBlock Text="Marca:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{Binding AuxiliarProduct.Brand, Mode=TwoWay}"
+                                         IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                         Style="{StaticResource TextBoxStyle}"
+                                         Margin="0 0 0 8"/>
+
+                                <TextBlock Text="Categoria:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <ComboBox ItemsSource="{Binding ListCategories}"
+                                          SelectedValue="{Binding SelectedCategory, Mode=TwoWay}"
+                                          DisplayMemberPath="CategoryName"
+                                          IsEditable="True"
+                                          IsEnabled="{Binding EnableEdition}"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          Margin="0 0 0 8"/>
+
+                                <TextBlock Text="Descripción:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{Binding AuxiliarProduct.Description, Mode=TwoWay}"
+                                         IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                         VerticalContentAlignment="Top"
+                                         VerticalScrollBarVisibility="Auto"
+                                         TextWrapping="Wrap"
+                                         Height="96"    
+                                         Style="{StaticResource TextBoxStyle}"
+                                         Margin="0 0 0 8"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+                                <TextBlock Text="{Binding AuxiliarProduct.SalePrice, StringFormat='{}{0:C}'}"
+                                           HorizontalAlignment="Right"
+                                           Style="{StaticResource BoldLabelStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+                <!-- Hide or show TabControl button -->
+                <ToggleButton x:Name="HideShowButton"
+                              Width="32" Height="32"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Top"
+                              Margin="16 0 0 0"
+                              Style="{StaticResource TabControlCollapseButtonStyle}">
+
+                    <!-- Define button triggers -->
+                    <ToggleButton.Triggers>
+                        <!-- Show TabControl -->
+                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="ShowControlAnimation">
+                                    <DoubleAnimation Storyboard.TargetName="DataTabControl"
+                                                     Storyboard.TargetProperty="Width"
+                                                     Duration="0:0:0.3"
+                                                     To="{Binding TabControlWidth}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
+                        <!-- Hide TabControl -->
+                        <EventTrigger RoutedEvent="ToggleButton.Checked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="HideControlAnimation">
+                                    <DoubleAnimation Storyboard.TargetName="DataTabControl"
+                                                     Storyboard.TargetProperty="Width"
+                                                     Duration="0:0:0.3"
+                                                     To="32"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ToggleButton.Triggers>
+                </ToggleButton>
+            </Grid>
 
             <!-- Panel of CRUD Buttons -->
             <StackPanel Grid.Row="2" Grid.ColumnSpan="2"

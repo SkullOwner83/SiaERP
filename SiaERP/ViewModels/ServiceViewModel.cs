@@ -22,8 +22,7 @@ namespace SiaERP.ViewModels
         private Customer? _SelectedCustomer;
         private ServiceStatus? _SelectedStatus;
         private Service? _AuxiliarService;
-       
-        private string _Filter;
+
         private bool _EnableEdition = false;
         private string Action = "None";
 
@@ -116,16 +115,6 @@ namespace SiaERP.ViewModels
             {
                 _AuxiliarService = value;
                 OnPropertyChanged(nameof(AuxiliarService));
-            }
-        }
-
-        public string Filter
-        {
-            get => _Filter;
-            set
-            {
-                _Filter = value;
-                OnPropertyChanged(nameof(Filter));
             }
         }
 

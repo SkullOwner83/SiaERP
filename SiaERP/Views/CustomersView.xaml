@@ -75,7 +75,7 @@
                            Margin="0 0 8 0"/>
                 <TextBox Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"
                          IsReadOnly="{Binding EnableEdition}"
-                         Style="{StaticResource TextBoxStyle}">
+                         Style="{StaticResource SearchTextBoxStyles}">
 
                     <!-- Control filter triggers -->
                     <Behaviors:Interaction.Triggers>
@@ -182,11 +182,11 @@
 
                 <Grid.Style>
                     <Style TargetType="{x:Type Grid}">
-                        <!-- Grid move container -->
+                        <!-- Move grid container when the tabcontrol is hiden -->
                         <Setter Property="Grid.Column" Value="3"/>
                         
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=DataTabControl, Path=ActualWidth}" Value="0">
+                            <DataTrigger Binding="{Binding ElementName=DataTabControl, Path=Visibility}" Value="Collapsed">
                                 <Setter Property="Grid.Column" Value="2" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -242,7 +242,7 @@
                                      Style="{StaticResource TextBoxStyle}"/>
                             </StackPanel>
 
-                            <!-- Customer general data -->
+                            <!-- Load customer image container -->
                             <Border Grid.Row="0" Grid.Column="1"
                                 Width="{Binding ElementName=ImageColumn, Path=ActualHeight, Mode=OneWay}"
                                 Margin="28 0 0 0">
@@ -253,12 +253,13 @@
                                             AlignmentX="Center" AlignmentY="Center"/>
                                 </Border.Background>
 
-                                <!-- Load customer image container -->
+                                <!-- Load customer image button -->
                                 <Grid>
                                     <Button x:Name="ImageContainer"
-                                        Style="{StaticResource LoadImageButtonStyle}"
-                                        Command="{Binding CmdLoadImage}"
-                                        ClickMode="Release">
+                                            Style="{StaticResource LoadImageButtonStyle}"
+                                            Command="{Binding CmdLoadImage}"
+                                            ClickMode="Release">
+                                        
                                         <Button.Background>
                                             <ImageBrush ImageSource="{Binding AuxiliarCustomer.Image}"
                                                     Stretch="UniformToFill"
@@ -402,7 +403,7 @@
                                     <DoubleAnimation Storyboard.TargetName="DataTabControl"
                                                      Storyboard.TargetProperty="Width"
                                                      Duration="0:0:0.3"
-                                                     To="0"/>
+                                                     To="32"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>

@@ -40,7 +40,49 @@
 					</Grid.RowDefinitions>
 
                     <!-- Menu header -->
-                    <Grid x:Name="MenuHeader">
+                    <Grid x:Name="MenuHeader"
+                          Height="48">
+
+                        <Grid Margin="16">
+                            <!-- User image -->
+                            <Border CornerRadius="100"
+                                    BorderThickness="{StaticResource BdrSize}"
+                                    BorderBrush="{StaticResource ClrSurface}"
+                                    Margin="32 16 32 48"/>
+
+                            <StackPanel HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom">
+
+                                <!-- Show or hide text depending of side menu size -->
+                                <StackPanel.Style>
+                                    <Style TargetType="{x:Type StackPanel}">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                        
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ActualWidth, ElementName=MenuHeader}" Value="200">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+
+                                <!-- User data -->
+                                <TextBlock Text="Usuario"
+                                           TextAlignment="Center"
+                                           Foreground="{StaticResource ClrFntSecondary}"
+                                           FontFamily="{StaticResource FntPrimary}"
+                                           FontSize="{StaticResource FntMaxSize}"
+                                           FontWeight="Bold"/>
+
+                                <TextBlock Text="Administrador"
+                                           TextAlignment="Center"
+                                           Foreground="{StaticResource ClrFntSecondary}"
+                                           FontFamily="{StaticResource FntPrimary}"
+                                           FontSize="{StaticResource FntMaxSize}"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Button to hide or show the side menu -->
                         <ToggleButton Grid.Row="0"
 								      Command="{Binding CmdExpanLateralMenu}"
 								      HorizontalAlignment="Right"
