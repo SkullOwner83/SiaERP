@@ -2,20 +2,20 @@
 
 namespace SiaERP.Models
 {
-	public class Service : IDisposable
+	public class Service
 	{
-        //Service fields
+        //Define class properties
         private int _idService;
 		private int _idCustomer;
 		private string _CustomerName;
         private DateTime _AdmissionDate;
-        private DateTime _DeliveryDate;
+        private DateTime? _DeliveryDate;
         private int _Status;
         private int _Product;
         private string? _Diagnostic;
 		private string? _ProblemOrService;
 
-        //Service Properties
+        #region Encapsulate properties
         public int Id
         { 
 			get => _idService; 
@@ -40,7 +40,7 @@ namespace SiaERP.Models
 			set => _AdmissionDate = value; 
 		}
 
-		public DateTime DeliveryDate 
+		public DateTime? DeliveryDate 
 		{ 
 			get => _DeliveryDate; 
 			set => _DeliveryDate = value; 
@@ -69,22 +69,13 @@ namespace SiaERP.Models
 			get => _ProblemOrService; 
 			set => _ProblemOrService = value; 
 		}
+        #endregion
 
-		//Constructor method
-		public Service()
+        //Constructor method
+        public Service()
 		{
 			AdmissionDate = DateTime.Now;
 			Status = 1;
         }
-
-        public void Dispose()
-        {
-            
-        }
-
-		internal Customer? FirstOrDefault(Func<object, bool> value)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

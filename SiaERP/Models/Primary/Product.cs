@@ -3,7 +3,7 @@ using System.Windows.Media.Imaging;
 
 namespace SiaERP.Models
 {
-	internal class Product : IDisposable
+	internal class Product
 	{
 		//Define private varibales
 		private int _Id;
@@ -21,8 +21,8 @@ namespace SiaERP.Models
 		private int _MinStock;
 		private BitmapImage? _Image;
 
-		//Define public properties
-		public int Id
+        //Encapsulate properties
+        public int Id
 		{
 			get => _Id; 
 			set => _Id = value; 
@@ -104,6 +104,7 @@ namespace SiaERP.Models
             set => _Image = value;
         }
 
+		//Constructor method
         public Product()
 		{
 			Type = 1;
@@ -112,10 +113,5 @@ namespace SiaERP.Models
 			Stock = 0;
 			MinStock = 10;
 		}
-
-        public void Dispose()
-        {
-            
-        }
     }
 }

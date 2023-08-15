@@ -53,6 +53,15 @@ namespace SiaERP.ViewModels
         public MainViewModel()
 		{
             CmdShowView = new ViewModelCommand(ShowViewCommand);
+
+            if (CurrentUser == null)
+            {
+                CurrentUser = new User()
+                {
+                    Name = "User"
+                    
+                };
+            }
         }
 
         //Show views in the interface
@@ -65,6 +74,7 @@ namespace SiaERP.ViewModels
                 case "Customers": CurrentView = new CustomerViewModel();  break;
                 case "Services": CurrentView = new ServiceViewModel(); break;
                 case "Products": CurrentView = new ProductsViewModel();  break;
+                case "Sales": CurrentView = new SalesViewModel();  break;
             }
         }
     }

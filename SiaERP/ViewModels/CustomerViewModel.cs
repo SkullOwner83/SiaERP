@@ -15,17 +15,16 @@ namespace SiaERP.ViewModels
 {
     internal class CustomerViewModel : ViewModelBase
 	{
-        //Define property class
+        #region Define property class
         private SqlCustomerQuery CustomerQuery;
         private ObservableCollection<Customer>? _Listcustomers;
-        private ObservableCollection<TaxRegime> _ListTaxRegime;
         private Customer? _SelectedCustomer;
-        private TaxRegime? _SelectedTaxRegime;
         private Customer? _AuxiliarCustomer;
         private ImageSource? _CustomerImage;
-        
-        private bool _EnableEdition = false;
-        private string Action = "None";
+
+        private ObservableCollection<TaxRegime> _ListTaxRegime;
+        private TaxRegime? _SelectedTaxRegime;
+        #endregion
 
         #region Property encapsulation
         public ObservableCollection<Customer>? ListCustomers 
@@ -100,16 +99,6 @@ namespace SiaERP.ViewModels
                 OnPropertyChanged(nameof(CustomerImage));
             }
         }
-
-        public bool EnableEdition
-        {
-            get => _EnableEdition;
-            set
-            {
-                _EnableEdition = value;
-                OnPropertyChanged(nameof(EnableEdition));
-            }
-        }
         #endregion
 
         #region Define commands
@@ -122,7 +111,7 @@ namespace SiaERP.ViewModels
         #endregion
 
         //Constructor method
-        public CustomerViewModel()
+        public CustomerViewModel() 
         {
             CmdCRUD = new ViewModelCommand(CRUDExecute, CRUDCanExecute);
             CmdEdition = new ViewModelCommand(EditionExecute, EditionCanExecute);
@@ -166,7 +155,7 @@ namespace SiaERP.ViewModels
                     Action = "Create";
 
                     //Clear the auxiliar customer, get last id in database and call property to update view
-                    AuxiliarCustomer = CloneObject(null);
+                    AuxiliarCustomer = new Customer();
                     AuxiliarCustomer.Id = CustomerQuery.LastId() + 1;
                     OnPropertyChanged(nameof(AuxiliarCustomer));
                     break;
@@ -291,31 +280,6 @@ namespace SiaERP.ViewModels
             {
                 AuxiliarCustomer.Image = new BitmapImage(new Uri(LoadFile.FileName));
                 OnPropertyChanged(nameof(AuxiliarCustomer));
-            }
-        }
-
-        //Clone properties from one instance to another instance
-        public Customer CloneObject(Customer? Source)
-        {
-            //Create new instances of source and destination, if the parameter is null
-            using (Customer ObjectSource = Source ?? new Customer())
-            {
-                using (Customer ObejctDestination = new Customer())
-                {
-                    //Get all properties of object and set the values to the clone
-                    PropertyInfo[] Properties = typeof(Customer).GetProperties();
-
-                    foreach (PropertyInfo Property in Properties)
-                    {
-                        if (Property.CanWrite)
-                        {
-                            object? Value = Property.GetValue(ObjectSource);
-                            Property.SetValue(ObejctDestination, Value);
-                        }
-                    }
-
-                    return ObejctDestination;
-                }
             }
         }
     }

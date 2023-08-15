@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Controls\**" />
+    <EmbeddedResource Remove="Resources\Controls\**" />
+    <None Remove="Resources\Controls\**" />
+    <Page Remove="Resources\Controls\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\Images\ButtonClose.png" />
     <None Remove="Resources\Images\ButtonMaximize.png" />
     <None Remove="Resources\Images\ButtonMinimize.png" />
@@ -26,6 +33,7 @@
     <None Remove="Resources\Images\ImgMenuButtonQuote.png" />
     <None Remove="Resources\Images\ImgMenuButtonSales.png" />
     <None Remove="Resources\Images\ImgMenuButtonServices.png" />
+    <None Remove="Resources\Images\ImgMenuUserImage.png" />
     <None Remove="Resources\Images\ImgStatusDelivered.png" />
     <None Remove="Resources\Images\ImgStatusFinished.png" />
     <None Remove="Resources\Images\ImgStatusInService.png" />
@@ -57,13 +65,10 @@
     <Resource Include="Resources\Images\ImgCustomerIndividual.png" />
     <Resource Include="Resources\Images\ImgCustomerIndividualTrusted.png" />
     <Resource Include="Resources\Images\ImgCustomerLoadImage.png" />
+    <Resource Include="Resources\Images\ImgMenuUserImage.png" />
     <Resource Include="Resources\Images\ImgStatusDelivered.png" />
     <Resource Include="Resources\Images\ImgStatusFinished.png" />
     <Resource Include="Resources\Images\ImgStatusInService.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\Controls\" />
   </ItemGroup>
 
   <ItemGroup>

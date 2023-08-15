@@ -13,8 +13,8 @@ namespace SiaERP.Models
 		private string numberPhone;
 		private DateTime lastlogin;
 
-		#region Encapsulate properties
-		public int Id 
+        //Encapsulate properties
+        public int Id 
 		{ 
 			get => id; 
 			set
@@ -86,6 +86,5 @@ namespace SiaERP.Models
 			get => lastlogin; 
 			set => lastlogin = value; 
 		}
-        #endregion
     }
 }

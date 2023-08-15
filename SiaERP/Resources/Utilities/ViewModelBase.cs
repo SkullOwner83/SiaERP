@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 
@@ -6,23 +7,15 @@ namespace SiaERP.Resources.Utilities
 {
     internal abstract class ViewModelBase : INotifyPropertyChanged
     {
-        //Define property class
+        #region Define property class
         public event PropertyChangedEventHandler? PropertyChanged;
-        private bool _TabControlCollapsed = false;
         private double _TabControlWidth = 400;
         private string? _Filter;
+        private bool _EnableEdition = false;
+        public string Action = "None";
+        #endregion
 
         #region Property encapsulation
-        public bool TabControlCollapsed
-        {
-            get => _TabControlCollapsed;
-            set
-            {
-                _TabControlCollapsed = value;
-                OnPropertyChanged(nameof(TabControlCollapsed));
-            }
-        }
-
         public double TabControlWidth
         {
             get => _TabControlWidth;
@@ -42,6 +35,16 @@ namespace SiaERP.Resources.Utilities
                 OnPropertyChanged(nameof(Filter));
             }
         }
+
+        public bool EnableEdition
+        {
+            get => _EnableEdition;
+            set
+            {
+                _EnableEdition = value;
+                OnPropertyChanged(nameof(EnableEdition));
+            }
+        }
         #endregion
 
         //Define commands
@@ -59,7 +62,35 @@ namespace SiaERP.Resources.Utilities
             Filter = string.Empty;
         }
 
-        //Generate event when one property is changed for
+        //Edition actions on editable object  can execute command
+        public bool EditionCanExecute(object Parameter)
+        {
+            if (EnableEdition == true)
+                return true;
+            else
+                return false;
+        }
+
+        //Clone properties from one instance to another instance
+        public T CloneObject<T>(T Source) where T : new()
+        {
+            T Destination = new T();
+
+            PropertyInfo[] Properties = typeof(T).GetProperties();
+
+            foreach (PropertyInfo Property in Properties)
+            {
+                if (Property.CanWrite)
+                {
+                    object? value = Property.GetValue(Source);
+                    Property.SetValue(Destination, value);
+                }
+            }
+
+            return Destination;
+        }
+
+        //Generate event when one property is changed for update the view
         protected virtual void OnPropertyChanged(string PropertyName)
         {
             //Call property changed event of this class to inherited class

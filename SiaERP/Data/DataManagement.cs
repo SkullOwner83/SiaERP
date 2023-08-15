@@ -1,4 +1,5 @@
 ﻿using SiaERP.Models;
+using SiaERP.Models.Secondary;
 using System.Collections.ObjectModel;
 
 namespace SiaERP.Data
@@ -8,27 +9,40 @@ namespace SiaERP.Data
         //Get list of tax regimen by his id
         public static ObservableCollection<TaxRegime> ListTaxRegime()
         {
-            ObservableCollection<TaxRegime> _ListTaxtRegimen = new ObservableCollection<TaxRegime>();
+            ObservableCollection<TaxRegime> ListTaxtRegimen = new ObservableCollection<TaxRegime>();
 
             for (int i = 1; i <= 19; i++)
             {
-                _ListTaxtRegimen.Add(new TaxRegime(i));
+                ListTaxtRegimen.Add(new TaxRegime(i));
             }
 
-            return _ListTaxtRegimen;
+            return ListTaxtRegimen;
         }
 
         //Get list of service status by his id
         public static ObservableCollection<ServiceStatus> ListServiceStatus()
         {
-            ObservableCollection<ServiceStatus> _ListServiceStatus = new ObservableCollection<ServiceStatus>();
+            ObservableCollection<ServiceStatus> ListServiceStatus = new ObservableCollection<ServiceStatus>();
 
             for (int i = 1; i <= 3; i++)
             {
-                _ListServiceStatus.Add(new ServiceStatus(i));
+                ListServiceStatus.Add(new ServiceStatus(i));
             }
 
-            return _ListServiceStatus;
+            return ListServiceStatus;
+        }
+
+        //Get list of service status by his id
+        public static ObservableCollection<PaymentMethod> ListPaymentMethod()
+        {
+            ObservableCollection<PaymentMethod> ListPaymentMethod = new ObservableCollection<PaymentMethod>();
+
+            for (int i = 1; i <= 4; i++)
+            {
+                ListPaymentMethod.Add(new PaymentMethod(i));
+            }
+
+            return ListPaymentMethod;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using SiaERP.Resources.Utilities;
-using System.Reflection;
 using Microsoft.Win32;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
@@ -15,18 +14,17 @@ namespace SiaERP.ViewModels
 {
     internal class ProductsViewModel : ViewModelBase
     {
-        //Define property class
+        #region Define property class
         private SqlProductsQuery ProductsQuery;
-        private SqlProductCategoryQuery CategoryQuery;
         private ObservableCollection<Product>? _ListProducts;
-        private ObservableCollection<ProductCategory>? _ListCategories;
         private Product? _SelectedProduct;
-        private ProductCategory? _SelectedCategory;
         private Product? _AuxiliarProduct;
         private ImageSource? _ProductImage;
 
-        private bool _EnableEdition = false;
-        private string Action = "None";
+        private SqlProductCategoryQuery CategoryQuery;
+        private ObservableCollection<ProductCategory>? _ListCategories;
+        private ProductCategory? _SelectedCategory;
+        #endregion
 
         #region Property encapsulation
         public ObservableCollection<Product>? ListProducts
@@ -101,16 +99,6 @@ namespace SiaERP.ViewModels
                 OnPropertyChanged(nameof(ProductImage));
             }
         }
-
-        public bool EnableEdition
-        {
-            get => _EnableEdition;
-            set
-            {
-                _EnableEdition = value;
-                OnPropertyChanged(nameof(EnableEdition));
-            }
-        }
         #endregion
 
         #region Define commands
@@ -167,7 +155,7 @@ namespace SiaERP.ViewModels
                     Action = "Create";
 
                     //Clear the auxiliar object, get last id in database and call property to update view
-                    AuxiliarProduct = CloneObject(null);
+                    AuxiliarProduct = new Product();
                     AuxiliarProduct.Id = ProductsQuery.LastId() + 1;
                     OnPropertyChanged(nameof(AuxiliarProduct));
                     break;
@@ -225,7 +213,6 @@ namespace SiaERP.ViewModels
         private void EditionExecute(object Parameter)
         {
             string? ButtonName = Parameter as string;
-            bool CanExecute = false;
 
             switch(ButtonName)
             {
@@ -255,15 +242,6 @@ namespace SiaERP.ViewModels
             }
         }
 
-        //Edition actions on editable object  can execute command
-        private bool EditionCanExecute(object Parameter)
-        {
-            if (EnableEdition == true)
-                return true;
-            else
-                return false;
-        }
-
         private void FilterExecute(object Parameter)
         {
             ListProducts.Clear();
@@ -280,31 +258,6 @@ namespace SiaERP.ViewModels
             {
                 AuxiliarProduct.Image = new BitmapImage(new Uri(LoadFile.FileName));
                 OnPropertyChanged(nameof(AuxiliarProduct));
-            }
-        }
-
-        //Clone properties from one instance to another instance
-        public Product CloneObject(Product? Source)
-        {
-            //Create new instances of source and destination, if the parameter is null
-            using (Product ObjectSource = Source ?? new Product())
-            {
-                using (Product ObejctDestination = new Product())
-                {
-                    //Get all properties of object and set the values to the clone
-                    PropertyInfo[] Properties = typeof(Product).GetProperties();
-
-                    foreach (PropertyInfo Property in Properties)
-                    {
-                        if (Property.CanWrite)
-                        {
-                            object? Value = Property.GetValue(ObjectSource);
-                            Property.SetValue(ObejctDestination, Value);
-                        }
-                    }
-
-                    return ObejctDestination;
-                }
             }
         }
     }

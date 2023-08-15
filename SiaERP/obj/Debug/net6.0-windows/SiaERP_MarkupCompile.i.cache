@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\Desktop\Proyectos\Visual Studio\SiaERP\SiaERP\App.xaml
-17-1581187592
+18-1136202302
 
-38346616805
+43474368914
 203-2060909622
-Resources\Styles\ButtonStyles.xaml;Resources\Styles\CheckboxStyles.xaml;Resources\Styles\ComboBoxStyles.xaml;Resources\Styles\ContextMenuStyles.xaml;Resources\Styles\DataGridStyles.xaml;Resources\Styles\LabelStyles.xaml;Resources\Styles\RadioButtonStyles.xaml;Resources\Styles\TabControlStyles.xaml;Resources\Styles\TextboxStyles.xaml;Resources\Styles\ToggleButtonStyles.xaml;Resources\Utilities\DataTemplate.xaml;Resources\Utilities\InterfaceProperties.xaml;Views\CustomersView.xaml;Views\LogInView.xaml;Views\MainView.xaml;Views\ProductsView.xaml;Views\ServicesView.xaml;
+Resources\Styles\ButtonStyles.xaml;Resources\Styles\CheckboxStyles.xaml;Resources\Styles\ComboBoxStyles.xaml;Resources\Styles\ContextMenuStyles.xaml;Resources\Styles\DataGridStyles.xaml;Resources\Styles\LabelStyles.xaml;Resources\Styles\RadioButtonStyles.xaml;Resources\Styles\TabControlStyles.xaml;Resources\Styles\TextboxStyles.xaml;Resources\Styles\ToggleButtonStyles.xaml;Resources\Utilities\DataTemplate.xaml;Resources\Utilities\InterfaceProperties.xaml;Views\CustomersView.xaml;Views\LogInView.xaml;Views\MainView.xaml;Views\ProductsView.xaml;Views\SalesView.xaml;Views\ServicesView.xaml;
 
-True
+False
 

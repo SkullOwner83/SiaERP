@@ -4,7 +4,7 @@ namespace SiaERP.Models
 {
     public class Equipment
     {
-        //Equipment fields
+        //Define class properties
         private int _Id;
         private int _Owner;
         private string _Brand;
@@ -13,7 +13,7 @@ namespace SiaERP.Models
         private string _Color;
         private DateTime _RegisterDate;
 
-        //Equipment properties
+        //Encapsulate properties
         public int Id
         {
             get => _Id;

@@ -93,7 +93,7 @@
                       ContextMenu="{StaticResource EditionMenu}"
                       Style="{StaticResource DataGridStyle}">
 
-                <!-- Double click on item event -->
+                <!-- Double click on item to modify element -->
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
                                   CommandParameter="Update"
@@ -444,7 +444,7 @@
                         Style="{StaticResource ButtonStyle}"/>
             </StackPanel>
 
-            <!-- Execute CRUD buttons -->
+            <!-- Edition buttons -->
             <StackPanel Grid.Row="2" Grid.Column="3"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">

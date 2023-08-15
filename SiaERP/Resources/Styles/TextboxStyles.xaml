@@ -60,7 +60,8 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="SearchTextBoxStyles" TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
+    <!-- Search text box styles -->
+    <Style x:Key="SearchTextBoxStyles" TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxStyle}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
@@ -76,12 +77,14 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
+                            <!-- Mirrorless icon -->
                             <Path Grid.Column="0"
                                   Data="{StaticResource SearchIcon}"
                                   Fill="{StaticResource ClrBorder}"
                                   Stretch="Uniform"
                                   Margin="{StaticResource CtrlMinMargin}"/>
 
+                            <!-- Write area -->
                             <ScrollViewer Grid.Column="1"
                                           x:Name="PART_ContentHost" 
                                           SnapsToDevicePixels="True"
@@ -89,6 +92,7 @@
                                           VerticalScrollBarVisibility="Hidden"
                                           Focusable="false"/>
 
+                            <!-- Clear text button -->
                             <Button Grid.Column="2"
                                     x:Name="ClearTextButton"
                                     Width="{Binding ActualHeight, ElementName=PART_ContentHost}"
@@ -97,7 +101,7 @@
                                 <Button.Style>
                                     <Style TargetType="{x:Type Button}">
                                         <Setter Property="Cursor" Value="Hand"/>
-                                        
+
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type Button}">
@@ -117,6 +121,7 @@
                         </Grid>
                     </Border>
 
+                    <!-- Define control triggers -->
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="">
                             <Setter TargetName="ClearTextButton" Property="Visibility" Value="Collapsed"/>

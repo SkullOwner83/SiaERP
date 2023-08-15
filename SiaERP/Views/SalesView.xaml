@@ -1,0 +1,307 @@
+﻿<UserControl x:Class="SiaERP.Views.SalesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SiaERP.Views"
+             xmlns:ViewModel="clr-namespace:SiaERP.ViewModels"
+             xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:Utilities="clr-namespace:SiaERP.Resources.Utilities"
+             mc:Ignorable="d" 
+             d:DesignWidth="840" d:DesignHeight="840">
+    
+    <!-- Binding view model -->
+    <Control.DataContext>
+        <ViewModel:SalesViewModel/>
+    </Control.DataContext>
+
+    <UserControl.Resources>
+        <Utilities:BooleanInverse x:Key="BooleanInverse"/>
+        <Utilities:WidthToShow x:Key="WidthToShow"/>
+    </UserControl.Resources>
+
+    <!-- Draw user control -->
+    <Border Background="GhostWhite">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Filter data combobox -->
+            <StackPanel Grid.Row="0" Grid.Column="0"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="0 0 0 12">
+                <TextBlock Text="Categoría:" 
+                           Style="{StaticResource BoldLabelStyle}"
+                           Margin="0 0 8 0"/>
+                <ComboBox Width="200"
+                          IsEditable="False"
+                          IsEnabled="True"
+                          Style="{StaticResource ComboBoxStyle}">
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Filter data textbox -->
+            <Grid Grid.Row="0" Grid.Column="1"
+                  Margin="0 0 0 16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Buscar:" Grid.Column="0"
+                           Style="{StaticResource BoldLabelStyle}"
+                           Margin="0 0 8 0"/>
+                <TextBox Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"
+                         IsReadOnly="{Binding EnableEdition}"
+                         Style="{StaticResource SearchTextBoxStyles}">
+                    <Behaviors:Interaction.Triggers>
+                        <Behaviors:EventTrigger EventName="TextChanged">
+                            <Behaviors:InvokeCommandAction Command="{Binding CmdFilter}"/>
+                        </Behaviors:EventTrigger>
+                    </Behaviors:Interaction.Triggers>
+                </TextBox>
+            </Grid>
+
+            <!-- Sale data grid -->
+            <DataGrid Grid.Row="1" Grid.ColumnSpan="3"
+                      ItemsSource="{Binding ListSaleDatails}"
+                      SelectedItem=""
+                      ContextMenu="{StaticResource EditionMenu}"
+                      Style="{StaticResource DataGridStyle}">
+
+                <!-- Double click on item to modify element -->
+                <DataGrid.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick"
+                                  CommandParameter="Update"
+                                  Command="{Binding CmdCRUD}"/>
+                </DataGrid.InputBindings>
+
+                <!-- Column headers definition -->
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Producto"
+                                        Width="300"
+                                        Binding="{Binding ProductName}"/>
+
+                    <DataGridTextColumn Header="Cantidad"
+                                        Width="150"
+                                        Binding="{Binding Quantity}"/>
+
+                    <DataGridTextColumn Header="Precio"
+                                        Width="150"
+                                        Binding="{Binding Price}"/>
+
+                    <DataGridTextColumn Header="Descuento"
+                                        Width="*"
+                                        Binding="{Binding Discount}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Data TabControl container -->
+            <Grid x:Name="TabControlGrid"
+                  Grid.Row="0" Grid.RowSpan="2"
+                  Width="Auto">
+
+                <Grid.Style>
+                    <Style TargetType="{x:Type Grid}">
+                        <!-- Move grid container when the tabcontrol is hiden -->
+                        <Setter Property="Grid.Column" Value="3"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=DataTabControl, Path=Visibility}" Value="Collapsed">
+                                <Setter Property="Grid.Column" Value="2" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <!-- Sale data tabcontrol -->
+                <TabControl x:Name="DataTabControl"
+                            Width="{Binding TabControlWidth, Mode=TwoWay}"
+                            Margin="16 0 0 0"
+                            Style="{StaticResource TabControlStyle}">
+
+                    <!-- Sale general data form -->
+                    <TabItem Header="Datos generales"
+                             IsSelected="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
+                                <TextBlock Text="Producto:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <ComboBox ItemsSource="{Binding ListProducts}"
+                                          SelectedValue="{Binding SelectedProduct, Mode=TwoWay}"
+                                          DisplayMemberPath="Name"
+                                          IsEditable="True"
+                                          IsEnabled="{Binding EnableEdition}"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          Margin="0 0 0 8"/>
+
+                                <TextBlock Text="Cantidad:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{Binding AuxiliarSaleDetails.Quantity, Mode=TwoWay}"
+                                         IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                         Style="{StaticResource TextBoxStyle}"
+                                         Margin="0 0 0 8"/>
+
+                                <TextBlock Text="Precio:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <TextBox Text="{Binding AuxiliarSaleDetails.Price, Mode=TwoWay}"
+                                         IsReadOnly="{Binding EnableEdition, Converter={StaticResource BooleanInverse}}"
+                                         Style="{StaticResource TextBoxStyle}"
+                                         Margin="0 0 0 8"/>
+
+                                <Button Width="100" Height="32" 
+                                        Content="Agregar"
+                                        Margin="0 8"
+                                        Command="{Binding CmdAddProduct}"
+                                        Style="{StaticResource ButtonStyle}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+                                <TextBlock Text="Cliente:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <ComboBox ItemsSource="{Binding ListCustomers}"
+                                          SelectedValue="{Binding SelectedCustomer, Mode=TwoWay}"
+                                          DisplayMemberPath="Name"
+                                          IsEditable="True"
+                                          IsEnabled="{Binding EnableEdition}"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          Margin="0 0 0 8"/>
+
+                                <TextBlock Text="Estado de la compra:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <ComboBox ItemsSource="{Binding ListPaymentMethods}"
+                                          SelectedValue="{Binding SelectedPaymentMethod, Mode=TwoWay}"
+                                          DisplayMemberPath="PaymentName"
+                                          IsEnabled="{Binding EnableEdition}"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          Margin="0 0 0 8"/>
+                                
+                                <TextBlock Text="Metodo de pago:"
+                                           Style="{StaticResource FormLabelStyle}"/>
+                                <ComboBox ItemsSource="{Binding ListPaymentMethods}"
+                                          SelectedValue="{Binding SelectedPaymentMethod, Mode=TwoWay}"
+                                          DisplayMemberPath="PaymentName"
+                                          IsEnabled="{Binding EnableEdition}"
+                                          Style="{StaticResource ComboBoxStyle}"
+                                          Margin="0 0 0 8"/>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+                <!-- Hide or show TabControl button -->
+                <ToggleButton x:Name="HideShowButton"
+                              Width="32" Height="32"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Top"
+                              Margin="16 0 0 0"
+                              Style="{StaticResource TabControlCollapseButtonStyle}">
+
+                    <!-- Define button triggers -->
+                    <ToggleButton.Triggers>
+                        <!-- Show TabControl -->
+                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="ShowControlAnimation">
+                                    <DoubleAnimation Storyboard.TargetName="DataTabControl"
+                                                     Storyboard.TargetProperty="Width"
+                                                     Duration="0:0:0.3"
+                                                     To="{Binding TabControlWidth}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
+                        <!-- Hide TabControl -->
+                        <EventTrigger RoutedEvent="ToggleButton.Checked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="HideControlAnimation">
+                                    <DoubleAnimation Storyboard.TargetName="DataTabControl"
+                                                     Storyboard.TargetProperty="Width"
+                                                     Duration="0:0:0.3"
+                                                     To="32"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ToggleButton.Triggers>
+                </ToggleButton>
+            </Grid>
+
+            <!-- Panel of CRUD Buttons -->
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2"
+                        Orientation="Horizontal">
+
+                <Button Width="100" Height="32" 
+                        Content="Nuevo"
+                        Margin="0 16 16 0"
+                        CommandParameter="Create"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
+
+                <Button Width="100" Height="32" 
+                        Content="Modificar"
+                        Margin="0 16 16 0"
+                        CommandParameter="Update"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
+
+                <Button Width="100" Height="32" 
+                        Content="Eliminar"
+                        Margin="0 16 16 0"
+                        CommandParameter="Delete"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
+
+                <Button Width="100" Height="32" 
+                        Content="Imprimir"
+                        Margin="0 16 16 0"
+                        CommandParameter="Print"
+                        Command="{Binding CmdCRUD}"
+                        Style="{StaticResource ButtonStyle}"/>
+            </StackPanel>
+
+            <!-- Edition buttons -->
+            <StackPanel Grid.Row="2" Grid.Column="3"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+
+                <Button Width="100" Height="32" 
+                        Content="Aceptar"
+                        Margin="0 16 16 0"
+                        Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
+                        CommandParameter="Acept"
+                        Command="{Binding CmdEdition}"
+                        Style="{StaticResource ButtonStyle}"/>
+
+                <Button Width="100" Height="32" 
+                        Content="Cancelar"
+                        Margin="0 16 0 0"
+                        Visibility="{Binding ActualWidth, ElementName=DataTabControl, ConverterParameter=400, Converter={StaticResource WidthToShow}}"
+                        CommandParameter="Cancel"
+                        Command="{Binding CmdEdition}"
+                        Style="{StaticResource ButtonStyle}"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

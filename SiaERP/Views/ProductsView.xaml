@@ -81,15 +81,16 @@
 
             <!-- Product data grid -->
             <DataGrid Grid.Row="1" Grid.ColumnSpan="3"
-                        ItemsSource="{Binding ListProducts}"
-                        SelectedItem="{Binding SelectedProduct}"
-                        Style="{StaticResource DataGridStyle}">
+                      ItemsSource="{Binding ListProducts}"
+                      SelectedItem="{Binding SelectedProduct}"
+                      ContextMenu="{StaticResource EditionMenu}"
+                      Style="{StaticResource DataGridStyle}">
 
-                <!-- Double click on item event -->
+                <!-- Double click on item to modify element -->
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                        Command="{Binding DataContext.CmdModify, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                        CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                  CommandParameter="Update"
+                                  Command="{Binding CmdCRUD}"/>
                 </DataGrid.InputBindings>
 
                 <!-- Column headers definition -->
@@ -204,9 +205,9 @@
                                     Margin="28 0 0 0">
                                 <Border.Background>
                                     <ImageBrush ImageSource="/Resources/Images/ImgCustomerLoadImage.png"
+                                                AlignmentX="Center" AlignmentY="Center"
                                                 Stretch="UniformToFill"
-                                                Viewport="0.25,0.25,0.5,0.5"
-                                                AlignmentX="Center" AlignmentY="Center"/>
+                                                Viewport="0.25,0.25,0.5,0.5"/>
                                 </Border.Background>
 
                                 <!-- Load product image button -->
@@ -217,8 +218,8 @@
                                             ClickMode="Release">
                                         <Button.Background>
                                             <ImageBrush ImageSource="{Binding AuxiliarProduct.Image}"
-                                                        Stretch="UniformToFill"
-                                                        AlignmentX="Center" AlignmentY="Center"/>
+                                                        AlignmentX="Center" AlignmentY="Center"
+                                                        Stretch="UniformToFill"/>
                                         </Button.Background>
                                     </Button>
 
@@ -364,7 +365,7 @@
                         Style="{StaticResource ButtonStyle}"/>
             </StackPanel>
 
-            <!-- Execute CRUD buttons -->
+            <!-- Edition buttons -->
             <StackPanel Grid.Row="2" Grid.Column="3"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">

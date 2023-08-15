@@ -12,19 +12,19 @@ namespace SiaERP.ViewModels
 {
     internal class ServiceViewModel : ViewModelBase
     {
-		//Define property class
-		private SqlServiceQuery ServiceQuery;
-        private SqlCustomerQuery CustomerQuery;
+        #region Define property class
+        private SqlServiceQuery ServiceQuery;
         private ObservableCollection<Service> _ListServices;
-        private ObservableCollection<Customer> _ListCustomers;
-        private ObservableCollection<ServiceStatus> _ListStatus;
         private Service? _SelectedService;
-        private Customer? _SelectedCustomer;
-        private ServiceStatus? _SelectedStatus;
         private Service? _AuxiliarService;
 
-        private bool _EnableEdition = false;
-        private string Action = "None";
+        private SqlCustomerQuery CustomerQuery;
+        private ObservableCollection<Customer> _ListCustomers;
+        private Customer? _SelectedCustomer;
+
+        private ObservableCollection<ServiceStatus> _ListStatus;
+        private ServiceStatus? _SelectedStatus;
+        #endregion
 
         #region Property encapsulation
         public ObservableCollection<Service> ListServices
@@ -117,16 +117,6 @@ namespace SiaERP.ViewModels
                 OnPropertyChanged(nameof(AuxiliarService));
             }
         }
-
-        public bool EnableEdition
-        {
-            get => _EnableEdition;
-            set
-            {
-                _EnableEdition = value;
-                OnPropertyChanged(nameof(EnableEdition));
-            }
-        }
         #endregion
 
         #region Define commands
@@ -181,7 +171,7 @@ namespace SiaERP.ViewModels
                     Action = "Create";
 
                     //Clear the auxiliar services, get last id in database and call property to update view
-                    AuxiliarService = CloneObject(null);
+                    AuxiliarService = new Service();
                     AuxiliarService.Id = ServiceQuery.LastId() + 1;
                     OnPropertyChanged(nameof(AuxiliarService));
 
@@ -191,7 +181,6 @@ namespace SiaERP.ViewModels
                 //Update data of register in database
                 case "Update":
                     EnableEdition = true;
-                    TabControlCollapsed = false;
                     Filter = string.Empty;
                     Action = "Update";
                     break;
@@ -288,31 +277,6 @@ namespace SiaERP.ViewModels
         {
             ListCustomers.Clear();
             CustomerQuery.Read(Filter);
-        }
-
-        //Clone properties from one instance to another instance
-        public Service CloneObject(Service? Source)
-        {
-            //Create new instances of source and destination, if the parameter is null
-            using (Service ObjectSource = Source ?? new Service())
-            {
-                using (Service ObejctDestination = new Service())
-                {
-                    //Get all properties of object and set the values to the clone
-                    PropertyInfo[] Properties = typeof(Service).GetProperties();
-
-                    foreach (PropertyInfo Property in Properties)
-                    {
-                        if (Property.CanWrite)
-                        {
-                            object? Value = Property.GetValue(ObjectSource);
-                            Property.SetValue(ObejctDestination, Value);
-                        }
-                    }
-
-                    return ObejctDestination;
-                }
-            }
         }
     }
 }

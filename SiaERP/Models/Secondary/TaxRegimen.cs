@@ -2,16 +2,16 @@
 {
     public class TaxRegime
     {
-        //Tax regimen fields
-        private int _Id;
+		//Define private varibales
+		private int _Id;
         private string _Name;
 
-        //Tax regimen properties
-        public int Id { get => _Id; }
+		//Define public properties
+		public int Id { get => _Id; }
         public string Name { get => _Name; }
 
-        //Constructor method
-        public TaxRegime(int id)
+		//Constructor method
+		public TaxRegime(int id)
         {
             _Id = id;
             _Name = id switch

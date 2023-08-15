@@ -48,7 +48,14 @@
                             <Border CornerRadius="100"
                                     BorderThickness="{StaticResource BdrSize}"
                                     BorderBrush="{StaticResource ClrSurface}"
-                                    Margin="32 16 32 48"/>
+                                    Margin="32 16 32 48">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="/Resources/Images/ImgMenuUserImage.png"
+                                                AlignmentX="Center" AlignmentY="Center"
+                                                Stretch="UniformToFill"
+                                                Viewport="0.15,0.15,0.7,0.7"/>
+                                </Border.Background>
+                            </Border>
 
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Bottom">
@@ -84,7 +91,6 @@
 
                         <!-- Button to hide or show the side menu -->
                         <ToggleButton Grid.Row="0"
-								      Command="{Binding CmdExpanLateralMenu}"
 								      HorizontalAlignment="Right"
 								      VerticalAlignment="Top"
                                       Style="{StaticResource ShowMenuStyles}">
@@ -153,6 +159,7 @@
                             <Button Content="Ventas"
 								    Property:CustomProperties.Image="/Resources/Images/ImgMenuButtonSales.png"
                                     CommandParameter="Sales"
+                                    Command="{Binding CmdShowView}"
                                     Style="{StaticResource MenuButtonStyle}"/>
 
                             <Button Content="Cotizaciones"

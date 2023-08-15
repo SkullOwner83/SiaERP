@@ -2,11 +2,11 @@
 {
     public class ServiceStatus
     {
-        //Service status fields
+        //Define class properties
         private int _Id;
         private string _Name;
 
-        //Service status properties
+        //Encapsulate properties
         public int Id { get => _Id; }
         public string Name { get => _Name; }
 

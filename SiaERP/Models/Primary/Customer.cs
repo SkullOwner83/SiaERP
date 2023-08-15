@@ -3,9 +3,9 @@ using System.Windows.Media.Imaging;
 
 namespace SiaERP.Models
 {
-    public class Customer : IDisposable
+    public class Customer
     {
-		//Customer fields
+        //Define class properties
         private int _Id;
         private int _Type;
         private string _Name;
@@ -24,7 +24,7 @@ namespace SiaERP.Models
 		private Byte[] _TaxDocument;
 
 
-        //Customer properties
+        //Encapsulate properties
         public int Id
 		{
 			get { return _Id; }
@@ -127,10 +127,5 @@ namespace SiaERP.Models
             Type = 1;
 			RegisterDate = DateTime.Now;
 		}
-
-        public void Dispose()
-        {
-            
-        }
     }
 }

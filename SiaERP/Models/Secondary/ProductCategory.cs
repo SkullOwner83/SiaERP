@@ -2,26 +2,23 @@
 
 namespace SiaERP.Models
 {
-	internal class ProductCategory : IDisposable
+	internal class ProductCategory
 	{
-		private int _Id;
+        //Define class properties
+        private int _Id;
 		private string _CategoryName;
 
-		public int Id
-		{
-			get => _Id;
+        //Encapsulate properties
+        public int Id
+		{ 
+			get => _Id; 
 			set => _Id = value;
 		}
 
 		public string CategoryName
 		{
-			get => _CategoryName;
+			get => _CategoryName; 
 			set => _CategoryName = value;
-		}
-
-		public void Dispose()
-		{
-
 		}
 	}
 }
